@@ -1,3 +1,6 @@
+
+export { Jogador } from "./jogador";
+export { verificarPosicao } from "./funcoes";
 export { Cor } from "./cor";
 export { Quadrante } from "./quadrante";
 export { Tabuleiro } from "./tabuleiro";
