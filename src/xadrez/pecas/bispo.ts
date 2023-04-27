@@ -1,9 +1,13 @@
-import { Peca } from "./";
-import { Cor } from "../";
+import { Peca } from ".";
+import { Cor, Jogador, verificarPosicao } from "..";
 
 export class Bispo extends Peca {
+
+    constructor(cor: Cor, jogador: Jogador){
+        super(cor,jogador);
+    }
     
-    possiveisMovimento(coluna: number, linha: number): [number, number][] {
+    possiveisMovimento(posicao: [number,number]): [number, number][] {
         let movimentosPossiveis: [number, number][] = [];
 
         return movimentosPossiveis;

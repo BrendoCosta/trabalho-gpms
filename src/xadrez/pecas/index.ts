@@ -4,3 +4,4 @@ export { Peca } from "./peca";
 export { Rainha } from "./rainha";
 export { Rei } from "./rei";
 export { Torre } from "./torre";
+export { Peao } from "./peao";

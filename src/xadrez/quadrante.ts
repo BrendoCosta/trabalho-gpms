@@ -1,4 +1,4 @@
-import { Peca } from "./peca";
+import { Peca } from "./pecas";
 import { Cor } from "./";
 import { Desenhavel } from "./";
 

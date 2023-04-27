@@ -1,9 +1,13 @@
-import { Peca } from "./";
-import { Cor } from "../";
+import { Peca } from ".";
+import { Cor, Jogador, verificarPosicao } from "..";
 
 export class Cavalo extends Peca {
 
-    possiveisMovimento(coluna: number, linha: number): [number, number][] {
+    constructor(cor: Cor, jogador: Jogador){
+        super(cor,jogador);
+    }
+
+    possiveisMovimento(posicao: [number,number]): [number, number][] {
         let movimentosPossiveis: [number, number][] = [];
 
         return movimentosPossiveis;
