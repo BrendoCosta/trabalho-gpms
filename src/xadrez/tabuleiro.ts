@@ -79,11 +79,11 @@ export class Tabuleiro implements Desenhavel {
 */
 
     //metodo responsavel por colocar uma peca em um quadrante especifico
-    public setPeca(posicao: [number, number], peca: Peca): void {
-        if (verificarPosicao({ posicao })) {
+    public setPeca(posicao: Posicao, peca: Peca): void {
+        if (verificarPosicao(posicao )) {
             throw new Error("Posição fora do tabuleiro");
         }
-        this.quadrantes[posicao[0]][posicao[1]].peca = peca
+        this.quadrantes[posicao.linha][posicao.coluna].peca = peca
     }
 
     //metodo responsavel por retornar a peça de um quadrante caso haja um, se não houver retorna null
@@ -125,7 +125,7 @@ export class Tabuleiro implements Desenhavel {
 
     public click(pos: Posicao): void {
 
-        if (pos.linha < 0 || pos.linha > 7 || pos.coluna < 0 || pos.coluna > 7) {
+        if (verificarPosicao(pos)) {
 
             throw new Error("Posição fora do tabuleiro");
 
