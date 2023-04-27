@@ -1,7 +1,8 @@
-import { Peca } from "./pecasXadrez/peca";
-import { Cor } from "./enums";
+import { Peca } from "./peca";
+import { Cor } from "./";
+import { Desenhavel } from "./";
 
-export class Quadrante {
+export class Quadrante implements Desenhavel {
     public linha: number;
     public coluna: number;
     public cor: Cor
@@ -13,4 +14,25 @@ export class Quadrante {
         this.peca = peca;
         this.cor = cor;
     }
+
+    public desenhar(ctx: CanvasRenderingContext2D) {
+
+        // Renderiza o quadrante
+        
+        let largura = Quadrante.getLarguraDesenho(ctx);
+        ctx.fillStyle = this.cor == Cor.BRANCO ? "white" : "black";
+        ctx.fillRect(0, 0, largura, largura);
+
+        // Renderiza a peça, se houver
+
+        this.peca?.desenhar(ctx);
+
+    }
+
+    public static getLarguraDesenho(ctx: CanvasRenderingContext2D) {
+
+        return Math.round(ctx.canvas.width / 8);
+
+    }
+
 }

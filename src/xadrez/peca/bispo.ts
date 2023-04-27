@@ -1,18 +1,20 @@
-import { Peca } from "./peca";
-import { Cor } from "../enums";
+import { Peca } from "./";
+import { Cor } from "../";
 
-export class Bispo implements Peca {
-    cor: Cor;
-    constructor(cor: Cor) {
-        this.cor = cor;
-        
-      }
-
-      possiveisMovimento(coluna: number, linha: number): [number, number][] {
+export class Bispo extends Peca {
+    
+    possiveisMovimento(coluna: number, linha: number): [number, number][] {
         let movimentosPossiveis: [number, number][] = [];
 
         return movimentosPossiveis;
-      }
+    }
+
+    public override desenhar(ctx: CanvasRenderingContext2D) {
+
+        // Todo
+
+    }
+
 }
     
 

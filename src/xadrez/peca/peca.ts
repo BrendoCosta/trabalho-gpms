@@ -1,10 +1,8 @@
-import { Cor } from "../enums";
-export interface Peca {
-  cor: Cor;
+import { Cor, Desenhavel } from "../";
 
-
-
-
-
-  possiveisMovimento(coluna: number, linha: number): [number, number][]
+export abstract class Peca implements Desenhavel {
+    public cor: Cor;
+    constructor(cor: Cor) { this.cor = cor }
+    public abstract possiveisMovimento(coluna: number, linha: number): [number, number][]
+    public abstract desenhar(ctx: CanvasRenderingContext2D): void;
 }

@@ -1,7 +1,7 @@
-import { Peca } from "./pecasXadrez/peca";
-import { Quadrante } from "./quadrante"
-import { Cor } from "./enums";
-export class Tabuleiro {
+import { Peca } from "./peca";
+import { Cor, Quadrante } from "./";
+import { Desenhavel } from "./";
+export class Tabuleiro implements Desenhavel {
     private quadrantes: Quadrante[][];
 
     constructor() {
@@ -32,5 +32,32 @@ export class Tabuleiro {
         return this.quadrantes[linha][coluna].peca;
     }
 
+    public desenhar(ctx: CanvasRenderingContext2D): void {
+
+        let origemX: number = 0;
+        let origemY: number = 0;
+        let largura = Quadrante.getLarguraDesenho(ctx);
+
+        for (let i = 0; i < 8; i++) {
+
+            for (let j = 0; j < 8; j++) {
+
+                // Move o ponto de origem da renderização
+                
+                ctx.translate(origemX + largura * i, origemY + largura * j);
+
+                // Renderiza o quadrante no ponto
+                
+                this.quadrantes[i][j].desenhar(ctx);
+
+                // Move o ponto e origem de volta a (0, 0)
+
+                ctx.resetTransform();
+
+            }
+
+        }
+        
+    }
 
 }
