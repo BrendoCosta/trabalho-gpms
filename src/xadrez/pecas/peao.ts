@@ -7,9 +7,9 @@ export class Peao extends Peca {
         super(cor,jogador);
     }
     
-    possiveisMovimento(posicao): [number, number][] {
+    possiveisMovimento(posicao: [number,number]): [number, number][] {
         const movimentosPossiveis: [number, number][] = [];
-        const posicaoAtual:[number,number] = [coluna,linha];
+        const posicaoAtual:[number,number] = posicao;
         const direcao = this.jogador == Jogador.JOGADOR ? 1 : -1;
         const posicaoInicial = this.jogador == Jogador.JOGADOR ? 1 : 6;
 
