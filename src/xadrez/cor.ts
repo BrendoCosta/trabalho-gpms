@@ -1,5 +1,6 @@
 export enum Cor {
-    PRETO = "Preto",
-    BRANCO = "Branco"
-  }
+    PRETO = "black",
+    BRANCO = "white",
+    VERDE = "green"
+}
   

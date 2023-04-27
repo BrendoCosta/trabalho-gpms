@@ -1,5 +1,5 @@
 import { Peca } from "./peca";
-import { Cor, Quadrante } from "./";
+import { Cor, Quadrante, Posicao } from "./";
 import { Desenhavel } from "./";
 export class Tabuleiro implements Desenhavel {
     private quadrantes: Quadrante[][];
@@ -58,6 +58,18 @@ export class Tabuleiro implements Desenhavel {
 
         }
         
+    }
+
+    public click(pos: Posicao): void {
+
+        if (pos.linha < 0 || pos.linha > 7 || pos.coluna < 0 || pos.coluna > 7) {
+
+            throw new Error("Posição fora do tabuleiro");
+
+        }
+
+        this.quadrantes[pos.coluna][pos.linha].selecionar();
+
     }
 
 }

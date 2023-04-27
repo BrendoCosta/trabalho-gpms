@@ -20,12 +20,18 @@ export class Quadrante implements Desenhavel {
         // Renderiza o quadrante
         
         let largura = Quadrante.getLarguraDesenho(ctx);
-        ctx.fillStyle = this.cor == Cor.BRANCO ? "white" : "black";
+        ctx.fillStyle = this.cor.toString();
         ctx.fillRect(0, 0, largura, largura);
 
         // Renderiza a peça, se houver
 
         this.peca?.desenhar(ctx);
+
+    }
+
+    public selecionar(): void {
+
+        this.cor = Cor.VERDE;
 
     }
 
