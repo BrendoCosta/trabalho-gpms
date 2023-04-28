@@ -162,7 +162,7 @@ export class Tabuleiro implements Desenhavel {
         //console.log("posicoes")
         //console.log(posicoes)
         posicoes.forEach(posicao=> {
-            this.getQuadrante(posicao).selecionar();
+            this.getQuadrante(posicao).selecionar(Cor.VERDE);
         });
     }
 
