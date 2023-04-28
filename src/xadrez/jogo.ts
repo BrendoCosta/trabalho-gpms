@@ -77,8 +77,6 @@ export class Jogo extends HTMLElement implements Desenhavel {
 
         if (this._executando) {
 
-            console.log("DRAW")
-
             ctx?.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
         
             // Chama o método de desenho das classes filhas

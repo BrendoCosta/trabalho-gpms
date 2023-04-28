@@ -16,13 +16,6 @@ export class Cavalo extends Peca {
         return movimentosPossiveis;
     }
 
-
-    public override desenhar(ctx: CanvasRenderingContext2D) {
-
-        // Todo
-
-    }
-
 }
     
 
