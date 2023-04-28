@@ -6,7 +6,9 @@ export class Jogo extends HTMLElement implements Desenhavel {
 
     private _shadowRoot: ShadowRoot;
     private _canvas: HTMLCanvasElement;
+    private _executando: boolean = false;
     public get canvas() { return this._canvas }
+    private _taxaDeQuadros: number = 12;
     
     constructor() {
         
@@ -42,7 +44,8 @@ export class Jogo extends HTMLElement implements Desenhavel {
 
         if (ctx != null) {
 
-            this.desenhar(ctx);
+            this._executando = true;
+            setInterval(() => this.desenhar(ctx), (1000 / this._taxaDeQuadros));
 
         }
         
@@ -65,25 +68,26 @@ export class Jogo extends HTMLElement implements Desenhavel {
             };
 
             this._tabuleiro.click(pos);
-           // console.log(pos);
 
         }
-
-        /* O método de desenho está sendo chamado
-         * a cada clique, mas poderia ser chamado em
-         * intervalos de tempo (frames) */
-
-        this.desenhar(this._canvas.getContext("2d"));
 
     }
 
     public desenhar(ctx: CanvasRenderingContext2D | null): void {
 
-        // Chama o método de desenho das classes filhas
+        if (this._executando) {
 
-        if (ctx != null) {
+            console.log("DRAW")
 
-            this._tabuleiro.desenhar(ctx);
+            ctx?.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+        
+            // Chama o método de desenho das classes filhas
+
+            if (ctx != null) {
+
+                this._tabuleiro.desenhar(ctx);
+
+            }
 
         }
 
