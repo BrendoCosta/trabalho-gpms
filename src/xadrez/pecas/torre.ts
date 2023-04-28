@@ -7,8 +7,10 @@ export class Torre extends Peca {
         super(cor,jogador);
     }
 
+
     possiveisMovimento(posicao: Posicao): Posicao[] {
         let movimentosPossiveis: Posicao[] = [];
+
 
         return movimentosPossiveis;
     }

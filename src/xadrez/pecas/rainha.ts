@@ -7,11 +7,14 @@ export class Rainha extends Peca {
         super(cor,jogador);
     }
 
+<
     possiveisMovimento(posicao: Posicao): Posicao[] {
         let movimentosPossiveis: Posicao[] = [];
 
+
         return movimentosPossiveis;
     }
+
 
     public override desenhar(ctx: CanvasRenderingContext2D) {
 
