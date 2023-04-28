@@ -52,14 +52,18 @@ export class Quadrante implements Desenhavel {
         this.peca?.desenhar(ctx);
 
     }
-
-    public selecionar(cor: Cor): void {
+    public selecionar():void {
+        this.selecionado ==true ? this.selecionado=false:this.selecionado=true;
+        this.corSelecionado = Cor.VERDE;
+    }
+    public selecionarComCor(cor: Cor): void {
        // console.log(this.getPeca());
         let peca = this.peca;
         this.corSelecionado = cor;
         this.selecionado = true;
 
     }
+
 
     public static getLarguraDesenho(ctx: CanvasRenderingContext2D) {
 

@@ -4,15 +4,26 @@ export abstract class Peca implements Desenhavel {
     private cor: Cor;
     private jogador: Jogador;
     protected abstract imagem: HTMLImageElement;
-    constructor(cor: Cor, jogador: Jogador) { this.cor = cor ; this.jogador = jogador }
+    private corSelecionado: Cor ;
+    private selecionado: boolean ;
+    constructor(cor: Cor, jogador: Jogador) { this.cor = cor ; this.jogador = jogador ;this.corSelecionado = Cor.VERDE; this.selecionado=false}
 
     public getCor():Cor{
         return this.cor;
     }
+    public setCor(cor: Cor):void{
+        this.cor = cor;
+    }
     public getjogador():Jogador{
         return this.jogador;
     }
+    setSelecionado():void {
+        this.selecionado=this.selecionado==false?true:false;
+    }
+    getSelecionado():Boolean {
 
+        return this.selecionado;
+    }
     public abstract possiveisMovimento(posicao:Posicao): Posicao[];
 
     public desenhar(ctx: CanvasRenderingContext2D): void {
