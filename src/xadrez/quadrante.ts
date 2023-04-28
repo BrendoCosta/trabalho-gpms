@@ -70,5 +70,8 @@ export class Quadrante implements Desenhavel {
         return Math.round(ctx.canvas.width / 8);
 
     }
+    public removerPeca():void{
+        this.peca = null
+    }
 
 }

@@ -7,6 +7,8 @@ export class Tabuleiro implements Desenhavel {
     private posicaoPossiveis: Posicao[];
     private corjogador: Cor;
     private corComputador: Cor;
+    private PecasCapJogador: Peca[];
+    private PecasCapComputador: Peca[];
 
     constructor() {
         this.quadrantes = [];
@@ -14,6 +16,8 @@ export class Tabuleiro implements Desenhavel {
         this.corComputador = Cor.PRETO;
         this.posicaoPossiveis = [];
         this.posicaoSelecionado = null;
+        this.PecasCapJogador = [];
+        this.PecasCapComputador = [];
         for (let i = 0; i < 8; i++) {
             this.quadrantes[i] = [];
             for (let j = 0; j < 8; j++) {
@@ -118,18 +122,6 @@ export class Tabuleiro implements Desenhavel {
     }
 
 
-    // metodo responsavel para movimentar peças 
-    public moverPeca(posicaoAtual: Posicao, posicaoAlvo: Posicao): void {
-        let quadranteAtual = this.quadrantes[posicaoAtual.linha][posicaoAtual.coluna];
-        let quadranteAlvo = this.quadrantes[posicaoAlvo.linha][posicaoAlvo.coluna];
-        let peca = quadranteAlvo.getPeca();
-
-
-
-
-
-    }
-
     public desenhar(ctx: CanvasRenderingContext2D): void {
 
         let origemX: number = 0;
@@ -159,13 +151,16 @@ export class Tabuleiro implements Desenhavel {
     }
 
     public click(pos: Posicao): void {
+        let movi = false;
+        
         if (!verificarPosicao(pos)) {
             throw new Error("Posição fora do tabuleiro");
         }
         let mesmaPosicao: boolean;
         this.posicaoSelecionado != null ? mesmaPosicao = (this.posicaoSelecionado.linha == pos.linha && this.posicaoSelecionado.coluna == pos.coluna) : null;
+        movi = this.moverPecas(pos);
         this.removerPecas(pos);
-        this.selecionarPecas(pos);
+        !movi?this.selecionarPecas(pos):null;
 
 
     }
@@ -201,5 +196,28 @@ export class Tabuleiro implements Desenhavel {
         })
         this.posicaoSelecionado = pos;
     }
+    public moverPecas(pos: Posicao): boolean {
+        let movi = false
+        if (this.posicaoPossiveis.length != 0 && this.posicaoSelecionado != null) {
+            let quadranteAlvo = this.getQuadrante(pos);
+            this.posicaoPossiveis.forEach(posicao => {
+                if (quadranteAlvo == this.getQuadrante(posicao)) {
+                    
+                    let quadranteSelecionado =this.getQuadrante(this.posicaoSelecionado!)
+                    let pecaSelecionada = quadranteSelecionado.getPeca();
+                    let pecaAlvo = this.getQuadrante(posicao).getPeca();
+                    if(pecaAlvo!=null){
+                        this.PecasCapJogador.push(pecaAlvo);
+                    }
+                    quadranteAlvo.setPeca(pecaSelecionada!);
+                    quadranteSelecionado.removerPeca();
+                    movi= true;
+                }
+
+            })
+        }
+        return movi;
+    };
 
 }
+
