@@ -1,4 +1,9 @@
-export function verificarPosicao({ posicao }: { posicao: [number, number]; }): boolean {
-    const [x, y] = posicao;
-    return x >= 0 && x <= 7 && y >= 0 && y <= 7;
+import { Posicao } from ".";
+
+export function verificarPosicao(posicao: Posicao): boolean {
+    return posicao.linha >= 0 && posicao.linha <= 7 && posicao.coluna >= 0 && posicao.coluna <= 7;
   }
+export function converterPosicao(posicao:[number,number]):Posicao {
+  let posicaoC : Posicao = {linha:posicao[0], coluna:posicao[1]}
+  return posicaoC;
+}

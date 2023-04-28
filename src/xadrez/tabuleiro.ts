@@ -1,6 +1,5 @@
 import { Peca, Peao, Bispo, Torre, Rainha, Rei, Cavalo } from "./pecas";
-import { Cor, Quadrante, Posicao, Jogador, verificarPosicao } from "./";
-import { Desenhavel } from "./";
+import { Cor, Quadrante, Posicao, Jogador, verificarPosicao,Desenhavel, converterPosicao} from "./";
 export class Tabuleiro implements Desenhavel {
     private quadrantes: Quadrante[][];
 
@@ -15,10 +14,10 @@ export class Tabuleiro implements Desenhavel {
           }
         }
       }
-      /*
+      
       public iniciarPecas(cor: Cor): void {
         let corJogador = cor;
-        let corComputador = cor === Cor.BRANCO ? Cor.BRANCO : Cor.PRETO;
+        let corComputador = cor != Cor.BRANCO ? Cor.BRANCO : Cor.PRETO;
     
         //criando peças do jogador
         let peaoJ = new Peao(corJogador, Jogador.JOGADOR);
@@ -38,61 +37,72 @@ export class Tabuleiro implements Desenhavel {
 
         //inserindo peões no tabuleiro
         for (let i = 0; i < 8; i++) {
-            this.setPeca([i, 1], peaoJ);
+            this.setPeca(converterPosicao([i, 1]), peaoJ);
         }
         for (let i = 0; i < 8; i++) {
-            this.setPeca([i, 6], peaoC);
+            this.setPeca(converterPosicao([i, 6]), peaoC);
         }
 
         //inserindo torres
-        this.setPeca([0, 0], TorreJ);
-        this.setPeca([0, 7], TorreJ);
-        this.setPeca([7, 0], TorreC);
-        this.setPeca([7, 7], TorreC);
+        this.setPeca(converterPosicao([0, 0]), TorreJ);
+        this.setPeca(converterPosicao([0, 7]), TorreJ);
+        this.setPeca(converterPosicao([7, 0]), TorreC);
+        this.setPeca(converterPosicao([7, 7]), TorreC);
 
         //inserindo cavalos
-        this.setPeca([0, 1], CavaloJ);
-        this.setPeca([0, 6], CavaloJ);
-        this.setPeca([7, 1], CavaloC);
-        this.setPeca([7, 6], CavaloC);
+        this.setPeca(converterPosicao([0, 1]), CavaloJ);
+        this.setPeca(converterPosicao([0, 6]), CavaloJ);
+        this.setPeca(converterPosicao([7, 1]), CavaloC);
+        this.setPeca(converterPosicao([7, 6]), CavaloC);
 
         //inserindo bispos
-        this.setPeca([0, 2], BispoJ);
-        this.setPeca([0, 5], BispoJ);
-        this.setPeca([7, 2], BispoC);
-        this.setPeca([7, 5], BispoC);
+        this.setPeca(converterPosicao([0, 2]), BispoJ);
+        this.setPeca(converterPosicao([0, 5]), BispoJ);
+        this.setPeca(converterPosicao([7, 2]), BispoC);
+        this.setPeca(converterPosicao([7, 5]), BispoC);
 
         //inserindo rainhas e rei
         if (corJogador == Cor.BRANCO) {
-            this.setPeca([0, 3], RainhaJ);
-            this.setPeca([0, 4], ReiJ);
-            this.setPeca([7, 3], RainhaJ);
-            this.setPeca([7, 4], ReiJ);
+            this.setPeca(converterPosicao([0, 3]), RainhaJ);
+            this.setPeca(converterPosicao([0, 4]), ReiJ);
+            this.setPeca(converterPosicao([7, 3]), RainhaJ);
+            this.setPeca(converterPosicao([7, 4]), ReiJ);
         }
         else {
-            this.setPeca([0, 4], RainhaJ);
-            this.setPeca([0, 3], ReiJ);
-            this.setPeca([7, 4], RainhaJ);
-            this.setPeca([7, 3], ReiJ);
+            this.setPeca(converterPosicao([0, 4]), RainhaJ);
+            this.setPeca(converterPosicao([0, 3]), ReiJ);
+            this.setPeca(converterPosicao([7, 4]), RainhaJ);
+            this.setPeca(converterPosicao([7, 3]), ReiJ);
         }
     }
-*/
+
 
     //metodo responsavel por colocar uma peca em um quadrante especifico
-    public setPeca(posicao: [number, number], peca: Peca): void {
-        if (verificarPosicao({ posicao })) {
+    public setPeca(posicao: Posicao, peca: Peca): void {
+        
+        if (verificarPosicao( posicao )) {
             throw new Error("Posição fora do tabuleiro");
         }
-        this.quadrantes[posicao[0]][posicao[1]].peca = peca
+        this.quadrantes[posicao.linha][posicao.coluna].peca = peca
     }
 
     //metodo responsavel por retornar a peça de um quadrante caso haja um, se não houver retorna null
-    public getPeca(linha: number, coluna: number) {
-        if (linha < 0 ||linha > 7 ||coluna < 0 || coluna > 7) {
+    public getPeca(posicao: Posicao) {
+        if (verificarPosicao(posicao)) {
             throw new Error("Posição fora do tabuleiro");
         }
 
-        return this.quadrantes[linha][coluna].peca;
+        return this.quadrantes[posicao.linha][posicao.coluna].peca;
+    }
+
+    // metodo responsavel para movimentar peças 
+    public moverPeca(posicaoAtual: Posicao,posicaoAlvo: Posicao): void {
+        let quadranteAtual = this.quadrantes[posicaoAtual.linha][posicaoAtual.coluna];
+        let quadranteAlvo  = this.quadrantes[posicaoAlvo.linha][posicaoAlvo.coluna];
+        
+
+
+        
     }
 
     public desenhar(ctx: CanvasRenderingContext2D): void {

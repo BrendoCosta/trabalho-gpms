@@ -1,5 +1,5 @@
 import { Peca } from ".";
-import { Cor, Jogador, verificarPosicao } from "..";
+import { Cor, Jogador, Posicao, verificarPosicao } from "..";
 
 export class Bispo extends Peca {
 
@@ -7,8 +7,8 @@ export class Bispo extends Peca {
         super(cor,jogador);
     }
     
-    possiveisMovimento(posicao: [number,number]): [number, number][] {
-        let movimentosPossiveis: [number, number][] = [];
+    possiveisMovimento(posicao: Posicao): Posicao[] {
+        let movimentosPossiveis: Posicao[] = [];
 
         return movimentosPossiveis;
     }
