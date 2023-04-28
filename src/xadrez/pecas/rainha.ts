@@ -7,7 +7,7 @@ export class Rainha extends Peca {
         super(cor,jogador);
     }
 
-<
+
     possiveisMovimento(posicao: Posicao): Posicao[] {
         let movimentosPossiveis: Posicao[] = [];
 
