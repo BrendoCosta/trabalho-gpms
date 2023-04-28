@@ -1,8 +1,9 @@
-import { Quadrante, Tabuleiro, Posicao, Desenhavel } from ".";
+import { Quadrante, Tabuleiro, Posicao, Desenhavel,Cor } from ".";
 
 export class Jogo extends HTMLElement implements Desenhavel {
 
     private _tabuleiro: Tabuleiro = new Tabuleiro();
+
     private _shadowRoot: ShadowRoot;
     private _canvas: HTMLCanvasElement;
     public get canvas() { return this._canvas }
@@ -44,7 +45,7 @@ export class Jogo extends HTMLElement implements Desenhavel {
             this.desenhar(ctx);
 
         }
-    
+        
     }
 
     public eventoClick(ev: MouseEvent): void {
@@ -64,7 +65,7 @@ export class Jogo extends HTMLElement implements Desenhavel {
             };
 
             this._tabuleiro.click(pos);
-            console.log(pos);
+           // console.log(pos);
 
         }
 

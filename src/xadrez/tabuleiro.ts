@@ -1,5 +1,6 @@
 import { Peca, Peao, Bispo, Torre, Rainha, Rei, Cavalo } from "./pecas";
 import { Cor, Quadrante, Posicao, Jogador, verificarPosicao,Desenhavel, converterPosicao} from "./";
+import { MovimentosPossiveis } from "./movimentosPossiveis";
 export class Tabuleiro implements Desenhavel {
     private quadrantes: Quadrante[][];
 
@@ -9,10 +10,20 @@ export class Tabuleiro implements Desenhavel {
           this.quadrantes[i] = [];
           for (let j = 0; j < 8; j++) {
             const cor = (i + j) % 2 === 0 ? Cor.BRANCO : Cor.PRETO;
-            const quadrante = new Quadrante(i, j, cor,null);
+            const quadrante = new Quadrante(j, i, cor,null);
             this.quadrantes[i][j] = quadrante;
           }
         }
+        this.iniciarPecas(Cor.BRANCO);
+      }
+
+      //buscar todos os quadrantes
+    public  getQuadrantes(): Quadrante[][] {
+        return this.quadrantes;
+      }
+      //pega um quadrante
+    public getQuadrante(posicao: Posicao): Quadrante {
+        return this.quadrantes[posicao.linha][posicao.coluna];
       }
       
       public iniciarPecas(cor: Cor): void {
@@ -37,71 +48,74 @@ export class Tabuleiro implements Desenhavel {
 
         //inserindo peões no tabuleiro
         for (let i = 0; i < 8; i++) {
-            this.setPeca(converterPosicao([i, 1]), peaoJ);
+            this.setPeca(converterPosicao([1, i]), peaoC);
         }
         for (let i = 0; i < 8; i++) {
-            this.setPeca(converterPosicao([i, 6]), peaoC);
+            this.setPeca(converterPosicao([6, i]), peaoJ);
         }
 
         //inserindo torres
-        this.setPeca(converterPosicao([0, 0]), TorreJ);
-        this.setPeca(converterPosicao([0, 7]), TorreJ);
-        this.setPeca(converterPosicao([7, 0]), TorreC);
-        this.setPeca(converterPosicao([7, 7]), TorreC);
+        this.setPeca(converterPosicao([7, 0]), TorreJ);
+        this.setPeca(converterPosicao([7, 7]), TorreJ);
+        this.setPeca(converterPosicao([0, 0]), TorreC);
+        this.setPeca(converterPosicao([0, 7]), TorreC);
 
         //inserindo cavalos
-        this.setPeca(converterPosicao([0, 1]), CavaloJ);
-        this.setPeca(converterPosicao([0, 6]), CavaloJ);
-        this.setPeca(converterPosicao([7, 1]), CavaloC);
-        this.setPeca(converterPosicao([7, 6]), CavaloC);
+        this.setPeca(converterPosicao([7, 1]), CavaloJ);
+        this.setPeca(converterPosicao([7, 6]), CavaloJ);
+        this.setPeca(converterPosicao([0, 1]), CavaloC);
+        this.setPeca(converterPosicao([0, 6]), CavaloC);
 
         //inserindo bispos
-        this.setPeca(converterPosicao([0, 2]), BispoJ);
-        this.setPeca(converterPosicao([0, 5]), BispoJ);
-        this.setPeca(converterPosicao([7, 2]), BispoC);
-        this.setPeca(converterPosicao([7, 5]), BispoC);
+        this.setPeca(converterPosicao([7, 2]), BispoJ);
+        this.setPeca(converterPosicao([7, 5]), BispoJ);
+        this.setPeca(converterPosicao([0, 2]), BispoC);
+        this.setPeca(converterPosicao([0, 5]), BispoC);
 
         //inserindo rainhas e rei
         if (corJogador == Cor.BRANCO) {
-            this.setPeca(converterPosicao([0, 3]), RainhaJ);
-            this.setPeca(converterPosicao([0, 4]), ReiJ);
             this.setPeca(converterPosicao([7, 3]), RainhaJ);
             this.setPeca(converterPosicao([7, 4]), ReiJ);
+            this.setPeca(converterPosicao([0, 3]), RainhaJ);
+            this.setPeca(converterPosicao([0, 4]), ReiJ);
         }
         else {
-            this.setPeca(converterPosicao([0, 4]), RainhaJ);
-            this.setPeca(converterPosicao([0, 3]), ReiJ);
             this.setPeca(converterPosicao([7, 4]), RainhaJ);
             this.setPeca(converterPosicao([7, 3]), ReiJ);
+            this.setPeca(converterPosicao([0, 4]), RainhaJ);
+            this.setPeca(converterPosicao([0, 7]), ReiJ);
         }
     }
 
 
     //metodo responsavel por colocar uma peca em um quadrante especifico
     public setPeca(posicao: Posicao, peca: Peca): void {
-
+        // console.log("Consegui colocar "+peca.constructor.name+" "+peca.getCor()+" em linha: "+posicao.linha+" e coluna:"+posicao.coluna)
         
-        if (verificarPosicao( posicao )) {
+        if (!verificarPosicao(posicao)) {
 
-            throw new Error("Posição fora do tabuleiro");
+            throw new Error("Posição fora do tabuleiro:"+posicao.linha+" e "+posicao.coluna);
         }
-        this.quadrantes[posicao.linha][posicao.coluna].peca = peca
+        this.quadrantes[posicao.linha][posicao.coluna].setPeca(peca);
     }
 
     //metodo responsavel por retornar a peça de um quadrante caso haja um, se não houver retorna null
     public getPeca(posicao: Posicao) {
-        if (verificarPosicao(posicao)) {
+        if (!verificarPosicao(posicao)) {
             throw new Error("Posição fora do tabuleiro");
         }
 
-        return this.quadrantes[posicao.linha][posicao.coluna].peca;
+        return this.quadrantes[posicao.linha][posicao.coluna].getPeca();
     }
+
 
     // metodo responsavel para movimentar peças 
     public moverPeca(posicaoAtual: Posicao,posicaoAlvo: Posicao): void {
         let quadranteAtual = this.quadrantes[posicaoAtual.linha][posicaoAtual.coluna];
         let quadranteAlvo  = this.quadrantes[posicaoAlvo.linha][posicaoAlvo.coluna];
+        let peca = quadranteAlvo.getPeca();
         
+  
 
 
         
@@ -123,7 +137,7 @@ export class Tabuleiro implements Desenhavel {
 
                 // Renderiza o quadrante no ponto
                 
-                this.quadrantes[i][j].desenhar(ctx);
+                this.quadrantes[j][i].desenhar(ctx);
 
                 // Move o ponto e origem de volta a (0, 0)
 
@@ -137,14 +151,19 @@ export class Tabuleiro implements Desenhavel {
 
     public click(pos: Posicao): void {
 
-        if (verificarPosicao(pos)) {
+
+        if (!verificarPosicao(pos)) {
 
             throw new Error("Posição fora do tabuleiro");
 
         }
-
-        this.quadrantes[pos.coluna][pos.linha].selecionar();
-
+        
+        let posicoes : Posicao[] = MovimentosPossiveis(this.getQuadrantes(),pos) 
+        //console.log("posicoes")
+        //console.log(posicoes)
+        posicoes.forEach(posicao=> {
+            this.getQuadrante(posicao).selecionar();
+        });
     }
 
 }

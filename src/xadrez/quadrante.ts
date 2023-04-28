@@ -3,10 +3,10 @@ import { Cor } from "./";
 import { Desenhavel } from "./";
 
 export class Quadrante implements Desenhavel {
-    public linha: number;
-    public coluna: number;
-    public cor: Cor
-    public peca: Peca | null;
+    private linha: number;
+    private coluna: number;
+    private cor: Cor
+    private peca: Peca | null;
 
     constructor(linha: number, coluna: number, cor: Cor, peca: Peca | null) {
         this.linha = linha;
@@ -14,6 +14,14 @@ export class Quadrante implements Desenhavel {
         this.peca = peca;
         this.cor = cor;
     }
+
+    public getPeca(): Peca|null {
+       return this.peca;
+    }
+
+    public setPeca(peca: Peca): void {
+        this.peca = peca;
+     }
 
     public desenhar(ctx: CanvasRenderingContext2D) {
 
@@ -30,7 +38,8 @@ export class Quadrante implements Desenhavel {
     }
 
     public selecionar(): void {
-
+       // console.log(this.getPeca());
+        let peca = this.peca;
         this.cor = Cor.VERDE;
 
     }
