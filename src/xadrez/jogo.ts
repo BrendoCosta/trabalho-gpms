@@ -1,4 +1,4 @@
-import { Quadrante, Tabuleiro, Posicao, Desenhavel,Cor } from ".";
+import { Quadrante, Tabuleiro, Posicao, Desenhavel, Cor } from ".";
 
 export class Jogo extends HTMLElement implements Desenhavel {
 
@@ -9,17 +9,17 @@ export class Jogo extends HTMLElement implements Desenhavel {
     private _executando: boolean = false;
     public get canvas() { return this._canvas }
     private _taxaDeQuadros: number = 12;
-    
+
     constructor() {
-        
+
         super();
 
         // Inicialização do canvas
 
         this._canvas = document.createElement("canvas");
-        this._canvas.width  = 800;
+        this._canvas.width = 800;
         this._canvas.height = 800;
-        
+
         let ctx: CanvasRenderingContext2D | null = this._canvas.getContext("2d");
 
         // Adiciona os eventos de interação com o jogo
@@ -27,7 +27,7 @@ export class Jogo extends HTMLElement implements Desenhavel {
         this.addEventListener("click", this.eventoClick);
 
         // Desenha a cor de fundo
-        
+
         if (ctx != null) {
 
             ctx.fillStyle = "lightgray";
@@ -48,7 +48,7 @@ export class Jogo extends HTMLElement implements Desenhavel {
             setInterval(() => this.desenhar(ctx), (1000 / this._taxaDeQuadros));
 
         }
-        
+
     }
 
     public eventoClick(ev: MouseEvent): void {
@@ -78,7 +78,7 @@ export class Jogo extends HTMLElement implements Desenhavel {
         if (this._executando) {
 
             ctx?.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-        
+
             // Chama o método de desenho das classes filhas
 
             if (ctx != null) {

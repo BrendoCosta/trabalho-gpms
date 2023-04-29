@@ -1,4 +1,4 @@
 export enum Jogador {
-    JOGADOR ="jogador 1",
-    COMPUTADOR ="jogador 2"
+    JOGADOR = "jogador 1",
+    COMPUTADOR = "jogador 2"
 }

@@ -17,13 +17,13 @@ export class Quadrante implements Desenhavel {
         this.cor = cor;
     }
 
-    public getPeca(): Peca|null {
-       return this.peca;
+    public getPeca(): Peca | null {
+        return this.peca;
     }
 
     public setPeca(peca: Peca): void {
         this.peca = peca;
-     }
+    }
 
     public desenhar(ctx: CanvasRenderingContext2D) {
 
@@ -52,12 +52,12 @@ export class Quadrante implements Desenhavel {
         this.peca?.desenhar(ctx);
 
     }
-    public selecionar():void {
-        this.selecionado ==true ? this.selecionado=false:this.selecionado=true;
+    public selecionar(): void {
+        this.selecionado == true ? this.selecionado = false : this.selecionado = true;
         this.corSelecionado = Cor.VERDE;
     }
     public selecionarComCor(cor: Cor): void {
-       // console.log(this.getPeca());
+        // console.log(this.getPeca());
         let peca = this.peca;
         this.corSelecionado = cor;
         this.selecionado = true;
@@ -70,7 +70,7 @@ export class Quadrante implements Desenhavel {
         return Math.round(ctx.canvas.width / 8);
 
     }
-    public removerPeca():void{
+    public removerPeca(): void {
         this.peca = null
     }
 

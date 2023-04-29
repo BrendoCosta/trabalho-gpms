@@ -275,20 +275,20 @@ function MovimentosRei(peca: Peca, quadrantes: Quadrante[][], posicaoPeca: Posic
     let quadranteAlvo: Quadrante;
     const quadranteAtual = quadrantes[posicaoAtual.linha][posicaoAtual.coluna];
 
-//console.log("teste fora 1 for")
+    //console.log("teste fora 1 for")
     for (let i = -1; i < 2; i++) {
-      //  console.log("teste fora 2 for")
+        //  console.log("teste fora 2 for")
         for (let j = -1; j < 2; j++) {
-           // console.log("teste fora 1 if")
-            if(!(i==0&&j==0)){
-         //       console.log("teste fora 2 if")
+            // console.log("teste fora 1 if")
+            if (!(i == 0 && j == 0)) {
+                //       console.log("teste fora 2 if")
                 posicaoAlvo = { linha: posicaoAtual.linha + i, coluna: posicaoAtual.coluna + j }
 
                 if (verificarPosicao(posicaoAlvo)) {
-            //        console.log("teste fora 1 dentro de tudo")
+                    //        console.log("teste fora 1 dentro de tudo")
                     quadranteAlvo = quadrantes[posicaoAlvo.linha][posicaoAlvo.coluna]
                     console.log(posicaoAlvo)
-                    if (ChecarMovimento(quadranteAlvo, quadranteAtual) != SituacaoQuadrante.ALIADO){ movimentosPossiveis.push(posicaoAlvo)}
+                    if (ChecarMovimento(quadranteAlvo, quadranteAtual) != SituacaoQuadrante.ALIADO) { movimentosPossiveis.push(posicaoAlvo) }
                 }
 
             }
