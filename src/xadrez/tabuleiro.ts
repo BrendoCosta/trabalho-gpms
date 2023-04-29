@@ -90,14 +90,14 @@ export class Tabuleiro implements Desenhavel {
         if (corJogador == Cor.BRANCO) {
             this.setPeca(converterPosicao([7, 3]), RainhaJ);
             this.setPeca(converterPosicao([7, 4]), ReiJ);
-            this.setPeca(converterPosicao([0, 3]), RainhaJ);
-            this.setPeca(converterPosicao([0, 4]), ReiJ);
+            this.setPeca(converterPosicao([0, 3]), RainhaC);
+            this.setPeca(converterPosicao([0, 4]), ReiC);
         }
         else {
             this.setPeca(converterPosicao([7, 4]), RainhaJ);
             this.setPeca(converterPosicao([7, 3]), ReiJ);
-            this.setPeca(converterPosicao([0, 4]), RainhaJ);
-            this.setPeca(converterPosicao([0, 7]), ReiJ);
+            this.setPeca(converterPosicao([0, 4]), RainhaC);
+            this.setPeca(converterPosicao([0, 7]), ReiC);
         }
     }
 
