@@ -125,7 +125,7 @@ export class Tabuleiro implements Desenhavel {
     public desenhar(ctx: CanvasRenderingContext2D): void {
 
         let origemX: number = Jogo.isometrico ? ctx.canvas.width / 2 : 0;
-        let origemY: number = 0;
+        let origemY: number = Jogo.isometrico ? ctx.canvas.height / 2 : 0;
         let largura = Quadrante.getLarguraDesenho(ctx);
 
         for (let i = 0; i < 8; i++) {
@@ -140,11 +140,12 @@ export class Tabuleiro implements Desenhavel {
                     // Renderiza o losango no ponto
 
                     Desenho.desenharLosango(ctx, dx, dy / 2, largura, largura / 2);
+                    ctx.translate(dx, dy / 2);
                     this.quadrantes[j][i].desenhar(ctx);
 
                     // Move o ponto de origem da renderização
                     
-                    ctx.translate(dx, dy / 2);
+                    
                     this.quadrantes[j][i].getPeca()?.desenhar(ctx);
 
                 } else {
