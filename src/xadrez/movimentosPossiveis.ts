@@ -100,7 +100,7 @@ function MovimentosTorre(peca: Peca, quadrantes: Quadrante[][], posicaoPeca: Pos
     console.log(posicaoPeca);
     console.log(peca.constructor.name);
     const posicaoAtual: Posicao = posicaoPeca;
-    
+
 
     //if( verificarPosicao(posicaoAlvo)){}
     let i = 0;
@@ -109,45 +109,48 @@ function MovimentosTorre(peca: Peca, quadrantes: Quadrante[][], posicaoPeca: Pos
         i++
 
         posicaoAlvo = { linha: posicaoAtual.linha, coluna: posicaoAtual.coluna + i }
-        if(verificarPosicao(posicaoAlvo)){
-        quadranteAlvo = quadrantes[posicaoAlvo.linha][posicaoAlvo.coluna]
-        quadranteAtual = quadrantes[posicaoAtual.linha][posicaoAtual.coluna]
-        checagem = ChecarMovimento(quadranteAlvo, quadranteAtual)
-        if ( checagem != SituacaoQuadrante.ALIADO) { movimentosPossiveis.push(posicaoAlvo) }} else { break; }
+        if (verificarPosicao(posicaoAlvo)) {
+            quadranteAlvo = quadrantes[posicaoAlvo.linha][posicaoAlvo.coluna]
+            quadranteAtual = quadrantes[posicaoAtual.linha][posicaoAtual.coluna]
+            checagem = ChecarMovimento(quadranteAlvo, quadranteAtual)
+            if (checagem != SituacaoQuadrante.ALIADO) { movimentosPossiveis.push(posicaoAlvo) }
+        } else { break; }
     } while (checagem == SituacaoQuadrante.VAZIO)
     i = 0;
-    do  {
+    do {
         i++
-        posicaoAlvo= { linha: posicaoAtual.linha + i, coluna: posicaoAtual.coluna }
-        if(verificarPosicao(posicaoAlvo)){
-        quadranteAlvo = quadrantes[posicaoAlvo.linha][posicaoAlvo.coluna]
-        quadranteAtual = quadrantes[posicaoAtual.linha][posicaoAtual.coluna]
-        checagem = ChecarMovimento(quadranteAlvo, quadranteAtual)
-        if ( checagem != SituacaoQuadrante.ALIADO) { movimentosPossiveis.push(posicaoAlvo) } }else { break; }
+        posicaoAlvo = { linha: posicaoAtual.linha + i, coluna: posicaoAtual.coluna }
+        if (verificarPosicao(posicaoAlvo)) {
+            quadranteAlvo = quadrantes[posicaoAlvo.linha][posicaoAlvo.coluna]
+            quadranteAtual = quadrantes[posicaoAtual.linha][posicaoAtual.coluna]
+            checagem = ChecarMovimento(quadranteAlvo, quadranteAtual)
+            if (checagem != SituacaoQuadrante.ALIADO) { movimentosPossiveis.push(posicaoAlvo) }
+        } else { break; }
     }
     while (checagem == SituacaoQuadrante.VAZIO)
     i = 0;
 
-    do  {
+    do {
         i--
-        posicaoAlvo= { linha: posicaoAtual.linha, coluna: posicaoAtual.coluna + i }
-        if(verificarPosicao(posicaoAlvo)){
-        quadranteAlvo = quadrantes[posicaoAlvo.linha][posicaoAlvo.coluna]
-        quadranteAtual = quadrantes[posicaoAtual.linha][posicaoAtual.coluna]
-        checagem = ChecarMovimento(quadranteAlvo, quadranteAtual)
-        if ( checagem != SituacaoQuadrante.ALIADO) { movimentosPossiveis.push(posicaoAlvo) }} else { break; }
+        posicaoAlvo = { linha: posicaoAtual.linha, coluna: posicaoAtual.coluna + i }
+        if (verificarPosicao(posicaoAlvo)) {
+            quadranteAlvo = quadrantes[posicaoAlvo.linha][posicaoAlvo.coluna]
+            quadranteAtual = quadrantes[posicaoAtual.linha][posicaoAtual.coluna]
+            checagem = ChecarMovimento(quadranteAlvo, quadranteAtual)
+            if (checagem != SituacaoQuadrante.ALIADO) { movimentosPossiveis.push(posicaoAlvo) }
+        } else { break; }
     }
     while (checagem == SituacaoQuadrante.VAZIO)
     i = 0;
 
-    do  {
+    do {
         i--
-        posicaoAlvo= { linha: posicaoAtual.linha + i, coluna: posicaoAtual.coluna }
-        if(verificarPosicao(posicaoAlvo)){
-        quadranteAlvo = quadrantes[posicaoAlvo.linha][posicaoAlvo.coluna]
-        quadranteAtual = quadrantes[posicaoAtual.linha][posicaoAtual.coluna]
-        checagem = ChecarMovimento(quadranteAlvo, quadranteAtual)
-        if ( checagem != SituacaoQuadrante.ALIADO) { movimentosPossiveis.push(posicaoAlvo) } 
+        posicaoAlvo = { linha: posicaoAtual.linha + i, coluna: posicaoAtual.coluna }
+        if (verificarPosicao(posicaoAlvo)) {
+            quadranteAlvo = quadrantes[posicaoAlvo.linha][posicaoAlvo.coluna]
+            quadranteAtual = quadrantes[posicaoAtual.linha][posicaoAtual.coluna]
+            checagem = ChecarMovimento(quadranteAlvo, quadranteAtual)
+            if (checagem != SituacaoQuadrante.ALIADO) { movimentosPossiveis.push(posicaoAlvo) }
         }
         else { break; }
     }
@@ -163,32 +166,74 @@ function MovimentosBispo(peca: Peca, quadrantes: Quadrante[][], posicaoPeca: Pos
     console.log(posicaoPeca);
     console.log(peca.constructor.name);
     const posicaoAtual: Posicao = posicaoPeca;
+    let posicaoAlvo: Posicao;
+    let quadranteAlvo: Quadrante;
+    let quadranteAtual: Quadrante;
     const max = posicaoAtual.coluna > posicaoAtual.linha ? posicaoAtual.coluna : posicaoAtual.linha;
     const min = posicaoAtual.coluna < posicaoAtual.linha ? posicaoAtual.coluna : posicaoAtual.linha;;
     let i = 0;
-    while (true) {
+    let checagem;
+    do {
+        console.log("1")
         i++;
-        let posicaoAlvo: Posicao = { linha: posicaoAtual.linha + i, coluna: posicaoAtual.coluna + i }
-        if (verificarPosicao(posicaoAlvo)) { movimentosPossiveis.push(posicaoAlvo) } else { break; }
-    }
+        posicaoAlvo = { linha: posicaoAtual.linha + i, coluna: posicaoAtual.coluna + i }
+        if (verificarPosicao(posicaoAlvo)) {
+
+            quadranteAlvo = quadrantes[posicaoAlvo.linha][posicaoAlvo.coluna]
+            quadranteAtual = quadrantes[posicaoAtual.linha][posicaoAtual.coluna]
+            checagem = ChecarMovimento(quadranteAlvo, quadranteAtual)
+            if (checagem != SituacaoQuadrante.ALIADO) {
+                movimentosPossiveis.push(posicaoAlvo)
+            }
+
+        } else { break; }
+    } while (checagem == SituacaoQuadrante.VAZIO)
     i = 0
-    while (true) {
+    do {
+        console.log("2")
         i++;
-        let posicaoAlvo: Posicao = { linha: posicaoAtual.linha - i, coluna: posicaoAtual.coluna - i }
-        if (verificarPosicao(posicaoAlvo)) { movimentosPossiveis.push(posicaoAlvo) } else { break; }
-    }
+        posicaoAlvo = { linha: posicaoAtual.linha - i, coluna: posicaoAtual.coluna - i }
+        if (verificarPosicao(posicaoAlvo)) {
+
+            quadranteAlvo = quadrantes[posicaoAlvo.linha][posicaoAlvo.coluna]
+            quadranteAtual = quadrantes[posicaoAtual.linha][posicaoAtual.coluna]
+            checagem = ChecarMovimento(quadranteAlvo, quadranteAtual)
+            if (checagem != SituacaoQuadrante.ALIADO) {
+                movimentosPossiveis.push(posicaoAlvo)
+            }
+        } else { break; }
+    } while (checagem == SituacaoQuadrante.VAZIO)
     i = 0
-    while (true) {
+    do {
+        console.log("3")
         i++;
-        let posicaoAlvo: Posicao = { linha: posicaoAtual.linha + i, coluna: posicaoAtual.coluna - i }
-        if (verificarPosicao(posicaoAlvo)) { movimentosPossiveis.push(posicaoAlvo) } else { break; }
-    }
+        posicaoAlvo = { linha: posicaoAtual.linha + i, coluna: posicaoAtual.coluna - i }
+        if (verificarPosicao(posicaoAlvo)) {
+
+            quadranteAlvo = quadrantes[posicaoAlvo.linha][posicaoAlvo.coluna]
+            quadranteAtual = quadrantes[posicaoAtual.linha][posicaoAtual.coluna]
+            checagem = ChecarMovimento(quadranteAlvo, quadranteAtual)
+
+            if (checagem != SituacaoQuadrante.ALIADO) {
+                movimentosPossiveis.push(posicaoAlvo)
+            }
+        } else { break; }
+    } while (checagem == SituacaoQuadrante.VAZIO)
     i = 0
-    while (true) {
+    do {
+        console.log("4")
         i++;
-        let posicaoAlvo: Posicao = { linha: posicaoAtual.linha - i, coluna: posicaoAtual.coluna + i }
-        if (verificarPosicao(posicaoAlvo)) { movimentosPossiveis.push(posicaoAlvo) } else { break; }
-    }
+        posicaoAlvo = { linha: posicaoAtual.linha - i, coluna: posicaoAtual.coluna + i }
+        if (verificarPosicao(posicaoAlvo)) {
+
+            quadranteAlvo = quadrantes[posicaoAlvo.linha][posicaoAlvo.coluna]
+            quadranteAtual = quadrantes[posicaoAtual.linha][posicaoAtual.coluna]
+            checagem = ChecarMovimento(quadranteAlvo, quadranteAtual)
+            if (checagem != SituacaoQuadrante.ALIADO) {
+                movimentosPossiveis.push(posicaoAlvo)
+            }
+        } else { break; }
+    } while (checagem == SituacaoQuadrante.VAZIO)
 
 
     return movimentosPossiveis;
@@ -198,31 +243,26 @@ function MovimentosCavalo(peca: Peca, quadrantes: Quadrante[][], posicaoPeca: Po
     console.log(posicaoPeca);
     console.log(peca.constructor.name);
     const posicaoAtual: Posicao = posicaoPeca;
+    let quadranteAlvo: Quadrante;
+    const quadranteAtual = quadrantes[posicaoAtual.linha][posicaoAtual.coluna]
     let posicaoAlvo: Posicao;
 
-    posicaoAlvo = { linha: posicaoAtual.linha + 2, coluna: posicaoAtual.coluna + 1 }
-    if (verificarPosicao(posicaoAlvo)) { movimentosPossiveis.push(posicaoAlvo) }
 
-    posicaoAlvo = { linha: posicaoAtual.linha + 2, coluna: posicaoAtual.coluna - 1 }
-    if (verificarPosicao(posicaoAlvo)) { movimentosPossiveis.push(posicaoAlvo) }
+    for (let i = -2; i < 3; i++) {
+        for (let j = -2; j < 3; j++) {
+            if (Math.abs(i) != Math.abs(j) && [1, 2].includes(Math.abs(i)) && [1, 2].includes(Math.abs(j))) {
+                posicaoAlvo = { linha: posicaoAtual.linha + i, coluna: posicaoAtual.coluna + j }
 
-    posicaoAlvo = { linha: posicaoAtual.linha - 2, coluna: posicaoAtual.coluna - 1 }
-    if (verificarPosicao(posicaoAlvo)) { movimentosPossiveis.push(posicaoAlvo) }
+                if (verificarPosicao(posicaoAlvo)) {
+                    quadranteAlvo = quadrantes[posicaoAlvo.linha][posicaoAlvo.coluna]
+                    if (ChecarMovimento(quadranteAlvo, quadranteAtual) != SituacaoQuadrante.ALIADO) movimentosPossiveis.push(posicaoAlvo)
+                }
 
-    posicaoAlvo = { linha: posicaoAtual.linha - 2, coluna: posicaoAtual.coluna + 1 }
-    if (verificarPosicao(posicaoAlvo)) { movimentosPossiveis.push(posicaoAlvo) }
+            }
+        }
+    }
 
-    posicaoAlvo = { linha: posicaoAtual.linha + 1, coluna: posicaoAtual.coluna + 2 }
-    if (verificarPosicao(posicaoAlvo)) { movimentosPossiveis.push(posicaoAlvo) }
 
-    posicaoAlvo = { linha: posicaoAtual.linha + 1, coluna: posicaoAtual.coluna - 2 }
-    if (verificarPosicao(posicaoAlvo)) { movimentosPossiveis.push(posicaoAlvo) }
-
-    posicaoAlvo = { linha: posicaoAtual.linha - 1, coluna: posicaoAtual.coluna - 2 }
-    if (verificarPosicao(posicaoAlvo)) { movimentosPossiveis.push(posicaoAlvo) }
-
-    posicaoAlvo = { linha: posicaoAtual.linha - 1, coluna: posicaoAtual.coluna + 2 }
-    if (verificarPosicao(posicaoAlvo)) { movimentosPossiveis.push(posicaoAlvo) }
     return movimentosPossiveis;
 }
 
@@ -232,30 +272,30 @@ function MovimentosRei(peca: Peca, quadrantes: Quadrante[][], posicaoPeca: Posic
     console.log(peca.constructor.name);
     const posicaoAtual: Posicao = posicaoPeca;
     let posicaoAlvo: Posicao;
+    let quadranteAlvo: Quadrante;
+    const quadranteAtual = quadrantes[posicaoAtual.linha][posicaoAtual.coluna];
 
-    posicaoAlvo = { linha: posicaoAtual.linha + 1, coluna: posicaoAtual.coluna + 1 }
-    if (verificarPosicao(posicaoAlvo)) { movimentosPossiveis.push(posicaoAlvo) }
+//console.log("teste fora 1 for")
+    for (let i = -1; i < 2; i++) {
+      //  console.log("teste fora 2 for")
+        for (let j = -1; j < 2; j++) {
+           // console.log("teste fora 1 if")
+            if(!(i==0&&j==0)){
+         //       console.log("teste fora 2 if")
+                posicaoAlvo = { linha: posicaoAtual.linha + i, coluna: posicaoAtual.coluna + j }
 
-    posicaoAlvo = { linha: posicaoAtual.linha + 1, coluna: posicaoAtual.coluna }
-    if (verificarPosicao(posicaoAlvo)) { movimentosPossiveis.push(posicaoAlvo) }
+                if (verificarPosicao(posicaoAlvo)) {
+            //        console.log("teste fora 1 dentro de tudo")
+                    quadranteAlvo = quadrantes[posicaoAlvo.linha][posicaoAlvo.coluna]
+                    console.log(posicaoAlvo)
+                    if (ChecarMovimento(quadranteAlvo, quadranteAtual) != SituacaoQuadrante.ALIADO){ movimentosPossiveis.push(posicaoAlvo)}
+                }
 
-    posicaoAlvo = { linha: posicaoAtual.linha + 1, coluna: posicaoAtual.coluna - 1 }
-    if (verificarPosicao(posicaoAlvo)) { movimentosPossiveis.push(posicaoAlvo) }
+            }
+        }
+    }
+    console.log(movimentosPossiveis)
 
-    posicaoAlvo = { linha: posicaoAtual.linha, coluna: posicaoAtual.coluna - 1 }
-    if (verificarPosicao(posicaoAlvo)) { movimentosPossiveis.push(posicaoAlvo) }
-
-    posicaoAlvo = { linha: posicaoAtual.linha - 1, coluna: posicaoAtual.coluna - 1 }
-    if (verificarPosicao(posicaoAlvo)) { movimentosPossiveis.push(posicaoAlvo) }
-
-    posicaoAlvo = { linha: posicaoAtual.linha - 1, coluna: posicaoAtual.coluna }
-    if (verificarPosicao(posicaoAlvo)) { movimentosPossiveis.push(posicaoAlvo) }
-
-    posicaoAlvo = { linha: posicaoAtual.linha - 1, coluna: posicaoAtual.coluna + 1 }
-    if (verificarPosicao(posicaoAlvo)) { movimentosPossiveis.push(posicaoAlvo) }
-
-    posicaoAlvo = { linha: posicaoAtual.linha, coluna: posicaoAtual.coluna + 1 }
-    if (verificarPosicao(posicaoAlvo)) { movimentosPossiveis.push(posicaoAlvo) }
     return movimentosPossiveis;
 }
 
