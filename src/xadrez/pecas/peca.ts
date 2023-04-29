@@ -1,4 +1,4 @@
-import { Cor, Desenhavel,Jogador, Posicao, Quadrante } from "..";
+import { Cor, Desenhavel,Jogador, Posicao, Quadrante, Jogo } from "..";
 
 export abstract class Peca implements Desenhavel {
     private cor: Cor;
@@ -47,8 +47,16 @@ export abstract class Peca implements Desenhavel {
         }
 
         // Desenha a imagem da peça de forma centralizada no quadrante
-        
-        ctx.drawImage(this.imagem, (larguraQuadrante - larguraImagem) / 2, (larguraQuadrante - alturaImagem) / 2, larguraImagem, alturaImagem);
+
+        if (Jogo.isometrico) {
+
+            ctx.drawImage(this.imagem, (larguraImagem * -1) / 2, (alturaImagem * -1) / 2, larguraImagem, alturaImagem);
+
+        } else {
+
+            ctx.drawImage(this.imagem, (larguraQuadrante - larguraImagem) / 2, (larguraQuadrante - alturaImagem) / 2, larguraImagem, alturaImagem);
+
+        }
 
         // Restaura o filtro de inversão de cor para o estado anterior
 
