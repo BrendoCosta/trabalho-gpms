@@ -87,8 +87,6 @@ export class Jogo extends HTMLElement implements Desenhavel {
 
             }
 
-            console.log(`${pos.coluna}, ${pos.linha}`)
-
             this._tabuleiro.click(pos);
 
         }
