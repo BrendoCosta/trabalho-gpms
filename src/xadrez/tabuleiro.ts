@@ -137,16 +137,17 @@ export class Tabuleiro implements Desenhavel {
                     let dx: number = origemX + (i * largura / 2) - (j * largura / 2);
                     let dy: number = origemY + (i * largura / 2) + (j * largura / 2);
                     
-                    // Renderiza o losango no ponto
+                    // Cria o losango no ponto
 
                     Desenho.desenharLosango(ctx, dx, dy / 2, largura, largura / 2);
-                    ctx.translate(dx, dy / 2);
-                    this.quadrantes[j][i].desenhar(ctx);
-
+                    
                     // Move o ponto de origem da renderização
                     
+                    ctx.translate(dx, dy / 2);
+
+                    // Renderiza o losango
                     
-                    this.quadrantes[j][i].getPeca()?.desenhar(ctx);
+                    this.quadrantes[j][i].desenhar(ctx);
 
                 } else {
 
