@@ -1,6 +1,6 @@
 import { Peca } from "./pecas";
 import { Cor } from "./enums";
-import { Desenhavel, Jogo } from "./";
+import { Desenhavel, Jogo, Desenho } from "./";
 
 export class Quadrante implements Desenhavel {
     private linha: number;
@@ -30,8 +30,7 @@ export class Quadrante implements Desenhavel {
         // Renderiza o quadrante
 
         let largura = Quadrante.getLarguraDesenho(ctx);
-
-        ctx.fillStyle = this.cor.toString();
+        ctx.fillStyle = this.cor;
 
         if (Jogo.isometrico) {
 
@@ -45,13 +44,29 @@ export class Quadrante implements Desenhavel {
 
         if (this.selecionado) {
 
-            let espessura: number = 10;
+            let espessura: number = Jogo.isometrico ? 5 : 10;
             let offset: number = espessura / 2;
-
             ctx.lineWidth = espessura;
             ctx.strokeStyle = this.corSelecionado;
             ctx.globalAlpha = 0.8;
-            ctx.strokeRect(0 + ctx.lineWidth - offset, 0 + offset, largura - 2 * offset, largura - 2 * offset);
+
+            if (Jogo.isometrico) {
+
+                ctx.fillStyle = this.corSelecionado;
+                Desenho.desenharLosango(ctx,
+                    0 + ctx.lineWidth - 2 * offset,
+                    0 + offset,
+                    (largura - ctx.lineWidth - 2 * offset),
+                    (largura - ctx.lineWidth - 2 * offset)/2
+                );
+                ctx.stroke();
+
+            } else {
+
+                ctx.strokeRect(0 + ctx.lineWidth - offset, 0 + offset, largura - 2 * offset, largura - 2 * offset);
+
+            }
+
             ctx.globalAlpha = 1;
 
         }

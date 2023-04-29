@@ -71,11 +71,12 @@ export class Jogo extends HTMLElement implements Desenhavel {
                 // Compensa o offset definido em Tabuleiro.desenhar()
 
                 let offsetX: number = x - (x - (this._canvas.width / 2));
+                let offsetY: number = (y - (y - (this._canvas.height / 2))) / 2;
                 
                 // https://clintbellanger.net/articles/isometric_math/
 
-                let posX: number = (( (x - offsetX) / (largura/2) + y / (largura/4)) / 2) | 0;
-                let posY: number = ((y / (largura/4) - ( (x - offsetX) / (largura/2))) / 2) | 0;
+                let posX: number = (( (x - offsetX) / (largura/2) + (y - offsetY) / (largura/4)) / 2) | 0;
+                let posY: number = (((y - offsetY) / (largura/4) - ( (x - offsetX) / (largura/2))) / 2) | 0;
 
                 pos.linha = posY;
                 pos.coluna = posX;
