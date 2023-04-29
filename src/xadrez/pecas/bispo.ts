@@ -10,12 +10,6 @@ export class Bispo extends Peca {
     }
     
 
-    possiveisMovimento(posicao: Posicao): Posicao[] {
-        let movimentosPossiveis: Posicao[] = [];
-
-
-        return movimentosPossiveis;
-    }
 
 }
     

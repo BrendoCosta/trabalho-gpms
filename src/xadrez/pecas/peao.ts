@@ -10,11 +10,7 @@ export class Peao extends Peca {
     }
 
 
-    possiveisMovimento(posicao: Posicao): Posicao[] {
-        const movimentosPossiveis: Posicao[] = [];
 
-        return movimentosPossiveis;
-    }
 
 }
 

@@ -24,7 +24,7 @@ export abstract class Peca implements Desenhavel {
 
         return this.selecionado;
     }
-    public abstract possiveisMovimento(posicao:Posicao): Posicao[];
+    
 
     public desenhar(ctx: CanvasRenderingContext2D): void {
 
