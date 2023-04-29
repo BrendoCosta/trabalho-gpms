@@ -1,6 +1,7 @@
 import { Peca, Peao, Bispo, Torre, Rainha, Rei, Cavalo } from "./pecas";
 import { Cor, Quadrante, Posicao, Jogador, verificarPosicao, Desenhavel, converterPosicao, Desenho, Jogo } from "./";
 import { MovimentosPossiveis } from "./movimentosPossiveis";
+import { isEqual } from 'lodash'
 export class Tabuleiro implements Desenhavel {
     private quadrantes: Quadrante[][];
     private posicaoSelecionado: Posicao | null;
@@ -89,14 +90,14 @@ export class Tabuleiro implements Desenhavel {
         if (corJogador == Cor.BRANCO) {
             this.setPeca(converterPosicao([7, 3]), RainhaJ);
             this.setPeca(converterPosicao([7, 4]), ReiJ);
-            this.setPeca(converterPosicao([0, 3]), RainhaJ);
-            this.setPeca(converterPosicao([0, 4]), ReiJ);
+            this.setPeca(converterPosicao([0, 3]), RainhaC);
+            this.setPeca(converterPosicao([0, 4]), ReiC);
         }
         else {
             this.setPeca(converterPosicao([7, 4]), RainhaJ);
             this.setPeca(converterPosicao([7, 3]), ReiJ);
-            this.setPeca(converterPosicao([0, 4]), RainhaJ);
-            this.setPeca(converterPosicao([0, 7]), ReiJ);
+            this.setPeca(converterPosicao([0, 4]), RainhaC);
+            this.setPeca(converterPosicao([0, 7]), ReiC);
         }
     }
 
@@ -178,16 +179,18 @@ export class Tabuleiro implements Desenhavel {
             throw new Error("Posição fora do tabuleiro");
         }
         let mesmaPosicao: boolean;
-        this.posicaoSelecionado != null ? mesmaPosicao = (this.posicaoSelecionado.linha == pos.linha && this.posicaoSelecionado.coluna == pos.coluna) : null;
-        movi = this.moverPecas(pos);
+        mesmaPosicao = isEqual( this.posicaoSelecionado, pos) 
+        movi = this.moverPecas(pos); 
+        
         this.removerPecas(pos);
-        !movi?this.selecionarPecas(pos):null;
+        if  (!movi &&!mesmaPosicao){this.selecionarPecas(pos);}
+  
 
 
     }
     public removerPecas(pos: Posicao): void {
         if (this.posicaoPossiveis.length != 0 && this.posicaoSelecionado != null) {
-            console.log("testes");
+            console.log("testes123");
             let posicaoSelecionado = this.posicaoSelecionado;
 
             let peca = this.getQuadrante(posicaoSelecionado).getPeca();
