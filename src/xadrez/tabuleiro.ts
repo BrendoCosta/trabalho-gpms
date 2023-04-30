@@ -229,17 +229,17 @@ export class Tabuleiro implements Desenhavel {
                         else { this.PecasCapComputador.push(pecaAlvo); }
 
                     }
-                    if(pecaSelecionada instanceof Rei && !pecaSelecionada.getMovido()){
+                    if(pecaSelecionada instanceof Rei && !pecaSelecionada.getMovido()&&Math.abs(posicao.coluna - posicaoSelecionado.coluna)==2){
                         let sinal = Math.sign(posicao.coluna-posicaoSelecionado.coluna  );
-                        let quadranteRock = PegarQuadrante(this.quadrantes,TransformarPosicao( posicao.linha,posicao.coluna + sinal));
+                        let quadranteTorre = PegarQuadrante(this.quadrantes,TransformarPosicao( posicao.linha,sinal==1?7:0));
 
-                        let pecarock = quadranteRock.getPeca();
+                        let pecarock = quadranteTorre.getPeca();
                         console.log(sinal);console.log(pecarock)
                         console.log(posicao);console.log(posicaoSelecionado)
                         if (pecarock!= null && pecarock instanceof Torre && !pecarock.getMovido()) {
                             let posicaoRock = TransformarPosicao(posicao.linha,posicao.coluna - sinal)
-                            quadranteRock.removerPeca();
-                             quadranteRock = PegarQuadrante(this.quadrantes,posicaoRock)
+                            quadranteTorre.removerPeca();
+                            let quadranteRock = PegarQuadrante(this.quadrantes,posicaoRock)
                              
         
                             quadranteRock.setPeca(pecarock);

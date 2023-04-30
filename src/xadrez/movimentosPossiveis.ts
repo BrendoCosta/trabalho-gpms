@@ -282,7 +282,7 @@ function MovimentosRei(peca: Peca, quadrantes: Quadrante[][], posicaoPeca: Posic
                                 if (verificarPosicao(posicaoAlvo)) {
                                     pecaRock = PegarQuadrante(quadrantes,TransformarPosicao(posicaoAtual.linha,posicaoAtual.coluna + z)).getPeca();
                                     if (pecaRock instanceof Torre && !pecaRock.getMovido()) {
-                                        posicaoAlvo = { linha: posicaoAlvo.linha, coluna: posicaoAlvo.coluna - n }
+                                        posicaoAlvo = { linha: posicaoAtual.linha, coluna: posicaoAtual.coluna +2*n }
                                         movimentosPossiveis.push(posicaoAlvo)
                                         break;
 
