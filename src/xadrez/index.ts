@@ -10,6 +10,3 @@ export { Imagem } from "./imagem";
 export * from "./interfaces";
 export {SituacaoQuadrante} from "./situacaoQuadrante"
 export {ChecarMovimento} from "./checarMovimento" 
-export type {Movimento} from "./movimento"
-export {TransformarPosicao} from "./transformarPosicao"
-export {PegarQuadrante} from "./pegarQuadrante"
