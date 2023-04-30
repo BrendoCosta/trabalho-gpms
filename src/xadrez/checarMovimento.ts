@@ -18,7 +18,6 @@ export function ChecarMovimento(quadranteatk: Quadrante, quadranteAlvo: Quadrant
 
 
     }
-    console.log(situacaoQuadrante);
 
     return situacaoQuadrante;
 

@@ -6,6 +6,7 @@ export abstract class Peca implements Desenhavel {
     protected abstract imagem: HTMLImageElement;
     private corSelecionado: Cor ;
     private selecionado: boolean ;
+    private movido:boolean = false;
     constructor(cor: Cor, jogador: Jogador) { this.cor = cor ; this.jogador = jogador ;this.corSelecionado = Cor.VERDE; this.selecionado=false}
 
     public getCor():Cor{
@@ -54,5 +55,11 @@ export abstract class Peca implements Desenhavel {
 
         ctx.filter = filtroNormal;
 
+    }
+    setMovido():void{
+        this.movido = true;
+    }
+    getMovido():boolean{
+        return this.movido;
     }
 }
