@@ -1,5 +1,5 @@
 import { cloneDeep} from "lodash";
-import {  Posicao, Quadrante  } from "..";
+import {  Movimento, Posicao, Quadrante  } from "..";
 import { Peca, Rei } from "../pecas";
 import { MovimentosPossiveis } from "./movimentosPossiveis";
 import {TransformarPosicao, PegarQuadrante} from "../funcoes"
@@ -26,7 +26,7 @@ export function PosicaodoRei(quadrantes: Quadrante[][], turno: Jogador):Posicao 
 
 
 }
-export function ReiemCheque(quadrantesOriginal: Quadrante[][], posicaoAtual: Posicao, posicaoAlvo: Posicao, turno: Jogador): Boolean {
+export function ReiemCheque(quadrantesOriginal: Quadrante[][], posicaoAtual: Posicao, posicaoAlvo: Posicao, turno: Jogador,movimento:Movimento): boolean {
 
    
     const quadrantes: Quadrante[][] = cloneDeep(quadrantesOriginal);
@@ -47,7 +47,7 @@ export function ReiemCheque(quadrantesOriginal: Quadrante[][], posicaoAtual: Pos
                 
                 if (peca instanceof Peca && peca.getjogador() != turno) {
                     console.log(peca.constructor.name)
-                    let movimentosPossiveis = MovimentosPossiveis(quadrantes, posicao)
+                    let movimentosPossiveis = MovimentosPossiveis(quadrantes, posicao,movimento,turno)
                     let numero = movimentosPossiveis.findIndex((posicaoPossivel) => {
 
                         return posicaoPossivel.linha == posicaoDoRei.linha && posicaoPossivel.coluna == posicaoDoRei.coluna;})
