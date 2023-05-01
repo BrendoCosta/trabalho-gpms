@@ -1,6 +1,6 @@
 import { Desenhavel } from "../interfaces";
 import {  Cor, Jogador } from "../enums";
-import { Quadrante, Jogo } from "..";
+import { Quadrante } from "..";
 
 export abstract class Peca implements Desenhavel {
     private cor: Cor;
@@ -50,16 +50,8 @@ export abstract class Peca implements Desenhavel {
         }
 
         // Desenha a imagem da peça de forma centralizada no quadrante
-
-        if (Jogo.isometrico) {
-
-            ctx.drawImage(this.imagem, (larguraImagem * -1) / 2, (alturaImagem * -1) / 2, larguraImagem, alturaImagem);
-
-        } else {
-
-            ctx.drawImage(this.imagem, (larguraQuadrante - larguraImagem) / 2, (larguraQuadrante - alturaImagem) / 2, larguraImagem, alturaImagem);
-
-        }
+        
+        ctx.drawImage(this.imagem, (larguraQuadrante - larguraImagem) / 2, (larguraQuadrante - alturaImagem) / 2, larguraImagem, alturaImagem);
 
         // Restaura o filtro de inversão de cor para o estado anterior
 
