@@ -1,5 +1,5 @@
 import { Peca } from "./pecas";
-import { Cor } from "./";
+import { Cor } from "./enums";
 import { Desenhavel } from "./";
 
 export class Quadrante implements Desenhavel {

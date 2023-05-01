@@ -1,4 +1,5 @@
-import { Quadrante, SituacaoQuadrante } from ".";
+import {  SituacaoQuadrante } from "../enums";
+import { Quadrante } from "..";
 import { isEqual } from 'lodash'
 
 
