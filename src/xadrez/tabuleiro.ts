@@ -1,10 +1,9 @@
 import { isEqual } from 'lodash';
-import { Desenhavel,  Movimento, Posicao, Quadrante, Jogo } from "./";
+import { Desenhavel,  Movimento, Posicao, Quadrante, } from "./";
 import { ReiEmCheque, converterPosicao, VerificarPosicao, PegarQuadrante, TransformarPosicao } from "./funcoes";
 import { MovimentosPossiveis } from "./funcoes/movimentosPossiveis";
 import { Bispo, Cavalo, Peao, Peca, Rainha, Rei, Torre } from "./pecas";
 import { Cor,Jogador } from "./enums";
-
 export class Tabuleiro implements Desenhavel {
     private quadrantes: Quadrante[][];
     private posicaoSelecionado: Posicao | null;
@@ -158,42 +157,21 @@ export class Tabuleiro implements Desenhavel {
 
     public desenhar(ctx: CanvasRenderingContext2D): void {
 
-        let origemX: number = Jogo.isometrico ? ctx.canvas.width / 2 : 0;
-        let origemY: number = Jogo.isometrico ? ctx.canvas.height / 2 : 0;
+        let origemX: number = 0;
+        let origemY: number = 0;
         let largura = Quadrante.getLarguraDesenho(ctx);
 
         for (let i = 0; i < 8; i++) {
 
             for (let j = 0; j < 8; j++) {
 
-                if (Jogo.isometrico) {
+                // Move o ponto de origem da renderização
 
-                    let dx: number = origemX + (i * largura / 2) - (j * largura / 2);
-                    let dy: number = origemY + (i * largura / 2) + (j * largura / 2);
-                    
-                    // Cria o losango no ponto
+                ctx.translate(origemX + largura * i, origemY + largura * j);
 
-                    Desenho.desenharLosango(ctx, dx, dy / 2, largura, largura / 2);
-                    
-                    // Move o ponto de origem da renderização
-                    
-                    ctx.translate(dx, dy / 2);
+                // Renderiza o quadrante no ponto
 
-                    // Renderiza o losango
-                    
-                    this.quadrantes[j][i].desenhar(ctx);
-
-                } else {
-
-                    // Move o ponto de origem da renderização
-
-                    ctx.translate(origemX + largura * i, origemY + largura * j);
-
-                    // Renderiza o quadrante no ponto
-
-                    this.quadrantes[j][i].desenhar(ctx);
-
-                }
+                this.quadrantes[j][i].desenhar(ctx);
 
                 // Move o ponto e origem de volta a (0, 0)
 
