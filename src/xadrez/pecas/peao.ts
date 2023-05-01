@@ -1,5 +1,7 @@
 import { Peca } from ".";
-import { Cor, Jogador, Posicao, verificarPosicao, Imagem, Quadrante } from "..";
+import { Imagem } from "..";
+import {  Cor, Jogador } from "../enums";
+
 
 export class Peao extends Peca {
 
@@ -10,11 +12,7 @@ export class Peao extends Peca {
     }
 
 
-    possiveisMovimento(posicao: Posicao): Posicao[] {
-        const movimentosPossiveis: Posicao[] = [];
 
-        return movimentosPossiveis;
-    }
 
 }
 

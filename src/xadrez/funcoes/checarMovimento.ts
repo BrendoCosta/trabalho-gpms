@@ -1,4 +1,5 @@
-import { Quadrante, SituacaoQuadrante } from ".";
+import {  SituacaoQuadrante } from "../enums";
+import { Quadrante } from "..";
 import { isEqual } from 'lodash'
 
 
@@ -18,7 +19,6 @@ export function ChecarMovimento(quadranteatk: Quadrante, quadranteAlvo: Quadrant
 
 
     }
-    console.log(situacaoQuadrante);
 
     return situacaoQuadrante;
 

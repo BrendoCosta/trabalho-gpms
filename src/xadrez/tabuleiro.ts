@@ -1,20 +1,26 @@
-import { Peca, Peao, Bispo, Torre, Rainha, Rei, Cavalo } from "./pecas";
-import { Cor, Quadrante, Posicao, Jogador, verificarPosicao, Desenhavel, converterPosicao, Desenho, Jogo } from "./";
-import { MovimentosPossiveis } from "./movimentosPossiveis";
-import { isEqual } from 'lodash'
+import { isEqual } from 'lodash';
+import { Desenhavel,  Movimento, Posicao, Quadrante, Jogo } from "./";
+import { ReiEmCheque, converterPosicao, VerificarPosicao, PegarQuadrante, TransformarPosicao } from "./funcoes";
+import { MovimentosPossiveis } from "./funcoes/movimentosPossiveis";
+import { Bispo, Cavalo, Peao, Peca, Rainha, Rei, Torre } from "./pecas";
+import { Cor,Jogador } from "./enums";
+
 export class Tabuleiro implements Desenhavel {
     private quadrantes: Quadrante[][];
     private posicaoSelecionado: Posicao | null;
     private posicaoPossiveis: Posicao[];
     private corjogador: Cor;
+    private turno: Jogador;
     private corComputador: Cor;
     private PecasCapJogador: Peca[];
     private PecasCapComputador: Peca[];
+    private movimentos: Movimento[] = [];
 
     constructor() {
         this.quadrantes = [];
         this.corjogador = Cor.BRANCO;
         this.corComputador = Cor.PRETO;
+        this.turno = Jogador.JOGADOR;
         this.posicaoPossiveis = [];
         this.posicaoSelecionado = null;
         this.PecasCapJogador = [];
@@ -29,15 +35,23 @@ export class Tabuleiro implements Desenhavel {
         }
         this.iniciarPecas(Cor.BRANCO);
     }
+    inserirMovimento(movimento: Movimento) {
+        this.movimentos.push(movimento);
+    }
+    getUltimoMovimento(): Movimento {
+        console.log(this.movimentos)
+        return this.movimentos.slice(-1)[0];
 
-    //buscar todos os quadrantes
+    }
+    dropUltimoMovimento(): void {
+        this.movimentos.pop;
+    }
+    //buscar todos os quadrante
+
     public getQuadrantes(): Quadrante[][] {
         return this.quadrantes;
     }
-    //pega um quadrante
-    public getQuadrante(posicao: Posicao): Quadrante {
-        return this.quadrantes[posicao.linha][posicao.coluna];
-    }
+
 
     public iniciarPecas(cor: Cor): void {
         let corJogador = cor;
@@ -45,34 +59,46 @@ export class Tabuleiro implements Desenhavel {
         let corComputador = cor != Cor.BRANCO ? Cor.BRANCO : Cor.PRETO;
 
         //criando peças do jogador
-        let peaoJ = new Peao(corJogador, Jogador.JOGADOR);
+        let peaoJ:Peao[]=[];
+
+        for (let i = 0; i < 9; i++) {
+            peaoJ.push(new Peao(corJogador, Jogador.JOGADOR))
+ }
+
         let BispoJ = new Bispo(corJogador, Jogador.JOGADOR);
-        let TorreJ = new Torre(corJogador, Jogador.JOGADOR);
+        let TorreJ1 = new Torre(corJogador, Jogador.JOGADOR);
+        let TorreJ2 = new Torre(corJogador, Jogador.JOGADOR);
         let RainhaJ = new Rainha(corJogador, Jogador.JOGADOR);
         let ReiJ = new Rei(corJogador, Jogador.JOGADOR);
         let CavaloJ = new Cavalo(corJogador, Jogador.JOGADOR);
 
         //criando peças do computador
-        let peaoC = new Peao(corComputador, Jogador.COMPUTADOR);
+        let peaoC:Peao[]=[];
+
+        for (let i = 0; i < 9; i++) {
+            peaoC.push(new Peao(corComputador, Jogador.COMPUTADOR))
+ 
+        }
         let BispoC = new Bispo(corComputador, Jogador.COMPUTADOR);
-        let TorreC = new Torre(corComputador, Jogador.COMPUTADOR);
+        let TorreC1 = new Torre(corComputador, Jogador.COMPUTADOR);
+        let TorreC2 = new Torre(corComputador, Jogador.COMPUTADOR);
         let RainhaC = new Rainha(corComputador, Jogador.COMPUTADOR);
         let ReiC = new Rei(corComputador, Jogador.COMPUTADOR);
         let CavaloC = new Cavalo(corComputador, Jogador.COMPUTADOR);
 
         //inserindo peões no tabuleiro
         for (let i = 0; i < 8; i++) {
-            this.setPeca(converterPosicao([1, i]), peaoC);
+            this.setPeca(converterPosicao([1, i]), peaoC[i]);
         }
         for (let i = 0; i < 8; i++) {
-            this.setPeca(converterPosicao([6, i]), peaoJ);
+            this.setPeca(converterPosicao([6, i]), peaoJ[i]);
         }
 
         //inserindo torres
-        this.setPeca(converterPosicao([7, 0]), TorreJ);
-        this.setPeca(converterPosicao([7, 7]), TorreJ);
-        this.setPeca(converterPosicao([0, 0]), TorreC);
-        this.setPeca(converterPosicao([0, 7]), TorreC);
+        this.setPeca(converterPosicao([7, 0]), TorreJ1);
+        this.setPeca(converterPosicao([7, 7]), TorreJ2);
+        this.setPeca(converterPosicao([0, 0]), TorreC1);
+        this.setPeca(converterPosicao([0, 7]), TorreC2);
 
         //inserindo cavalos
         this.setPeca(converterPosicao([7, 1]), CavaloJ);
@@ -101,25 +127,32 @@ export class Tabuleiro implements Desenhavel {
         }
     }
 
+    passaTurno() {
+        this.turno = this.turno == Jogador.COMPUTADOR ? Jogador.JOGADOR : Jogador.COMPUTADOR;
+    }
+    getTurno(): Jogador {
+        return this.turno;
+    }
+
 
     //metodo responsavel por colocar uma peca em um quadrante especifico
     public setPeca(posicao: Posicao, peca: Peca): void {
-        // console.log("Consegui colocar "+peca.constructor.name+" "+peca.getCor()+" em linha: "+posicao.linha+" e coluna:"+posicao.coluna)
 
-        if (!verificarPosicao(posicao)) {
+
+        if (!VerificarPosicao(posicao)) {
 
             throw new Error("Posição fora do tabuleiro:" + posicao.linha + " e " + posicao.coluna);
         }
-        this.quadrantes[posicao.linha][posicao.coluna].setPeca(peca);
+        PegarQuadrante(this.quadrantes, posicao).setPeca(peca);
     }
 
     //metodo responsavel por retornar a peça de um quadrante caso haja um, se não houver retorna null
     public getPeca(posicao: Posicao) {
-        if (!verificarPosicao(posicao)) {
+        if (!VerificarPosicao(posicao)) {
             throw new Error("Posição fora do tabuleiro");
         }
 
-        return this.quadrantes[posicao.linha][posicao.coluna].getPeca();
+        return PegarQuadrante(this.quadrantes, posicao).getPeca();
     }
 
 
@@ -174,26 +207,28 @@ export class Tabuleiro implements Desenhavel {
 
     public click(pos: Posicao): void {
         let movi = false;
-        
-        if (!verificarPosicao(pos)) {
+
+        if (!VerificarPosicao(pos)) {
             throw new Error("Posição fora do tabuleiro");
+        } else {
+            let mesmaPosicao: boolean;
+            mesmaPosicao = isEqual(this.posicaoSelecionado, pos)
+            movi = this.moverPecas(pos);
+
+            this.removerPecas(pos);
+            if (!movi && !mesmaPosicao) { this.selecionarPecas(pos); }
         }
-        let mesmaPosicao: boolean;
-        mesmaPosicao = isEqual( this.posicaoSelecionado, pos) 
-        movi = this.moverPecas(pos); 
-        
-        this.removerPecas(pos);
-        if  (!movi &&!mesmaPosicao){this.selecionarPecas(pos);}
-  
+
+
 
 
     }
     public removerPecas(pos: Posicao): void {
         if (this.posicaoPossiveis.length != 0 && this.posicaoSelecionado != null) {
-            console.log("testes123");
+
             let posicaoSelecionado = this.posicaoSelecionado;
 
-            let peca = this.getQuadrante(posicaoSelecionado).getPeca();
+            let peca = PegarQuadrante(this.quadrantes, posicaoSelecionado).getPeca();
             //troca o selecionado se existir do peao que ocupa a casa da posicaoSelecionada
             if (peca != null) {
                 peca.setSelecionado();
@@ -201,7 +236,7 @@ export class Tabuleiro implements Desenhavel {
             //troca o selecionado das posições que estao selecionadas
             this.posicaoPossiveis.forEach(posicao => {
 
-                this.getQuadrante(posicao).selecionar();
+                PegarQuadrante(this.quadrantes, posicao).selecionar();
 
             });
             this.posicaoSelecionado = null;
@@ -209,37 +244,97 @@ export class Tabuleiro implements Desenhavel {
         }
     }
     public selecionarPecas(pos: Posicao): void {
-        let peca = this.getQuadrante(pos).getPeca();
-        let posicoes: Posicao[] = MovimentosPossiveis(this.getQuadrantes(), pos)
+        let peca = PegarQuadrante(this.quadrantes, pos).getPeca();
+        let posicoessemCheck: Posicao[] = []
+        let posicoes: Posicao[] = [];
+        if (peca instanceof Peca && isEqual(peca.getjogador(), this.getTurno())) {
+
+
+            posicoessemCheck = MovimentosPossiveis(this.getQuadrantes(), pos,this.getUltimoMovimento(),this.getTurno())
+        }
+
+
+        posicoessemCheck.forEach(posicao => {
+            if (!ReiEmCheque(this.getQuadrantes(), pos, posicao,this.getUltimoMovimento(), this.getTurno())) {
+                posicoes.push(posicao);
+            }
+        });
+
         if (peca != null) {
             peca.setSelecionado();
         }
         posicoes.forEach(posicao => {
-            this.getQuadrante(posicao).selecionar();
+            PegarQuadrante(this.quadrantes, posicao).selecionar();
             this.posicaoPossiveis.push(posicao);
         })
         this.posicaoSelecionado = pos;
     }
     public moverPecas(pos: Posicao): boolean {
         let movi = false
-        if (this.posicaoPossiveis.length != 0 && this.posicaoSelecionado != null) {
-            let quadranteAlvo = this.getQuadrante(pos);
+        const posicaoSelecionado = this.posicaoSelecionado
+        if (posicaoSelecionado != null && this.posicaoPossiveis.length != 0) {
+            let quadranteAlvo = PegarQuadrante(this.quadrantes, pos);
             this.posicaoPossiveis.forEach(posicao => {
-                if (quadranteAlvo == this.getQuadrante(posicao)) {
-                    
-                    let quadranteSelecionado =this.getQuadrante(this.posicaoSelecionado!)
+               
+                if (quadranteAlvo == PegarQuadrante(this.quadrantes, posicao)) {
+
+                    let quadranteSelecionado = PegarQuadrante(this.quadrantes, posicaoSelecionado)
                     let pecaSelecionada = quadranteSelecionado.getPeca();
-                    let pecaAlvo = this.getQuadrante(posicao).getPeca();
-                    if(pecaAlvo!=null){
-                        this.PecasCapJogador.push(pecaAlvo);
+                    let pecaAlvo = PegarQuadrante(this.quadrantes, posicao).getPeca();
+
+                    if (pecaAlvo != null) {
+
+                        if (pecaAlvo.getjogador() == Jogador.JOGADOR) {
+                            this.PecasCapJogador.push(pecaAlvo);
+                        }
+                        else { this.PecasCapComputador.push(pecaAlvo); }
+
                     }
+                    
+                    else{ 
+                        if(pecaSelecionada instanceof Peao &&posicao.coluna!=posicaoSelecionado.coluna){
+                        let quadranteEsp = PegarQuadrante(this.quadrantes,TransformarPosicao(posicaoSelecionado.linha,posicao.coluna))
+                        pecaAlvo = quadranteEsp.getPeca();
+                        quadranteEsp.removerPeca();
+
+                        
+                    }
+                    }
+                    if (pecaSelecionada instanceof Rei && !pecaSelecionada.getMovido() && Math.abs(posicao.coluna - posicaoSelecionado.coluna) == 2) {
+                        let sinal = Math.sign(posicao.coluna - posicaoSelecionado.coluna);
+                        let quadranteTorre = PegarQuadrante(this.quadrantes, TransformarPosicao(posicao.linha, sinal == 1 ? 7 : 0));
+
+                        let pecarock = quadranteTorre.getPeca();
+                        if (pecarock != null && pecarock instanceof Torre && !pecarock.getMovido()) {
+                            let posicaoRock = TransformarPosicao(posicao.linha, posicao.coluna - sinal)
+                            quadranteTorre.removerPeca();
+                            let quadranteRock = PegarQuadrante(this.quadrantes, posicaoRock)
+
+
+                            quadranteRock.setPeca(pecarock);
+                            let movimento: Movimento = { posicaoAtual: posicaoRock, posicaoAnterior: pos, pecaCapturada: pecaAlvo!, pecaMovimentada: pecaSelecionada! };
+                            this.inserirMovimento(movimento);
+
+
+                        }
+
+                    }
+                   
+
+
                     quadranteAlvo.setPeca(pecaSelecionada!);
+                    pecaSelecionada?.setMovido();
+                    let movimento: Movimento = { posicaoAtual: posicaoSelecionado!, posicaoAnterior: pos, pecaCapturada: pecaAlvo!, pecaMovimentada: pecaSelecionada! };
+                    this.inserirMovimento(movimento);
                     quadranteSelecionado.removerPeca();
-                    movi= true;
+                    movi = true;
+                    this.passaTurno();
                 }
 
-            })
+            }
+            )
         }
+
         return movi;
     };
 

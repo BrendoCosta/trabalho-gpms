@@ -1,4 +1,6 @@
-import { Cor, Desenhavel,Jogador, Posicao, Quadrante, Jogo } from "..";
+import { Desenhavel } from "../interfaces";
+import {  Cor, Jogador } from "../enums";
+import { Quadrante, Jogo } from "..";
 
 export abstract class Peca implements Desenhavel {
     private cor: Cor;
@@ -6,6 +8,7 @@ export abstract class Peca implements Desenhavel {
     protected abstract imagem: HTMLImageElement;
     private corSelecionado: Cor ;
     private selecionado: boolean ;
+    private movido:boolean = false;
     constructor(cor: Cor, jogador: Jogador) { this.cor = cor ; this.jogador = jogador ;this.corSelecionado = Cor.VERDE; this.selecionado=false}
 
     public getCor():Cor{
@@ -24,7 +27,7 @@ export abstract class Peca implements Desenhavel {
 
         return this.selecionado;
     }
-    public abstract possiveisMovimento(posicao:Posicao): Posicao[];
+    
 
     public desenhar(ctx: CanvasRenderingContext2D): void {
 
@@ -62,5 +65,11 @@ export abstract class Peca implements Desenhavel {
 
         ctx.filter = filtroNormal;
 
+    }
+    setMovido():void{
+        this.movido = true;
+    }
+    getMovido():boolean{
+        return this.movido;
     }
 }
