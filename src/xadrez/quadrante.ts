@@ -91,7 +91,7 @@ export class Quadrante implements Desenhavel {
 
     public static getLarguraDesenho(ctx: CanvasRenderingContext2D) {
 
-        return Math.round(ctx.canvas.width * (10/100));
+        return Math.round(ctx.canvas.width / 8);
 
     }
     public removerPeca(): void {
