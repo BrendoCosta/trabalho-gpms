@@ -1,4 +1,5 @@
-import { Quadrante, Tabuleiro, Posicao, Desenhavel, Cor } from ".";
+import { Quadrante, Tabuleiro, Posicao, Desenhavel } from ".";
+
 
 export class Jogo extends HTMLElement implements Desenhavel {
 

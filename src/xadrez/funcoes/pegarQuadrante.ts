@@ -1,4 +1,4 @@
-import { Posicao, Quadrante } from ".";
+import { Posicao, Quadrante } from "..";
 
 /*export function PegarQuadrante(quadrantes:Quadrante[][],x:number,y:number):Quadrante {
 return quadrantes[x][y];

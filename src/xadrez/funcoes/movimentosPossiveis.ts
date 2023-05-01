@@ -1,5 +1,8 @@
-import { Jogador, Posicao, Quadrante, verificarPosicao, ChecarMovimento, SituacaoQuadrante, PegarQuadrante, TransformarPosicao } from ".";
-import { Bispo, Cavalo, Peao, Peca, Rainha, Rei, Torre } from "./pecas";
+import {VerificarPosicao,ChecarMovimento,PegarQuadrante,  TransformarPosicao } from "../funcoes"
+import { Posicao, Quadrante} from "..";
+import { Bispo, Cavalo, Peao, Peca, Rainha, Rei, Torre } from "../pecas";
+import { Jogador,SituacaoQuadrante} from "../enums"
+
 
 
 export function MovimentosPossiveis(quadrantes: Quadrante[][], posicaoPeca: Posicao): Posicao[] {
@@ -57,7 +60,7 @@ function MovimentosPeao(peca: Peca, quadrantes: Quadrante[][], posicaoPeca: Posi
     for (let i = (posicaoAtual.coluna - 1); i < (posicaoAtual.coluna + 2); i++) {
         posicaoAlvo = { linha: (posicaoAtual.linha + direcao), coluna: i }
 
-        if (verificarPosicao(posicaoAlvo)) {
+        if (VerificarPosicao(posicaoAlvo)) {
             quadranteAlvo =PegarQuadrante(quadrantes,TransformarPosicao(posicaoAlvo.linha,posicaoAlvo.coluna)) 
             quadranteAtual =PegarQuadrante(quadrantes,TransformarPosicao(posicaoAtual.linha,posicaoAtual.coluna)) 
             checagem = ChecarMovimento(quadranteAlvo, quadranteAtual)
@@ -71,7 +74,7 @@ function MovimentosPeao(peca: Peca, quadrantes: Quadrante[][], posicaoPeca: Posi
             else {
                 if (checagem == SituacaoQuadrante.VAZIO) {
                     movimentosPossiveis.push(posicaoAlvo);
-                    PegarQuadrante(quadrantes,TransformarPosicao(posicaoAlvo.linha , posicaoAlvo.coluna)) 
+                    quadranteAlvo = PegarQuadrante(quadrantes,TransformarPosicao(posicaoAlvo.linha +direcao, posicaoAlvo.coluna)) 
                     
                     checagem = ChecarMovimento(quadranteAlvo, quadranteAtual)
                     if (checagem == SituacaoQuadrante.VAZIO && posicaoAtual.linha == posicaoInicial) {
@@ -98,13 +101,13 @@ function MovimentosTorre(peca: Peca, quadrantes: Quadrante[][], posicaoPeca: Pos
     let checagem;
 
 
-    //if( verificarPosicao(posicaoAlvo)){}
+    //if( VerificarPosicao(posicaoAlvo)){}
 
     do {
         i++
 
         posicaoAlvo = { linha: posicaoAtual.linha, coluna: posicaoAtual.coluna + i }
-        if (verificarPosicao(posicaoAlvo)) {
+        if (VerificarPosicao(posicaoAlvo)) {
             quadranteAlvo = PegarQuadrante(quadrantes,posicaoAlvo) 
             
             quadranteAtual = PegarQuadrante(quadrantes,posicaoAtual) 
@@ -116,7 +119,7 @@ function MovimentosTorre(peca: Peca, quadrantes: Quadrante[][], posicaoPeca: Pos
     do {
         i++
         posicaoAlvo = { linha: posicaoAtual.linha + i, coluna: posicaoAtual.coluna }
-        if (verificarPosicao(posicaoAlvo)) {
+        if (VerificarPosicao(posicaoAlvo)) {
             quadranteAlvo =  PegarQuadrante(quadrantes,posicaoAlvo) 
            
             quadranteAtual = PegarQuadrante(quadrantes,posicaoAtual) 
@@ -130,7 +133,7 @@ function MovimentosTorre(peca: Peca, quadrantes: Quadrante[][], posicaoPeca: Pos
     do {
         i--
         posicaoAlvo = { linha: posicaoAtual.linha, coluna: posicaoAtual.coluna + i }
-        if (verificarPosicao(posicaoAlvo)) {
+        if (VerificarPosicao(posicaoAlvo)) {
             quadranteAlvo = PegarQuadrante(quadrantes,posicaoAlvo) 
             quadranteAtual = PegarQuadrante(quadrantes,posicaoAtual) 
             checagem = ChecarMovimento(quadranteAlvo, quadranteAtual)
@@ -142,7 +145,7 @@ function MovimentosTorre(peca: Peca, quadrantes: Quadrante[][], posicaoPeca: Pos
     do {
         i--
         posicaoAlvo = { linha: posicaoAtual.linha + i, coluna: posicaoAtual.coluna }
-        if (verificarPosicao(posicaoAlvo)) {
+        if (VerificarPosicao(posicaoAlvo)) {
             quadranteAlvo = PegarQuadrante(quadrantes,posicaoAlvo) 
             quadranteAtual = PegarQuadrante(quadrantes,posicaoAtual)
             checagem = ChecarMovimento(quadranteAlvo, quadranteAtual)
@@ -168,7 +171,7 @@ function MovimentosBispo(peca: Peca, quadrantes: Quadrante[][], posicaoPeca: Pos
     do {
         i++;
         posicaoAlvo = { linha: posicaoAtual.linha + i, coluna: posicaoAtual.coluna + i }
-        if (verificarPosicao(posicaoAlvo)) {
+        if (VerificarPosicao(posicaoAlvo)) {
 
             quadranteAlvo = PegarQuadrante(quadrantes,posicaoAlvo) 
             quadranteAtual = PegarQuadrante(quadrantes,posicaoAtual)
@@ -183,7 +186,7 @@ function MovimentosBispo(peca: Peca, quadrantes: Quadrante[][], posicaoPeca: Pos
     do {
         i++;
         posicaoAlvo = { linha: posicaoAtual.linha - i, coluna: posicaoAtual.coluna - i }
-        if (verificarPosicao(posicaoAlvo)) {
+        if (VerificarPosicao(posicaoAlvo)) {
 
             quadranteAlvo = PegarQuadrante(quadrantes,posicaoAlvo) 
             quadranteAtual = PegarQuadrante(quadrantes,posicaoAtual)
@@ -197,7 +200,7 @@ function MovimentosBispo(peca: Peca, quadrantes: Quadrante[][], posicaoPeca: Pos
     do {
         i++;
         posicaoAlvo = { linha: posicaoAtual.linha + i, coluna: posicaoAtual.coluna - i }
-        if (verificarPosicao(posicaoAlvo)) {
+        if (VerificarPosicao(posicaoAlvo)) {
 
             quadranteAlvo = PegarQuadrante(quadrantes,posicaoAlvo) 
             quadranteAtual = PegarQuadrante(quadrantes,posicaoAtual)
@@ -212,7 +215,7 @@ function MovimentosBispo(peca: Peca, quadrantes: Quadrante[][], posicaoPeca: Pos
     do {
         i++;
         posicaoAlvo = { linha: posicaoAtual.linha - i, coluna: posicaoAtual.coluna + i }
-        if (verificarPosicao(posicaoAlvo)) {
+        if (VerificarPosicao(posicaoAlvo)) {
 
             quadranteAlvo = PegarQuadrante(quadrantes,posicaoAlvo) 
             quadranteAtual = PegarQuadrante(quadrantes,posicaoAtual)
@@ -239,7 +242,7 @@ function MovimentosCavalo(peca: Peca, quadrantes: Quadrante[][], posicaoPeca: Po
             if (Math.abs(i) != Math.abs(j) && [1, 2].includes(Math.abs(i)) && [1, 2].includes(Math.abs(j))) {
                 posicaoAlvo = { linha: posicaoAtual.linha + i, coluna: posicaoAtual.coluna + j }
 
-                if (verificarPosicao(posicaoAlvo)) {
+                if (VerificarPosicao(posicaoAlvo)) {
                     quadranteAlvo = PegarQuadrante(quadrantes,posicaoAlvo) 
                     if (ChecarMovimento(quadranteAlvo, quadranteAtual) != SituacaoQuadrante.ALIADO) movimentosPossiveis.push(posicaoAlvo)
                 }
@@ -267,7 +270,7 @@ function MovimentosRei(peca: Peca, quadrantes: Quadrante[][], posicaoPeca: Posic
 
                 posicaoAlvo = { linha: posicaoAtual.linha + i, coluna: posicaoAtual.coluna + j }
 
-                if (verificarPosicao(posicaoAlvo)) {
+                if (VerificarPosicao(posicaoAlvo)) {
 
                     quadranteAlvo = PegarQuadrante(quadrantes,posicaoAlvo) 
                     if (ChecarMovimento(quadranteAlvo, quadranteAtual) != SituacaoQuadrante.ALIADO) {
@@ -279,7 +282,7 @@ function MovimentosRei(peca: Peca, quadrantes: Quadrante[][], posicaoPeca: Posic
                             do {
                                 z += n
                                 posicaoAlvo = { linha: posicaoAlvo.linha, coluna: posicaoAtual.coluna + z }
-                                if (verificarPosicao(posicaoAlvo)) {
+                                if (VerificarPosicao(posicaoAlvo)) {
                                     pecaRock = PegarQuadrante(quadrantes,TransformarPosicao(posicaoAtual.linha,posicaoAtual.coluna + z)).getPeca();
                                     if (pecaRock instanceof Torre && !pecaRock.getMovido()) {
                                         posicaoAlvo = { linha: posicaoAtual.linha, coluna: posicaoAtual.coluna +2*n }
@@ -290,7 +293,7 @@ function MovimentosRei(peca: Peca, quadrantes: Quadrante[][], posicaoPeca: Posic
 
                                 }
     
-                            } while (pecaRock == null && verificarPosicao(posicaoAlvo))
+                            } while (pecaRock == null && VerificarPosicao(posicaoAlvo))
 
 
                         }

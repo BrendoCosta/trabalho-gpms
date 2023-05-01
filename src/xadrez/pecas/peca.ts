@@ -1,4 +1,6 @@
-import { Cor, Desenhavel,Jogador, Posicao, Quadrante } from "..";
+import { Desenhavel } from "../interfaces";
+import {  Cor, Jogador } from "../enums";
+import { Quadrante } from "..";
 
 export abstract class Peca implements Desenhavel {
     private cor: Cor;
