@@ -1,6 +1,6 @@
 import { Peca } from "./pecas";
 import { Cor } from "./enums";
-import { Desenhavel } from "./";
+import { Desenhavel, Jogo } from "./";
 
 export class Quadrante implements Desenhavel {
     private linha: number;
@@ -32,7 +32,16 @@ export class Quadrante implements Desenhavel {
         let largura = Quadrante.getLarguraDesenho(ctx);
 
         ctx.fillStyle = this.cor.toString();
-        ctx.fillRect(0, 0, largura, largura);
+
+        if (Jogo.isometrico) {
+
+            ctx.fill();
+
+        } else {
+
+            ctx.fillRect(0, 0, largura, largura);
+
+        }
 
         if (this.selecionado) {
 
@@ -67,7 +76,7 @@ export class Quadrante implements Desenhavel {
 
     public static getLarguraDesenho(ctx: CanvasRenderingContext2D) {
 
-        return Math.round(ctx.canvas.width / 8);
+        return Math.round(ctx.canvas.width * (10/100));
 
     }
     public removerPeca(): void {

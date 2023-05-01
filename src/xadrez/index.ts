@@ -6,3 +6,4 @@ export type { Posicao } from "./posicao";
 export { Imagem } from "./imagem";
 export * from "./interfaces";
 export type {Movimento} from "./movimento"
+export { Desenho } from "./desenho";
