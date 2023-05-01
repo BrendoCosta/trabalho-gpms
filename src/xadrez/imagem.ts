@@ -1,4 +1,9 @@
-import RAINHA_IMG from "../assets/rainha.png";
+import BISPO_IMAGEM_URL from "/imagens/pecas/chess-bishop.svg";
+import CAVALO_IMAGEM_URL from "/imagens/pecas/chess-knight.svg";
+import PEAO_IMAGEM_URL from "/imagens/pecas/chess-pawn.svg";
+import RAINHA_IMAGEM_URL from "/imagens/pecas/chess-queen.svg";
+import REI_IMAGEM_URL from "/imagens/pecas/chess-king.svg";
+import TORRE_IMAGEM_URL from "/imagens/pecas/chess-rook.svg";
 
 export class Imagem {
 
@@ -25,20 +30,23 @@ export class Imagem {
 
     private constructor() {
 
-        this.BISPO = this.criarImagem("/imagens/pecas/chess-bishop.svg");
-        this.CAVALO = this.criarImagem("/imagens/pecas/chess-knight.svg");
-        this.PEAO = this.criarImagem("/imagens/pecas/chess-pawn.svg");
-        this.RAINHA = this.criarImagem("/imagens/pecas/chess-queen.svg");
-        this.REI = this.criarImagem("/imagens/pecas/chess-king.svg");
-        this.TORRE = this.criarImagem("/imagens/pecas/chess-rook.svg");
+        this.BISPO = document.createElement("img");
+        this.BISPO.src = BISPO_IMAGEM_URL;
 
-    }
+        this.CAVALO = document.createElement("img");
+        this.CAVALO.src = CAVALO_IMAGEM_URL;
 
-    private criarImagem(caminho: string): HTMLImageElement {
+        this.PEAO = document.createElement("img");
+        this.PEAO.src = PEAO_IMAGEM_URL;
 
-        let temp = document.createElement("img");
-        temp.src = new URL(caminho, import.meta.url).href;
-        return temp;
+        this.RAINHA = document.createElement("img");
+        this.RAINHA.src = RAINHA_IMAGEM_URL;
+
+        this.REI = document.createElement("img");
+        this.REI.src = REI_IMAGEM_URL;
+
+        this.TORRE = document.createElement("img");
+        this.TORRE.src = TORRE_IMAGEM_URL;
 
     }
 
