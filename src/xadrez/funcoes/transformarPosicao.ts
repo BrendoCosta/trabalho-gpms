@@ -1,5 +1,5 @@
 import { Posicao } from "..";
 
-export function TransformarPosicao(x:number,y:number):Posicao {
-    return {linha: x, coluna:y};  
+export function TransformarPosicao(linha:number,coluna:number):Posicao {
+    return {linha: linha, coluna:coluna};  
 }

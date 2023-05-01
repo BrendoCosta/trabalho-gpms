@@ -13,7 +13,7 @@ export class Tabuleiro implements Desenhavel {
     private corComputador: Cor;
     private PecasCapJogador: Peca[];
     private PecasCapComputador: Peca[];
-    private Movimentos: Movimento[] = [];
+    private movimentos: Movimento[] = [];
 
     constructor() {
         this.quadrantes = [];
@@ -35,14 +35,15 @@ export class Tabuleiro implements Desenhavel {
         this.iniciarPecas(Cor.BRANCO);
     }
     inserirMovimento(movimento: Movimento) {
-        this.Movimentos.push(movimento);
+        this.movimentos.push(movimento);
     }
     getUltimoMovimento(): Movimento {
-        return this.Movimentos[-1];
+        console.log(this.movimentos)
+        return this.movimentos.slice(-1)[0];
 
     }
     dropUltimoMovimento(): void {
-        this.Movimentos.pop;
+        this.movimentos.pop;
     }
     //buscar todos os quadrante
 
@@ -57,7 +58,12 @@ export class Tabuleiro implements Desenhavel {
         let corComputador = cor != Cor.BRANCO ? Cor.BRANCO : Cor.PRETO;
 
         //criando peças do jogador
-        let peaoJ = new Peao(corJogador, Jogador.JOGADOR);
+        let peaoJ:Peao[]=[];
+
+        for (let i = 0; i < 9; i++) {
+            peaoJ.push(new Peao(corJogador, Jogador.JOGADOR))
+ }
+
         let BispoJ = new Bispo(corJogador, Jogador.JOGADOR);
         let TorreJ1 = new Torre(corJogador, Jogador.JOGADOR);
         let TorreJ2 = new Torre(corJogador, Jogador.JOGADOR);
@@ -66,7 +72,12 @@ export class Tabuleiro implements Desenhavel {
         let CavaloJ = new Cavalo(corJogador, Jogador.JOGADOR);
 
         //criando peças do computador
-        let peaoC = new Peao(corComputador, Jogador.COMPUTADOR);
+        let peaoC:Peao[]=[];
+
+        for (let i = 0; i < 9; i++) {
+            peaoC.push(new Peao(corComputador, Jogador.COMPUTADOR))
+ 
+        }
         let BispoC = new Bispo(corComputador, Jogador.COMPUTADOR);
         let TorreC1 = new Torre(corComputador, Jogador.COMPUTADOR);
         let TorreC2 = new Torre(corComputador, Jogador.COMPUTADOR);
@@ -76,10 +87,10 @@ export class Tabuleiro implements Desenhavel {
 
         //inserindo peões no tabuleiro
         for (let i = 0; i < 8; i++) {
-            this.setPeca(converterPosicao([1, i]), peaoC);
+            this.setPeca(converterPosicao([1, i]), peaoC[i]);
         }
         for (let i = 0; i < 8; i++) {
-            this.setPeca(converterPosicao([6, i]), peaoJ);
+            this.setPeca(converterPosicao([6, i]), peaoJ[i]);
         }
 
         //inserindo torres
@@ -217,7 +228,7 @@ export class Tabuleiro implements Desenhavel {
         if (peca instanceof Peca && isEqual(peca.getjogador(), this.getTurno())) {
 
 
-            posicoessemCheck = MovimentosPossiveis(this.getQuadrantes(), pos)
+            posicoessemCheck = MovimentosPossiveis(this.getQuadrantes(), pos,this.getUltimoMovimento(),this.getTurno())
         }
 
 
@@ -242,6 +253,7 @@ export class Tabuleiro implements Desenhavel {
         if (posicaoSelecionado != null && this.posicaoPossiveis.length != 0) {
             let quadranteAlvo = PegarQuadrante(this.quadrantes, pos);
             this.posicaoPossiveis.forEach(posicao => {
+               
                 if (quadranteAlvo == PegarQuadrante(this.quadrantes, posicao)) {
 
                     let quadranteSelecionado = PegarQuadrante(this.quadrantes, posicaoSelecionado)
@@ -255,6 +267,16 @@ export class Tabuleiro implements Desenhavel {
                         }
                         else { this.PecasCapComputador.push(pecaAlvo); }
 
+                    }
+                    
+                    else{ 
+                        if(pecaSelecionada instanceof Peao &&posicao.coluna!=posicaoSelecionado.coluna){
+                        let quadranteEsp = PegarQuadrante(this.quadrantes,TransformarPosicao(posicaoSelecionado.linha,posicao.coluna))
+                        pecaAlvo = quadranteEsp.getPeca();
+                        quadranteEsp.removerPeca();
+
+                        
+                    }
                     }
                     if (pecaSelecionada instanceof Rei && !pecaSelecionada.getMovido() && Math.abs(posicao.coluna - posicaoSelecionado.coluna) == 2) {
                         let sinal = Math.sign(posicao.coluna - posicaoSelecionado.coluna);
@@ -275,6 +297,7 @@ export class Tabuleiro implements Desenhavel {
                         }
 
                     }
+                   
 
 
                     quadranteAlvo.setPeca(pecaSelecionada!);
