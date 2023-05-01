@@ -10,8 +10,9 @@ export class Jogo extends HTMLElement implements Desenhavel {
     private _executando: boolean = false;
     public get canvas() { return this._canvas }
     private _taxaDeQuadros: number = 12;
-    private static _isometrico: boolean = !false;
+    private static _isometrico: boolean = false;
     public static get isometrico() { return this._isometrico }
+    public static set isometrico(opcao: boolean) { this._isometrico = opcao; }
     
     constructor() {
 
