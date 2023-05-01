@@ -233,7 +233,7 @@ export class Tabuleiro implements Desenhavel {
 
 
         posicoessemCheck.forEach(posicao => {
-            if (!ReiEmCheque(this.getQuadrantes(), pos, posicao, this.getTurno())) {
+            if (!ReiEmCheque(this.getQuadrantes(), pos, posicao,this.getUltimoMovimento(), this.getTurno())) {
                 posicoes.push(posicao);
             }
         });
