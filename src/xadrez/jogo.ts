@@ -10,7 +10,9 @@ export class Jogo extends HTMLElement implements Desenhavel {
     private _executando: boolean = false;
     public get canvas() { return this._canvas }
     private _taxaDeQuadros: number = 12;
-
+    private static _isometrico: boolean = false;
+    public static get isometrico() { return this._isometrico }
+    
     constructor() {
 
         super();
@@ -54,19 +56,37 @@ export class Jogo extends HTMLElement implements Desenhavel {
 
     public eventoClick(ev: MouseEvent): void {
 
-        let x: number = ev.clientX - this._canvas.getBoundingClientRect().left;
-        let y: number = ev.clientY - this._canvas.getBoundingClientRect().top;
-
         let ctx: CanvasRenderingContext2D | null = this._canvas.getContext("2d");
 
         if (ctx != null) {
 
-            let pos: Posicao = {
+            let largura: number = Quadrante.getLarguraDesenho(ctx);
+            let x: number = ev.clientX - this._canvas.getBoundingClientRect().left;
+            let y: number = ev.clientY - this._canvas.getBoundingClientRect().top;
 
-                linha: (y / Quadrante.getLarguraDesenho(ctx)) | 0,
-                coluna: (x / Quadrante.getLarguraDesenho(ctx)) | 0
+            let pos: Posicao = { linha: 0, coluna: 0 };
 
-            };
+            if (Jogo.isometrico) {
+
+                // Compensa o offset definido em Tabuleiro.desenhar()
+
+                let offsetX: number = x - (x - (this._canvas.width / 2));
+                let offsetY: number = (y - (y - (this._canvas.height / 2))) / 2;
+                
+                // https://clintbellanger.net/articles/isometric_math/
+
+                let posX: number = (( (x - offsetX) / (largura/2) + (y - offsetY) / (largura/4)) / 2) | 0;
+                let posY: number = (((y - offsetY) / (largura/4) - ( (x - offsetX) / (largura/2))) / 2) | 0;
+
+                pos.linha = posY;
+                pos.coluna = posX;
+
+            } else {
+
+                pos.linha = (y / largura) | 0;
+                pos.coluna = (x / largura) | 0;
+
+            }
 
             this._tabuleiro.click(pos);
 
