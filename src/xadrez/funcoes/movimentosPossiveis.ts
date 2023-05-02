@@ -65,9 +65,9 @@ function MovimentosPeao(peca: Peca, quadrantes: Quadrante[][], posicaoPeca: Posi
                         //Math.abs(movimento.posicaoAnterior.coluna-posicaoAlvo.coluna)==2)
                         {
                             
-                            console.log(numero1);
+
                             movimentosPossiveis.push(posicaoAlvo);
-                        //console.log(Math.abs(movimento.posicaoAnterior.coluna-posicaoAbaixoAlvo.coluna))
+
 
                     }
 
@@ -77,13 +77,15 @@ function MovimentosPeao(peca: Peca, quadrantes: Quadrante[][], posicaoPeca: Posi
         else {
             if (checagem == SituacaoQuadrante.VAZIO) {
                 movimentosPossiveis.push(posicaoAlvo);
-                quadranteAlvo = PegarQuadrante(quadrantes, TransformarPosicao(posicaoAlvo.linha + direcao, posicaoAlvo.coluna))
-
+               let posicao2 = TransformarPosicao(posicaoAlvo.linha + direcao, posicaoAlvo.coluna)
+               if(VerificarPosicao(posicao2)){
+                quadranteAlvo = PegarQuadrante(quadrantes,posicao2)
                 checagem = ChecarMovimento(quadranteAlvo, quadranteAtual)
                 if (checagem == SituacaoQuadrante.VAZIO && posicaoAtual.linha == posicaoInicial) {
                     posicaoAlvo = { linha: (posicaoAtual.linha + 2 * direcao), coluna: posicaoAtual.coluna }
                     movimentosPossiveis.push(posicaoAlvo);
                 }
+            }
             }
         }
     }

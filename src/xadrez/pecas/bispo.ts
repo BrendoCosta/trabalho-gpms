@@ -7,7 +7,7 @@ export class Bispo extends Peca {
     protected imagem: HTMLImageElement = Imagem.getInstancia().BISPO;
 
     constructor(cor: Cor, jogador: Jogador){
-        super(cor,jogador);
+        super(30,cor,jogador);
     }
     
 

@@ -36,8 +36,8 @@ export function ReiEmCheque(quadrantesOriginal: Quadrante[][], posicaoAtual: Pos
             resultado = resultado || ReiEmCheque(quadrantesEsp,posicao,posicaoAtual,movimento,turno)
         }
         
-        for (let i = 0; i < quadrantes.length; i++) {
-            for (let j = 0; j < quadrantes[i].length; j++) {
+        for (let i = 0; i < 8; i++) {
+            for (let j = 0; j < 8; j++) {
                 posicao = TransformarPosicao(i, j);
                 let quadrante = PegarQuadrante(quadrantes, posicao);
                 let peca = quadrante.getPeca();
