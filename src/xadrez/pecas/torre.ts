@@ -8,7 +8,7 @@ export class Torre extends Peca {
     protected imagem: HTMLImageElement = Imagem.getInstancia().TORRE;
 
     constructor(cor: Cor, jogador: Jogador){
-        super(cor,jogador);
+        super(50,cor,jogador);
     }
 
 

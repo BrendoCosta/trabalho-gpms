@@ -7,7 +7,7 @@ export class Rei extends Peca {
     protected imagem: HTMLImageElement = Imagem.getInstancia().REI;
 
     constructor(cor: Cor, jogador: Jogador){
-        super(cor,jogador);
+        super(999,cor,jogador);
     }
 
 

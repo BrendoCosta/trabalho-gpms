@@ -1,4 +1,5 @@
 import { Quadrante, Tabuleiro, Posicao, Desenhavel } from ".";
+import { InteligenciaArtificial } from "./IA/intengenciaArtificial";
 
 
 export class Jogo extends HTMLElement implements Desenhavel {
@@ -8,6 +9,7 @@ export class Jogo extends HTMLElement implements Desenhavel {
     private _shadowRoot: ShadowRoot;
     private _canvas: HTMLCanvasElement;
     private _executando: boolean = false;
+    private dificuldadeIA: number=2
     public get canvas() { return this._canvas }
     private _taxaDeQuadros: number = 12;
     private static _isometrico: boolean = false;
@@ -90,8 +92,19 @@ export class Jogo extends HTMLElement implements Desenhavel {
             }
 
             console.log(`${pos.coluna}, ${pos.linha}`)
-
+            let turno = this._tabuleiro.getTurno();
             this._tabuleiro.click(pos);
+            
+            if(turno!=this._tabuleiro.getTurno()){
+                console.log("IA VAI JOGAAAAAAAAAAAAAAAAAAR")
+                let posicoes = InteligenciaArtificial(this._tabuleiro,this.dificuldadeIA)
+                if(posicoes[0]!= null&&posicoes[1]!==null){
+                    this._tabuleiro.click(posicoes[0]);
+                    this._tabuleiro.click(posicoes[1]);
+                }
+                console.log("a posicao[0] é!!")
+                console.log(posicoes[0])
+            }
 
         }
 

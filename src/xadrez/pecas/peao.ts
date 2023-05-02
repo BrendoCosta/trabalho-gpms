@@ -8,7 +8,7 @@ export class Peao extends Peca {
     protected imagem: HTMLImageElement = Imagem.getInstancia().PEAO;
 
     constructor(cor: Cor, jogador: Jogador) {
-        super(cor, jogador);
+        super(10,cor, jogador);
     }
 
 

@@ -7,9 +7,10 @@ export abstract class Peca implements Desenhavel {
     private jogador: Jogador;
     protected abstract imagem: HTMLImageElement;
     private corSelecionado: Cor ;
+    private pontuacao: number;
     private selecionado: boolean ;
     private movido:boolean = false;
-    constructor(cor: Cor, jogador: Jogador) { this.cor = cor ; this.jogador = jogador ;this.corSelecionado = Cor.VERDE; this.selecionado=false}
+    constructor(pontuacao:number,cor: Cor, jogador: Jogador) {this.pontuacao=pontuacao; this.cor = cor ; this.jogador = jogador ;this.corSelecionado = Cor.VERDE; this.selecionado=false}
 
     public getCor():Cor{
         return this.cor;
@@ -71,5 +72,8 @@ export abstract class Peca implements Desenhavel {
     }
     getMovido():boolean{
         return this.movido;
+    }
+    getPontuacao(){
+        return this.pontuacao
     }
 }

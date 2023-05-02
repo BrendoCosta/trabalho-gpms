@@ -1,6 +1,6 @@
 import { isEqual } from 'lodash';
-import { Desenhavel,  Movimento, Posicao, Quadrante, Jogo, Desenho } from "./";
-import { ReiEmCheque, converterPosicao, VerificarPosicao, PegarQuadrante, TransformarPosicao } from "./funcoes";
+import { Desenhavel,  Movimento, Posicao, Quadrante, Jogo, Desenho  } from "./";
+import { ReiEmCheque, VerificarPosicao, PegarQuadrante, TransformarPosicao } from "./funcoes";
 import { MovimentosPossiveis } from "./funcoes/movimentosPossiveis";
 import { Bispo, Cavalo, Peao, Peca, Rainha, Rei, Torre } from "./pecas";
 import { Cor,Jogador } from "./enums";
@@ -38,7 +38,6 @@ export class Tabuleiro implements Desenhavel {
         this.movimentos.push(movimento);
     }
     getUltimoMovimento(): Movimento {
-        console.log(this.movimentos)
         return this.movimentos.slice(-1)[0];
 
     }
@@ -64,12 +63,14 @@ export class Tabuleiro implements Desenhavel {
             peaoJ.push(new Peao(corJogador, Jogador.JOGADOR))
  }
 
-        let BispoJ = new Bispo(corJogador, Jogador.JOGADOR);
+        let BispoJ1 = new Bispo(corJogador, Jogador.JOGADOR);
+        let BispoJ2 = new Bispo(corJogador, Jogador.JOGADOR);
         let TorreJ1 = new Torre(corJogador, Jogador.JOGADOR);
         let TorreJ2 = new Torre(corJogador, Jogador.JOGADOR);
         let RainhaJ = new Rainha(corJogador, Jogador.JOGADOR);
         let ReiJ = new Rei(corJogador, Jogador.JOGADOR);
-        let CavaloJ = new Cavalo(corJogador, Jogador.JOGADOR);
+        let CavaloJ1 = new Cavalo(corJogador, Jogador.JOGADOR);
+        let CavaloJ2 = new Cavalo(corJogador, Jogador.JOGADOR);
 
         //criando peças do computador
         let peaoC:Peao[]=[];
@@ -78,58 +79,60 @@ export class Tabuleiro implements Desenhavel {
             peaoC.push(new Peao(corComputador, Jogador.COMPUTADOR))
  
         }
-        let BispoC = new Bispo(corComputador, Jogador.COMPUTADOR);
+        let BispoC1 = new Bispo(corComputador, Jogador.COMPUTADOR);
+        let BispoC2 = new Bispo(corComputador, Jogador.COMPUTADOR);
         let TorreC1 = new Torre(corComputador, Jogador.COMPUTADOR);
         let TorreC2 = new Torre(corComputador, Jogador.COMPUTADOR);
         let RainhaC = new Rainha(corComputador, Jogador.COMPUTADOR);
         let ReiC = new Rei(corComputador, Jogador.COMPUTADOR);
-        let CavaloC = new Cavalo(corComputador, Jogador.COMPUTADOR);
+        let CavaloC1 = new Cavalo(corComputador, Jogador.COMPUTADOR);
+        let CavaloC2 = new Cavalo(corComputador, Jogador.COMPUTADOR);
 
         //inserindo peões no tabuleiro
         for (let i = 0; i < 8; i++) {
-            this.setPeca(converterPosicao([1, i]), peaoC[i]);
+            this.setPeca(TransformarPosicao(1, i), peaoC[i]);
         }
         for (let i = 0; i < 8; i++) {
-            this.setPeca(converterPosicao([6, i]), peaoJ[i]);
+            this.setPeca(TransformarPosicao(6, i), peaoJ[i]);
         }
 
         //inserindo torres
-        this.setPeca(converterPosicao([7, 0]), TorreJ1);
-        this.setPeca(converterPosicao([7, 7]), TorreJ2);
-        this.setPeca(converterPosicao([0, 0]), TorreC1);
-        this.setPeca(converterPosicao([0, 7]), TorreC2);
+        this.setPeca(TransformarPosicao(7, 0), TorreJ1);
+        this.setPeca(TransformarPosicao(7, 7), TorreJ2);
+        this.setPeca(TransformarPosicao(0, 0), TorreC1);
+        this.setPeca(TransformarPosicao(0, 7), TorreC2);
 
         //inserindo cavalos
-        this.setPeca(converterPosicao([7, 1]), CavaloJ);
-        this.setPeca(converterPosicao([7, 6]), CavaloJ);
-        this.setPeca(converterPosicao([0, 1]), CavaloC);
-        this.setPeca(converterPosicao([0, 6]), CavaloC);
+        this.setPeca(TransformarPosicao(7, 1), CavaloJ1);
+        this.setPeca(TransformarPosicao(7, 6), CavaloJ2);
+        this.setPeca(TransformarPosicao(0, 1), CavaloC1);
+        this.setPeca(TransformarPosicao(0, 6), CavaloC2);
 
         //inserindo bispos
-        this.setPeca(converterPosicao([7, 2]), BispoJ);
-        this.setPeca(converterPosicao([7, 5]), BispoJ);
-        this.setPeca(converterPosicao([0, 2]), BispoC);
-        this.setPeca(converterPosicao([0, 5]), BispoC);
+        this.setPeca(TransformarPosicao(7, 2), BispoJ1);
+        this.setPeca(TransformarPosicao(7, 5), BispoJ2);
+        this.setPeca(TransformarPosicao(0, 2), BispoC2);
+        this.setPeca(TransformarPosicao(0, 5), BispoC1);
 
         //inserindo rainhas e rei
         if (corJogador == Cor.BRANCO) {
-            this.setPeca(converterPosicao([7, 3]), RainhaJ);
-            this.setPeca(converterPosicao([7, 4]), ReiJ);
-            this.setPeca(converterPosicao([0, 3]), RainhaC);
-            this.setPeca(converterPosicao([0, 4]), ReiC);
+            this.setPeca(TransformarPosicao(7, 3), RainhaJ);
+            this.setPeca(TransformarPosicao(7, 4), ReiJ);
+            this.setPeca(TransformarPosicao(0, 3), RainhaC);
+            this.setPeca(TransformarPosicao(0, 4), ReiC);
         }
         else {
-            this.setPeca(converterPosicao([7, 4]), RainhaJ);
-            this.setPeca(converterPosicao([7, 3]), ReiJ);
-            this.setPeca(converterPosicao([0, 4]), RainhaC);
-            this.setPeca(converterPosicao([0, 7]), ReiC);
+            this.setPeca(TransformarPosicao(7, 4), RainhaJ);
+            this.setPeca(TransformarPosicao(7, 3), ReiJ);
+            this.setPeca(TransformarPosicao(0, 4), RainhaC);
+            this.setPeca(TransformarPosicao(0, 7), ReiC);
         }
     }
 
-    passaTurno() {
+    public passaTurno() {
         this.turno = this.turno == Jogador.COMPUTADOR ? Jogador.JOGADOR : Jogador.COMPUTADOR;
     }
-    getTurno(): Jogador {
+    public getTurno(): Jogador {
         return this.turno;
     }
 
@@ -155,7 +158,7 @@ export class Tabuleiro implements Desenhavel {
     }
 
 
-    public desenhar(ctx: CanvasRenderingContext2D): void {
+public desenhar(ctx: CanvasRenderingContext2D): void {
 
         let origemX: number = Jogo.isometrico ? ctx.canvas.width / 2 : 0;
         let origemY: number = Jogo.isometrico ? ctx.canvas.height / 2 : 0;
@@ -213,7 +216,7 @@ export class Tabuleiro implements Desenhavel {
             mesmaPosicao = isEqual(this.posicaoSelecionado, pos)
             movi = this.moverPecas(pos);
 
-            this.removerPecas(pos);
+            this.removerPecas();
             if (!movi && !mesmaPosicao) { this.selecionarPecas(pos); }
         }
 
@@ -221,7 +224,7 @@ export class Tabuleiro implements Desenhavel {
 
 
     }
-    public removerPecas(pos: Posicao): void {
+    public removerPecas(): void {
         if (this.posicaoPossiveis.length != 0 && this.posicaoSelecionado != null) {
 
             let posicaoSelecionado = this.posicaoSelecionado;
@@ -317,7 +320,7 @@ export class Tabuleiro implements Desenhavel {
                         }
 
                     }
-                   
+
 
 
                     quadranteAlvo.setPeca(pecaSelecionada!);
@@ -335,6 +338,14 @@ export class Tabuleiro implements Desenhavel {
 
         return movi;
     };
+        
+
+getMovimentosPossiveis():Posicao[]{
+    return this.posicaoPossiveis;
+}
+getSelecionado():Posicao|null{
+    return this.posicaoSelecionado
+}
 
 }
 
