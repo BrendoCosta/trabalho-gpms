@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+
+    @apply flex flex-col items-center justify-center
+
+}
