@@ -29,3 +29,22 @@ opcao_isometrico.addEventListener("change", (event) => {
     }
     
 });
+
+let opcao_ai: HTMLInputElement = document.getElementsByName("opcao_ai")[0] as HTMLInputElement;
+opcao_ai.addEventListener("change", (event) => {
+    
+    if (event != null) {
+
+        if ((event.currentTarget as HTMLInputElement).checked) {
+
+            Jogo.ia_active = true;
+
+        } else {
+
+            Jogo.ia_active = false;
+
+        }
+
+    }
+    
+});
