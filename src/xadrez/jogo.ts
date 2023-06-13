@@ -8,11 +8,10 @@ interface ScreenConfig {
     x: number,
     y: number,
 }
-export class Jogo extends HTMLElement implements Desenhavel {
+export class Jogo implements Desenhavel {
 
     private _tabuleiro: Tabuleiro = new Tabuleiro();
 
-    private _shadowRoot: ShadowRoot;
     private _canvas: HTMLCanvasElement;
     private _executando: boolean = false;
     private dificuldadeIA: number=2
@@ -26,35 +25,13 @@ export class Jogo extends HTMLElement implements Desenhavel {
     public static get ia_active() { return this._iaActive }
     public static set ia_active(opcao: boolean) { this._iaActive = opcao; }
 
-    constructor() {
-
-        super();
+    constructor(canvas: HTMLCanvasElement) {
 
         // Inicialização do canvas
 
-        this._canvas = document.createElement("canvas");
-        this._canvas.width = 800;
-        this._canvas.height = 800;
+        this._canvas = canvas;
 
         let ctx: CanvasRenderingContext2D | null = this._canvas.getContext("2d");
-
-        // Adiciona os eventos de interação com o jogo
-
-        this.addEventListener("click", this.eventoClick);
-
-        // Desenha a cor de fundo
-
-        if (ctx != null) {
-
-            ctx.fillStyle = "lightgray";
-            ctx.fillRect(0, 0, this._canvas.width, this._canvas.height);
-
-        }
-
-        // Será renderizado a parte e o canvas será o elemento filho imediato
-
-        this._shadowRoot = this.attachShadow({ mode: "open" });
-        this._shadowRoot.appendChild(this._canvas);
 
         // Chama o método de desenho
 
@@ -64,6 +41,12 @@ export class Jogo extends HTMLElement implements Desenhavel {
             setInterval(() => this.desenhar(ctx), (1000 / this._taxaDeQuadros));
 
         }
+
+    }
+
+    public novoJogo() {
+
+        this._tabuleiro = new Tabuleiro();
 
     }
 
