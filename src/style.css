@@ -2,8 +2,86 @@
 @tailwind components;
 @tailwind utilities;
 
+html, body {
+
+    @apply w-screen  h-screen overflow-hidden m-0 p-0
+
+}
+
 body {
 
     @apply flex flex-col items-center justify-center
+
+}
+
+*:not(input[type="text"]) {
+
+    caret-color: transparent;
+
+}
+
+::-webkit-scrollbar {
+
+    @apply w-2
+
+}
+
+::-webkit-scrollbar-track {
+
+    @apply bg-black/5 rounded-full
+
+}
+
+::-webkit-scrollbar-thumb {
+
+    @apply bg-black/10 rounded-full
+
+}
+
+::-webkit-scrollbar-thumb:hover {
+
+    @apply bg-black/20
+
+}
+
+.input {
+
+    @apply transition-all ease-in-out border-[1px] border-gray-300 text-gray-800 rounded-xl text-sm hover:bg-gray-200/80 cursor-pointer
+
+}
+
+.input.text {
+
+    @apply py-2 px-4 rounded-md hover:bg-transparent cursor-auto caret-gray-800
+
+}
+
+.input.checkbox {
+
+    @apply rounded-lg w-6 h-6 flex flex-row justify-center items-center
+
+}
+
+.input.listbox-button {
+
+    @apply w-64 flex flex-row items-center justify-between py-2 px-4 gap-x-3
+
+}
+
+.input.dropdown {
+
+    @apply w-64 flex flex-col mt-1 border-[1px] border-gray-300 bg-white text-sm text-left rounded-xl [&>:first-child]:rounded-t-xl [&>:last-child]:rounded-b-xl cursor-pointer
+
+}
+
+.input.dropdown .item {
+
+    @apply py-3 px-4 text-gray-800 hover:bg-gray-200/80
+
+}
+
+button.input {
+
+    @apply py-2 px-4
 
 }
