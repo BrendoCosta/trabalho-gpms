@@ -21,7 +21,6 @@ export function IaPensando(tabuleiro: Tabuleiro, grau: number, grauMax: number):
     let posPont2: [number, Posicao | null, Posicao | null] = [0, null, null];
 
     let posicoes: Posicao[];
-    let click1: Posicao;
     const turno = tabuleiro.getTurno() == Jogador.COMPUTADOR ? 1 : -1;
     let tabuleiroCopia: Tabuleiro;
     let tabuleiroCopia2: Tabuleiro;
@@ -30,18 +29,22 @@ export function IaPensando(tabuleiro: Tabuleiro, grau: number, grauMax: number):
     let allMovementsCombinations = combinations
 
     if (grau != grauMax) {
-        allMovementsCombinations.forEach(click1 => {
+        allMovementsCombinations.forEach(pecaNoTabuleiro => {
             tabuleiroCopia = cloneDeep(tabuleiro);
-            tabuleiroCopia.click(click1);
+            tabuleiroCopia.click(pecaNoTabuleiro);
             posicoes = tabuleiroCopia.getMovimentosPossiveis();
             if (posicoes.length == 0) {
                 return
             }
-            posicoes.forEach(posicaoLoop => {
+            console.warn(grau, tabuleiroCopia.getUltimoMovimento().pecaMovimentada.jogador)
+
+            posicoes.forEach(posPecaAposMovimentar => {
                 pontuacao = Math.random() * 0.001;
                 jogou = true;
                 tabuleiroCopia2 = cloneDeep(tabuleiroCopia);
-                tabuleiroCopia2.click(posicaoLoop);
+                console.warn(tabuleiroCopia2)
+                tabuleiroCopia2.click(posPecaAposMovimentar);
+
                 let peca = tabuleiroCopia2.getUltimoMovimento().pecaCapturada;
                 if (peca != null) {
                     pontuacao = peca.getPontuacao() * turno;
@@ -52,17 +55,17 @@ export function IaPensando(tabuleiro: Tabuleiro, grau: number, grauMax: number):
                 pontuacao += posPont2[0];
                 if (posPont[0] == 0) {
                     posPont[0] = pontuacao;
-                    posPont[1] = click1;
-                    posPont[2] = posicaoLoop;
+                    posPont[1] = pecaNoTabuleiro;
+                    posPont[2] = posPecaAposMovimentar;
                 }
                 if (turno == 1 && pontuacao > posPont[0]) {
                     posPont[0] = pontuacao;
-                    posPont[1] = click1;
-                    posPont[2] = posicaoLoop;
+                    posPont[1] = pecaNoTabuleiro;
+                    posPont[2] = posPecaAposMovimentar;
                 } else if (turno != 1 && pontuacao < posPont[0]) {
                     posPont[0] = pontuacao;
-                    posPont[1] = click1;
-                    posPont[2] = posicaoLoop;
+                    posPont[1] = pecaNoTabuleiro;
+                    posPont[2] = posPecaAposMovimentar;
                 }
             });
         });

@@ -225,32 +225,31 @@ public desenhar(ctx: CanvasRenderingContext2D): void {
 
     }
     public removerPecas(): void {
-        if (this.posicaoPossiveis.length != 0 && this.posicaoSelecionado != null) {
-
-            let posicaoSelecionado = this.posicaoSelecionado;
-
-            let peca = PegarQuadrante(this.quadrantes, posicaoSelecionado).getPeca();
-            //troca o selecionado se existir do peao que ocupa a casa da posicaoSelecionada
-            if (peca != null) {
-                peca.setSelecionado();
-            }
-            //troca o selecionado das posições que estao selecionadas
-            this.posicaoPossiveis.forEach(posicao => {
-
-                PegarQuadrante(this.quadrantes, posicao).selecionar();
-
-            });
-            this.posicaoSelecionado = null;
-            this.posicaoPossiveis = [];
+        if (this.posicaoPossiveis.length == 0 && this.posicaoSelecionado == null) {
+            return
         }
+        let posicaoSelecionado = this.posicaoSelecionado;
+
+        let peca = PegarQuadrante(this.quadrantes, posicaoSelecionado).getPeca();
+        //troca o selecionado se existir do peao que ocupa a casa da posicaoSelecionada
+        if (peca != null) {
+            peca.setSelecionado();
+        }
+        //troca o selecionado das posições que estao selecionadas
+        this.posicaoPossiveis.forEach(posicao => {
+
+            PegarQuadrante(this.quadrantes, posicao).selecionar();
+
+        });
+        this.posicaoSelecionado = null;
+        this.posicaoPossiveis = [];
     }
+
     public selecionarPecas(pos: Posicao): void {
         let peca = PegarQuadrante(this.quadrantes, pos).getPeca();
         let posicoessemCheck: Posicao[] = []
         let posicoes: Posicao[] = [];
         if (peca instanceof Peca && isEqual(peca.getjogador(), this.getTurno())) {
-
-
             posicoessemCheck = MovimentosPossiveis(this.getQuadrantes(), pos,this.getUltimoMovimento(),this.getTurno())
         }
 
@@ -270,72 +269,57 @@ public desenhar(ctx: CanvasRenderingContext2D): void {
         })
         this.posicaoSelecionado = pos;
     }
+
     public moverPecas(pos: Posicao): boolean {
         let movi = false
         const posicaoSelecionado = this.posicaoSelecionado
-        if (posicaoSelecionado != null && this.posicaoPossiveis.length != 0) {
-            let quadranteAlvo = PegarQuadrante(this.quadrantes, pos);
-            this.posicaoPossiveis.forEach(posicao => {
-               
-                if (quadranteAlvo == PegarQuadrante(this.quadrantes, posicao)) {
-
-                    let quadranteSelecionado = PegarQuadrante(this.quadrantes, posicaoSelecionado)
-                    let pecaSelecionada = quadranteSelecionado.getPeca();
-                    let pecaAlvo = PegarQuadrante(this.quadrantes, posicao).getPeca();
-
-                    if (pecaAlvo != null) {
-
-                        if (pecaAlvo.getjogador() == Jogador.JOGADOR) {
-                            this.PecasCapJogador.push(pecaAlvo);
-                        }
-                        else { this.PecasCapComputador.push(pecaAlvo); }
-
-                    }
-                    
-                    else{ 
-                        if(pecaSelecionada instanceof Peao &&posicao.coluna!=posicaoSelecionado.coluna){
-                        let quadranteEsp = PegarQuadrante(this.quadrantes,TransformarPosicao(posicaoSelecionado.linha,posicao.coluna))
-                        pecaAlvo = quadranteEsp.getPeca();
-                        quadranteEsp.removerPeca();
-
-                        
-                    }
-                    }
-                    if (pecaSelecionada instanceof Rei && !pecaSelecionada.getMovido() && Math.abs(posicao.coluna - posicaoSelecionado.coluna) == 2) {
-                        let sinal = Math.sign(posicao.coluna - posicaoSelecionado.coluna);
-                        let quadranteTorre = PegarQuadrante(this.quadrantes, TransformarPosicao(posicao.linha, sinal == 1 ? 7 : 0));
-
-                        let pecarock = quadranteTorre.getPeca();
-                        if (pecarock != null && pecarock instanceof Torre && !pecarock.getMovido()) {
-                            let posicaoRock = TransformarPosicao(posicao.linha, posicao.coluna - sinal)
-                            quadranteTorre.removerPeca();
-                            let quadranteRock = PegarQuadrante(this.quadrantes, posicaoRock)
-
-
-                            quadranteRock.setPeca(pecarock);
-                            let movimento: Movimento = { posicaoAtual: posicaoRock, posicaoAnterior: pos, pecaCapturada: pecaAlvo!, pecaMovimentada: pecaSelecionada! };
-                            this.inserirMovimento(movimento);
-
-
-                        }
-
-                    }
-
-
-
-                    quadranteAlvo.setPeca(pecaSelecionada!);
-                    pecaSelecionada?.setMovido();
-                    let movimento: Movimento = { posicaoAtual: posicaoSelecionado!, posicaoAnterior: pos, pecaCapturada: pecaAlvo!, pecaMovimentada: pecaSelecionada! };
-                    this.inserirMovimento(movimento);
-                    quadranteSelecionado.removerPeca();
-                    movi = true;
-                    this.passaTurno();
-                }
-
-            }
-            )
+        if (posicaoSelecionado == null && this.posicaoPossiveis.length == 0) {
+            return movi
         }
 
+        let quadranteAlvo = PegarQuadrante(this.quadrantes, pos);
+        this.posicaoPossiveis.forEach(posicao => {
+            if (quadranteAlvo == PegarQuadrante(this.quadrantes, posicao)) {
+
+                let quadranteSelecionado = PegarQuadrante(this.quadrantes, posicaoSelecionado)
+                let pecaSelecionada = quadranteSelecionado.getPeca();
+                let pecaAlvo = PegarQuadrante(this.quadrantes, posicao).getPeca();
+
+                if (pecaAlvo != null) {
+                    if (pecaAlvo.getjogador() == Jogador.JOGADOR) {
+                        this.PecasCapJogador.push(pecaAlvo);
+                    }
+                    else { this.PecasCapComputador.push(pecaAlvo); }
+
+                } else { 
+                    if(pecaSelecionada instanceof Peao &&posicao.coluna!=posicaoSelecionado.coluna){
+                    let quadranteEsp = PegarQuadrante(this.quadrantes,TransformarPosicao(posicaoSelecionado.linha,posicao.coluna))
+                    pecaAlvo = quadranteEsp.getPeca();
+                    quadranteEsp.removerPeca();
+                    }
+                }
+                if (pecaSelecionada instanceof Rei && !pecaSelecionada.getMovido() && Math.abs(posicao.coluna - posicaoSelecionado.coluna) == 2) {
+                    let sinal = Math.sign(posicao.coluna - posicaoSelecionado.coluna);
+                    let quadranteTorre = PegarQuadrante(this.quadrantes, TransformarPosicao(posicao.linha, sinal == 1 ? 7 : 0));
+                    let pecarock = quadranteTorre.getPeca();
+                    if (pecarock != null && pecarock instanceof Torre && !pecarock.getMovido()) {
+                        let posicaoRock = TransformarPosicao(posicao.linha, posicao.coluna - sinal)
+                        quadranteTorre.removerPeca();
+                        let quadranteRock = PegarQuadrante(this.quadrantes, posicaoRock)
+                        quadranteRock.setPeca(pecarock);
+                        let movimento: Movimento = { posicaoAtual: posicaoRock, posicaoAnterior: pos, pecaCapturada: pecaAlvo!, pecaMovimentada: pecaSelecionada! };
+                        this.inserirMovimento(movimento);
+                    }
+                }
+                quadranteAlvo.setPeca(pecaSelecionada!);
+                pecaSelecionada?.setMovido();
+                let movimento: Movimento = { posicaoAtual: posicaoSelecionado!, posicaoAnterior: pos, pecaCapturada: pecaAlvo!, pecaMovimentada: pecaSelecionada! };
+                this.inserirMovimento(movimento);
+                quadranteSelecionado.removerPeca();
+                movi = true;
+                this.passaTurno();
+            }
+        })
         return movi;
     };
         
