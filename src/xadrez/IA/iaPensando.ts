@@ -36,13 +36,11 @@ export function IaPensando(tabuleiro: Tabuleiro, grau: number, grauMax: number):
             if (posicoes.length == 0) {
                 return
             }
-            console.warn(grau, tabuleiroCopia.getUltimoMovimento().pecaMovimentada.jogador)
 
             posicoes.forEach(posPecaAposMovimentar => {
                 pontuacao = Math.random() * 0.001;
                 jogou = true;
                 tabuleiroCopia2 = cloneDeep(tabuleiroCopia);
-                console.warn(tabuleiroCopia2)
                 tabuleiroCopia2.click(posPecaAposMovimentar);
 
                 let peca = tabuleiroCopia2.getUltimoMovimento().pecaCapturada;
