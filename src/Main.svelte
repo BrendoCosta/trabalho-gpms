@@ -1,35 +1,17 @@
 <script lang="ts">
 
-	import { Jogo } from "./xadrez";
+	import { Jogo } from "./xadrez/jogo";
+	import { ConfirmPopup, ConfirmPopupControl, Checkbox } from "./componentes";
+    import { onMount } from "svelte";
 
-	// Define a classe Jogo como um elemento HTML <jogo-xadrez>
+	let _jogo: Jogo;
+	let _canvas: HTMLCanvasElement;
+	let _confirmarNovoJogo: ConfirmPopupControl;
 
-	window.customElements.define("jogo-xadrez", Jogo);
+	onMount(() => {
 
-	// Cria uma instância da classe Jogo e a insere na página
+		_jogo = new Jogo(_canvas); 
 
-	let jogo = document.createElement("jogo-xadrez");
-	document.body.appendChild(jogo);
-
-	// Configuração do jogo
-
-	let opcao_isometrico: HTMLInputElement = document.getElementsByName("opcao_isometrico")[0] as HTMLInputElement;
-	opcao_isometrico.addEventListener("change", (event) => {
-		
-		if (event != null) {
-
-			if ((event.currentTarget as HTMLInputElement).checked) {
-
-				Jogo.isometrico = true;
-
-			} else {
-
-				Jogo.isometrico = false;
-
-			}
-
-		}
-		
 	});
 	
 </script>
@@ -39,6 +21,32 @@
 	<link rel="icon" type="image/png" href="/favicon.png">
 	<title>Trabalho GPMS</title>
 </svelte:head>
-<div id="app" class="w-full h-full">
-	aaaaaa
+<div id="app" class="w-full h-full flex flex-row items-center justify-center p-8">
+	<div class="w-[30%] flex flex-col items-start justify-center gap-4 text-gray-800">
+		<h2 class="text-xl drop-shadow-md">Ações</h2>
+		<button class="input" on:click={() => _confirmarNovoJogo.Open() }>Novo jogo</button>
+		<h2 class="text-xl drop-shadow-md">Opções</h2>
+		<div class="inline-flex items-center">
+			<Checkbox bind:checked={Jogo.isometrico}/>
+			<label class="ml-2">Ativar perspectiva isométrica</label>
+		</div>
+		<div class="inline-flex items-center">
+			<Checkbox bind:checked={Jogo.ia_active}/>
+			<label class="ml-2">Ativar inteligência artificial</label>
+		</div>
+	</div>
+	<div class="w-[70%] flex flex-col items-center justify-center bg-gray-200">
+		<canvas bind:this={_canvas} on:click={(e) => _jogo.eventoClick(e) } width="{Jogo.isometrico ? 800 : 600}" height="{Jogo.isometrico ? 800 : 600}"/>
+	</div>
+	<ConfirmPopup bind:Root={_confirmarNovoJogo} callback={(e) => {
+    
+		if (e) {
+	
+			_jogo.novoJogo();
+	
+		}
+	
+	}}>
+		<p>Começar um novo jogo?</p>
+	</ConfirmPopup>
 </div>
