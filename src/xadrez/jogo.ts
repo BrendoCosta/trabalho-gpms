@@ -1,7 +1,13 @@
+import { TemplateSettings } from "lodash";
 import { Quadrante, Tabuleiro, Posicao, Desenhavel } from ".";
 import { InteligenciaArtificial } from "./IA/intengenciaArtificial";
 
 
+interface ScreenConfig {
+    screenSize: number,
+    x: number,
+    y: number,
+}
 export class Jogo extends HTMLElement implements Desenhavel {
 
     private _tabuleiro: Tabuleiro = new Tabuleiro();
@@ -15,7 +21,11 @@ export class Jogo extends HTMLElement implements Desenhavel {
     private static _isometrico: boolean = false;
     public static get isometrico() { return this._isometrico }
     public static set isometrico(opcao: boolean) { this._isometrico = opcao; }
-    
+
+    private static _iaActive: boolean = true;
+    public static get ia_active() { return this._iaActive }
+    public static set ia_active(opcao: boolean) { this._iaActive = opcao; }
+
     constructor() {
 
         super();
@@ -57,53 +67,63 @@ export class Jogo extends HTMLElement implements Desenhavel {
 
     }
 
+    private iaTurno(): void {
+        console.log("IA VAI JOGAAAAAAAAAAAAAAAAAAR")
+        let posicoes = InteligenciaArtificial(this._tabuleiro,this.dificuldadeIA)
+        if(posicoes[0]!= null&&posicoes[1]!==null){
+            this._tabuleiro.click(posicoes[0]);
+            this._tabuleiro.click(posicoes[1]);
+        }
+        console.log("a posicao[0] é!!")
+        console.log(posicoes[0])
+    }
+
+    private isometricView(screenConfig: ScreenConfig, pos: Posicao): Posicao {
+        // Compensa o offset definido em Tabuleiro.desenhar()
+
+        let offsetX: number = screenConfig.x - (screenConfig.x - (this._canvas.width / 2));
+        let offsetY: number = (screenConfig.y - (screenConfig.y - (this._canvas.height / 2))) / 2;
+
+        // https://clintbellanger.net/articles/isometric_math/
+
+        let posX: number = (( (screenConfig.x - offsetX) / (screenConfig.screenSize/2) + (screenConfig.y - offsetY) / (screenConfig.screenSize/4)) / 2) | 0;
+        let posY: number = (((screenConfig.y - offsetY) / (screenConfig.screenSize/4) - ( (screenConfig.x - offsetX) / (screenConfig.screenSize/2))) / 2) | 0;
+
+        pos.linha = posY;
+        pos.coluna = posX;
+        return pos
+    }
+
+    private getScreenConfig(ctx: CanvasRenderingContext2D, ev: MouseEvent): ScreenConfig{
+        return {
+            screenSize: Quadrante.getLarguraDesenho(ctx),
+            x: ev.clientX - this._canvas.getBoundingClientRect().left,
+            y: ev.clientY - this._canvas.getBoundingClientRect().top,
+        }
+    }
+
     public eventoClick(ev: MouseEvent): void {
 
         let ctx: CanvasRenderingContext2D | null = this._canvas.getContext("2d");
 
         if (ctx != null) {
-
-            let largura: number = Quadrante.getLarguraDesenho(ctx);
-            let x: number = ev.clientX - this._canvas.getBoundingClientRect().left;
-            let y: number = ev.clientY - this._canvas.getBoundingClientRect().top;
+            let screenConfig = this.getScreenConfig(ctx, ev)
 
             let pos: Posicao = { linha: 0, coluna: 0 };
 
             if (Jogo.isometrico) {
-
-                // Compensa o offset definido em Tabuleiro.desenhar()
-
-                let offsetX: number = x - (x - (this._canvas.width / 2));
-                let offsetY: number = (y - (y - (this._canvas.height / 2))) / 2;
-                
-                // https://clintbellanger.net/articles/isometric_math/
-
-                let posX: number = (( (x - offsetX) / (largura/2) + (y - offsetY) / (largura/4)) / 2) | 0;
-                let posY: number = (((y - offsetY) / (largura/4) - ( (x - offsetX) / (largura/2))) / 2) | 0;
-
-                pos.linha = posY;
-                pos.coluna = posX;
-
+                pos = this.isometricView(screenConfig, pos)
             } else {
-
-                pos.linha = (y / largura) | 0;
-                pos.coluna = (x / largura) | 0;
-
+                pos.linha = (screenConfig.y / screenConfig.screenSize) | 0;
+                pos.coluna = (screenConfig.x / screenConfig.screenSize) | 0;
             }
 
             console.log(`${pos.coluna}, ${pos.linha}`)
             let turno = this._tabuleiro.getTurno();
             this._tabuleiro.click(pos);
             
-            if(turno!=this._tabuleiro.getTurno()){
-                console.log("IA VAI JOGAAAAAAAAAAAAAAAAAAR")
-                let posicoes = InteligenciaArtificial(this._tabuleiro,this.dificuldadeIA)
-                if(posicoes[0]!= null&&posicoes[1]!==null){
-                    this._tabuleiro.click(posicoes[0]);
-                    this._tabuleiro.click(posicoes[1]);
-                }
-                console.log("a posicao[0] é!!")
-                console.log(posicoes[0])
+            if(turno!=this._tabuleiro.getTurno() && Jogo.ia_active){
+                this.iaTurno()
             }
 
         }
