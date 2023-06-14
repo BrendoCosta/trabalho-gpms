@@ -51,14 +51,15 @@ export class Jogo implements Desenhavel {
     }
 
     private iaTurno(): void {
-        console.log("IA VAI JOGAAAAAAAAAAAAAAAAAAR")
+        //console.log("IA VAI JOGAAAAAAAAAAAAAAAAAAR")
+      
         let posicoes = InteligenciaArtificial(this._tabuleiro,this.dificuldadeIA)
         if(posicoes[0]!= null&&posicoes[1]!==null){
             this._tabuleiro.click(posicoes[0]);
             this._tabuleiro.click(posicoes[1]);
         }
-        console.log("a posicao[0] é!!")
-        console.log(posicoes[0])
+
+        //console.log(posicoes[0])
     }
 
     private isometricView(screenConfig: ScreenConfig, pos: Posicao): Posicao {
@@ -104,9 +105,10 @@ export class Jogo implements Desenhavel {
             console.log(`${pos.coluna}, ${pos.linha}`)
             let turno = this._tabuleiro.getTurno();
             this._tabuleiro.click(pos);
-            
+            console.log(this._tabuleiro.getUltimoMovimento())
             if(turno!=this._tabuleiro.getTurno() && Jogo.ia_active){
-                this.iaTurno()
+                this.iaTurno();
+                console.log(this._tabuleiro.getUltimoMovimento());
             }
 
         }

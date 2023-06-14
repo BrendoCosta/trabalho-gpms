@@ -8,34 +8,36 @@ import { Jogador } from "../enums";
 
 export function ReiEmCheque(quadrantesOriginal: Quadrante[][], posicaoAtual: Posicao, posicaoAlvo: Posicao,movimento:Movimento, turno: Jogador): boolean {
 
-   
     const quadrantes: Quadrante[][] = cloneDeep(quadrantesOriginal);
-    const quadranteAtual = PegarQuadrante(quadrantes, posicaoAtual)
-    const quadranteAlvo = PegarQuadrante(quadrantes, posicaoAlvo)
-    const pecaAtual = quadranteAtual.getPeca()
-    let posicaoDoReiAntes:Posicao;
-    let posicaoDoRei:Posicao;
+    let posicaoDoRei = PosicaodoRei(quadrantesOriginal, turno)
+    let posicaoDoReiDepois:Posicao;
     let numero :number;
     let posicao :Posicao;
-
     let resultado = false;
+    if (posicaoAtual != null && posicaoAlvo != null) {
+        let quadranteAtual = PegarQuadrante(quadrantes, posicaoAtual)
+        let quadranteAlvo = PegarQuadrante(quadrantes, posicaoAlvo)
+        let pecaAtual = quadranteAtual.getPeca()
+   
+
     if (pecaAtual != null) {
         quadranteAlvo.setPeca(pecaAtual);
         quadranteAtual.removerPeca();
-        posicaoDoReiAntes = PosicaodoRei(quadrantesOriginal, turno)
-        posicaoDoRei = PosicaodoRei(quadrantes, turno)
+        posicaoDoReiDepois = PosicaodoRei(quadrantes, turno)
        
-        if(Math.abs(posicaoDoRei.coluna-posicaoDoReiAntes.coluna)==2){
+        if(Math.abs(posicaoDoReiDepois.coluna-posicaoDoRei.coluna)==2){
             
             numero = (posicaoDoRei.coluna+posicaoDoReiAntes.coluna)/2
             posicao = TransformarPosicao(posicaoDoRei.linha,numero)
-          
-           
             resultado = resultado || ReiEmCheque(quadrantes,posicaoDoRei,posicao,movimento,turno)
             let quadrantesEsp =  SimularMovimento(quadrantes,posicaoDoRei,posicao,pecaAtual)
             resultado = resultado || ReiEmCheque(quadrantesEsp,posicao,posicaoAtual,movimento,turno)
         }
-        
+        else {
+            posicaoDoRei = posicaoDoReiDepois;
+        }
+    }
+}
         for (let i = 0; i < 8; i++) {
             for (let j = 0; j < 8; j++) {
                 posicao = TransformarPosicao(i, j);
@@ -56,7 +58,7 @@ export function ReiEmCheque(quadrantesOriginal: Quadrante[][], posicaoAtual: Pos
                 }
             }
         }
-    }
+    
     
     return resultado;
 

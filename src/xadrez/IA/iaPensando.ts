@@ -46,8 +46,8 @@ export function IaPensando(tabuleiro: Tabuleiro, grau: number, grauMax: number):
                 let peca = tabuleiroCopia2.getUltimoMovimento().pecaCapturada;
                 if (peca != null) {
                     pontuacao = peca.getPontuacao() * turno;
-                    console.log(peca);
-                    console.log(pontuacao);
+                  //  console.log(peca);
+                  //  console.log(pontuacao);
                 }
                 posPont2 = IaPensando(tabuleiroCopia2, grau + 1, grauMax);
                 pontuacao += posPont2[0];
@@ -75,10 +75,10 @@ export function IaPensando(tabuleiro: Tabuleiro, grau: number, grauMax: number):
     else {
         posPont[0] = 0;
     }
-    console.log(jogou);
-    console.log(posPont[0]);
-    console.log(posPont[1]);
-    console.log(posPont[2]);
-    console.log("grau é " + grau);
+   // console.log(jogou);
+   // console.log(posPont[0]);
+   // console.log(posPont[1]);
+  //  console.log(posPont[2]);
+  //  console.log("grau é " + grau);
     return posPont;
 }
