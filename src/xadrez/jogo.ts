@@ -1,7 +1,8 @@
 import { TemplateSettings } from "lodash";
 import { Quadrante, Tabuleiro, Posicao, Desenhavel } from ".";
 import { InteligenciaArtificial } from "./IA/intengenciaArtificial";
-
+import { Peca } from "./pecas";
+import { EventHandler } from "../componentes";
 
 interface ScreenConfig {
     screenSize: number,
@@ -11,6 +12,8 @@ interface ScreenConfig {
 export class Jogo implements Desenhavel {
 
     private _tabuleiro: Tabuleiro = new Tabuleiro();
+    public get Tabuleiro(): Tabuleiro { return this._tabuleiro; }
+    public OnPecaCap: EventHandler<Peca> = new EventHandler<Peca>();
 
     private _canvas: HTMLCanvasElement;
     private _executando: boolean = false;
@@ -103,10 +106,31 @@ export class Jogo implements Desenhavel {
 
             console.log(`${pos.coluna}, ${pos.linha}`)
             let turno = this._tabuleiro.getTurno();
-            this._tabuleiro.click(pos);
+            
+            let pecaCap: Peca | null = null;
+
+            if (this._tabuleiro.click(pos)) {
+
+                pecaCap = this._tabuleiro.getUltimoMovimento().pecaCapturada;
+                
+                if (pecaCap) {
+
+                    console.warn(pecaCap)
+                    this.OnPecaCap.Invoke(this, pecaCap);
+
+                }
+
+            }
             
             if(turno!=this._tabuleiro.getTurno() && Jogo.ia_active){
                 this.iaTurno()
+                pecaCap = this._tabuleiro.getUltimoMovimento().pecaCapturada;
+                if (pecaCap) {
+
+                    console.warn(pecaCap)
+                    this.OnPecaCap.Invoke(this, pecaCap);
+    
+                }
             }
 
         }
