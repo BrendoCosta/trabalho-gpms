@@ -1,20 +1,9 @@
 import { cloneDeep } from "lodash";
 import { Posicao, Tabuleiro } from "..";
 import { Jogador } from "../enums";
-import { TransformarPosicao } from "../funcoes";
+import { TransformarPosicao,GetCombinacoesPossiveis } from "../funcoes";
 
-function getPossibleCombinations(){
-    let possiblePositions = []
-    for (let i = 0; i < 8; i++) {
-        for (let j = 0; j < 8; j++) {
-           let pos = TransformarPosicao(i, j);
-           possiblePositions.push(pos)
-        }
-    }
-    return possiblePositions
-}
 
-let combinations = getPossibleCombinations()
 
 export function IaPensando(tabuleiro: Tabuleiro, grau: number, grauMax: number): [number, Posicao | null, Posicao | null] {
     let posPont: [number, Posicao | null, Posicao | null] = [0, null, null];
@@ -26,10 +15,10 @@ export function IaPensando(tabuleiro: Tabuleiro, grau: number, grauMax: number):
     let tabuleiroCopia2: Tabuleiro;
     let jogou = false;
     let pontuacao: number;
-    let allMovementsCombinations = combinations
+    let TodasMovimentacoes = GetCombinacoesPossiveis()
 
     if (grau != grauMax) {
-        allMovementsCombinations.forEach(pecaNoTabuleiro => {
+        TodasMovimentacoes.forEach(pecaNoTabuleiro => {
             tabuleiroCopia = cloneDeep(tabuleiro);
             tabuleiroCopia.click(pecaNoTabuleiro);
             posicoes = tabuleiroCopia.getMovimentosPossiveis();
@@ -46,8 +35,8 @@ export function IaPensando(tabuleiro: Tabuleiro, grau: number, grauMax: number):
                 let peca = tabuleiroCopia2.getUltimoMovimento().pecaCapturada;
                 if (peca != null) {
                     pontuacao = peca.getPontuacao() * turno;
-                    console.log(peca);
-                    console.log(pontuacao);
+                  //  console.log(peca);
+                  //  console.log(pontuacao);
                 }
                 posPont2 = IaPensando(tabuleiroCopia2, grau + 1, grauMax);
                 pontuacao += posPont2[0];
@@ -75,10 +64,10 @@ export function IaPensando(tabuleiro: Tabuleiro, grau: number, grauMax: number):
     else {
         posPont[0] = 0;
     }
-    console.log(jogou);
-    console.log(posPont[0]);
-    console.log(posPont[1]);
-    console.log(posPont[2]);
-    console.log("grau é " + grau);
+   // console.log(jogou);
+   // console.log(posPont[0]);
+   // console.log(posPont[1]);
+  //  console.log(posPont[2]);
+  //  console.log("grau é " + grau);
     return posPont;
 }

@@ -7,4 +7,6 @@ export { TransformarPosicao } from "./transformarPosicao";
 export { VerificarPosicao } from "./verificarPosicao";
 export {converterPosicao} from "./funcoes"
 export {SimularMovimento} from "./simularMovimento"
+export {GetCombinacoesPossiveis} from "./getCombinacoesPossiveis"
+export {ValidarCheckPosicoes} from "./validarCheckPosicoes"
 
