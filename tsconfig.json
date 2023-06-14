@@ -1,9 +1,11 @@
 {
+    "extends": "@tsconfig/svelte/tsconfig.json",
     "compilerOptions": {
         "target": "ES2022",
         "useDefineForClassFields": true,
         "module": "ESNext",
         "lib": ["ES2022", "DOM", "DOM.Iterable"],
+        "verbatimModuleSyntax": false,
         /* Bundler mode */
         "moduleResolution": "bundler",
         "noEmit": true,
