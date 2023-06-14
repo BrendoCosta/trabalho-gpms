@@ -6,4 +6,5 @@ export type { IConfirmPopupControl } from "./IConfirmPopupControl";
 export type { TConfirmPopupProperties } from "./TConfirmPopupProperties";
 export type { TModalProperties } from "./TModalProperties";
 export { ConfirmPopupControl } from "./ConfirmPopupControl";
-export { ModalControl } from "./ModalControl"
+export { EventHandler } from "./EventHandler";
+export { ModalControl } from "./ModalControl";
