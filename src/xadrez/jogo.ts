@@ -148,6 +148,9 @@ export class Jogo implements Desenhavel {
         let vencedor = this._tabuleiro.getTurno();
             console.log("check mate!, "+vencedor+" venceu!");
         }
+        else {
+            console.log("empate!")
+        }
             
         }
     }
