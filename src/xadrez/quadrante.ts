@@ -1,5 +1,5 @@
 import { Peca } from "./pecas";
-import { Cor } from "./enums";
+import { Cor, Jogador } from "./enums";
 import { Desenhavel, Jogo, Desenho } from "./";
 
 export class Quadrante implements Desenhavel {
@@ -77,8 +77,21 @@ export class Quadrante implements Desenhavel {
 
     }
     public selecionar(): void {
+        
         this.selecionado == true ? this.selecionado = false : this.selecionado = true;
-        this.corSelecionado = Cor.VERDE;
+        
+        if (this.peca?.getjogador() == Jogador.COMPUTADOR) {
+
+            // Marca as peças adversárias com a cor vermelha
+
+            this.corSelecionado = Cor.VERMELHO;
+
+        } else {
+
+            this.corSelecionado = Cor.VERDE;
+
+        }
+
     }
     public selecionarComCor(cor: Cor): void {
         // console.log(this.getPeca());
