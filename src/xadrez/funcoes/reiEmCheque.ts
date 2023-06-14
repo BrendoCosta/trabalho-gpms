@@ -6,7 +6,7 @@ import { PosicaodoRei } from "./posicaodoRei";
 import {  PegarQuadrante, SimularMovimento, TransformarPosicao } from "../funcoes";
 import { Jogador } from "../enums";
 
-export function ReiEmCheque(quadrantesOriginal: Quadrante[][], posicaoAtual: Posicao, posicaoAlvo: Posicao,movimento:Movimento, turno: Jogador): boolean {
+export function ReiEmCheque(quadrantesOriginal: Quadrante[][], posicaoAtual: Posicao |null, posicaoAlvo: Posicao | null,movimento:Movimento, turno: Jogador): boolean {
 
     const quadrantes: Quadrante[][] = cloneDeep(quadrantesOriginal);
     let posicaoDoRei = PosicaodoRei(quadrantesOriginal, turno)
