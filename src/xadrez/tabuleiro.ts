@@ -306,17 +306,19 @@ public desenhar(ctx: CanvasRenderingContext2D): void {
                         quadranteTorre.removerPeca();
                         let quadranteRock = PegarQuadrante(this.quadrantes, posicaoRock)
                         quadranteRock.setPeca(pecarock);
-                        let movimento: Movimento = { posicaoAtual: posicaoRock, posicaoAnterior: pos, pecaCapturada: pecaAlvo!, pecaMovimentada: pecaSelecionada! };
+                        let movimento: Movimento = { posicaoAtual: posicaoRock, posicaoAnterior: pos, pecaCapturada: pecaAlvo!, pecaMovimentada: pecaSelecionada!,check: false };
                         this.inserirMovimento(movimento);
                     }
                 }
                 quadranteAlvo.setPeca(pecaSelecionada!);
                 pecaSelecionada?.setMovido();
-                let movimento: Movimento = { posicaoAtual: posicaoSelecionado!, posicaoAnterior: pos, pecaCapturada: pecaAlvo!, pecaMovimentada: pecaSelecionada! };
+                this.passaTurno();
+                let movimento: Movimento = { posicaoAtual: posicaoSelecionado!, posicaoAnterior: pos, pecaCapturada: pecaAlvo!, pecaMovimentada: pecaSelecionada!,check:ReiEmCheque(this.getQuadrantes(), null, null,this.getUltimoMovimento(), this.getTurno()) };
+                
                 this.inserirMovimento(movimento);
                 quadranteSelecionado.removerPeca();
                 movi = true;
-                this.passaTurno();
+                
             }
         })
         return movi;

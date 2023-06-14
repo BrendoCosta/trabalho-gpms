@@ -6,4 +6,5 @@ export interface Movimento{
     posicaoAnterior: Posicao;
     pecaMovimentada: Peca;
     pecaCapturada:Peca;
+    check : boolean;
   }
