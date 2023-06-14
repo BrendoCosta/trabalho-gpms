@@ -206,7 +206,7 @@ public desenhar(ctx: CanvasRenderingContext2D): void {
 
     }
 
-    public click(pos: Posicao): void {
+    public click(pos: Posicao): boolean {
         let movi = false;
 
         if (!VerificarPosicao(pos)) {
@@ -220,8 +220,7 @@ public desenhar(ctx: CanvasRenderingContext2D): void {
             if (!movi && !mesmaPosicao) { this.selecionarPecas(pos); }
         }
 
-
-
+        return movi;
 
     }
     public removerPecas(): void {
