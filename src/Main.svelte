@@ -76,6 +76,8 @@
 		if (e) {
 	
 			_jogo.novoJogo();
+			_pecasCapJogador = [];
+			_pecasCapComputador = [];
 	
 		}
 	
