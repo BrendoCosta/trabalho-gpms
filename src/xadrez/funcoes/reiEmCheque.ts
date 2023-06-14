@@ -27,7 +27,7 @@ export function ReiEmCheque(quadrantesOriginal: Quadrante[][], posicaoAtual: Pos
        
         if(Math.abs(posicaoDoReiDepois.coluna-posicaoDoRei.coluna)==2){
             
-            numero = (posicaoDoRei.coluna+posicaoDoReiAntes.coluna)/2
+            numero = (posicaoDoRei.coluna+posicaoDoReiDepois.coluna)/2
             posicao = TransformarPosicao(posicaoDoRei.linha,numero)
             resultado = resultado || ReiEmCheque(quadrantes,posicaoDoRei,posicao,movimento,turno)
             let quadrantesEsp =  SimularMovimento(quadrantes,posicaoDoRei,posicao,pecaAtual)
