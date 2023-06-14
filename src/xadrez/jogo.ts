@@ -142,7 +142,14 @@ export class Jogo implements Desenhavel {
             }
 
         }
-
+        if(this._tabuleiro.ImpossiveldeMover()){
+        if(    this._tabuleiro.getUltimoMovimento().check){
+            this._tabuleiro.passaTurno();
+        let vencedor = this._tabuleiro.getTurno();
+            console.log("check mate!, "+vencedor+" venceu!");
+        }
+            
+        }
     }
 
     public desenhar(ctx: CanvasRenderingContext2D | null): void {

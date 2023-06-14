@@ -1,6 +1,6 @@
 import { isEqual } from 'lodash';
 import { Desenhavel,  Movimento, Posicao, Quadrante, Jogo, Desenho  } from "./";
-import { ReiEmCheque, VerificarPosicao, PegarQuadrante, TransformarPosicao } from "./funcoes";
+import { ReiEmCheque, VerificarPosicao, PegarQuadrante, TransformarPosicao,GetCombinacoesPossiveis,ValidarCheckPosicoes } from "./funcoes";
 import { MovimentosPossiveis } from "./funcoes/movimentosPossiveis";
 import { Bispo, Cavalo, Peao, Peca, Rainha, Rei, Torre } from "./pecas";
 import { Cor,Jogador } from "./enums";
@@ -49,8 +49,25 @@ export class Tabuleiro implements Desenhavel {
     public getQuadrantes(): Quadrante[][] {
         return this.quadrantes;
     }
-
-
+    public ImpossiveldeMover():boleaon {
+        if(this.getUltimoMovimento()!= undefined) {
+            let movimentospossiveis:posicao[];
+            let checkmate = true;
+            let todasPossicoes = GetCombinacoesPossiveis();
+            todasPossicoes.forEach(posicao => {
+            let peca = PegarQuadrante(this.quadrantes, posicao).getPeca();
+            if((peca instanceof Peca && isEqual(peca.getjogador(), this.getTurno()))){
+            movimentospossiveis = MovimentosPossiveis(this.getQuadrantes(),posicao,this.getUltimoMovimento(),this.getTurno());
+            movimentospossiveis = ValidarCheckPosicoes(movimentospossiveis,this.getQuadrantes(), posicao,this.getUltimoMovimento(), this.getTurno())
+            checkmate = checkmate&&movimentospossiveis.length==0;
+            console.log(checkmate,movimentospossiveis.length,posicao);
+        }})
+            console.log(checkmate);
+            return checkmate;;
+        }
+        return false;
+        
+    }
     public iniciarPecas(cor: Cor): void {
         let corJogador = cor;
         this.corjogador = this.corjogador;
@@ -251,13 +268,9 @@ public desenhar(ctx: CanvasRenderingContext2D): void {
         if (peca instanceof Peca && isEqual(peca.getjogador(), this.getTurno())) {
             posicoessemCheck = MovimentosPossiveis(this.getQuadrantes(), pos,this.getUltimoMovimento(),this.getTurno())
         }
+        
+        posicoes = ValidarCheckPosicoes(posicoessemCheck,this.getQuadrantes(), pos,this.getUltimoMovimento(), this.getTurno())
 
-
-        posicoessemCheck.forEach(posicao => {
-            if (!ReiEmCheque(this.getQuadrantes(), pos, posicao,this.getUltimoMovimento(), this.getTurno())) {
-                posicoes.push(posicao);
-            }
-        });
 
         if (peca != null) {
             peca.setSelecionado();
