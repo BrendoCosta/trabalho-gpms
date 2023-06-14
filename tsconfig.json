@@ -1,18 +1,14 @@
 {
     "compilerOptions": {
-        "target": "ES2020",
+        "target": "ES2022",
         "useDefineForClassFields": true,
         "module": "ESNext",
-        "lib": ["ES2020", "DOM", "DOM.Iterable"],
-        "skipLibCheck": true,
-
+        "lib": ["ES2022", "DOM", "DOM.Iterable"],
         /* Bundler mode */
         "moduleResolution": "bundler",
+        "noEmit": true,
         "allowImportingTsExtensions": true,
         "resolveJsonModule": true,
-        "isolatedModules": true,
-        "noEmit": true,
-
         /* Linting */
         "strict": true,
         "noUnusedLocals": false,
@@ -23,6 +19,5 @@
             "@Xadrez/*": ["./src/Xadrez/*"],
             "@Xadrez/Peca": ["./src/Xadrez/Peca/*"]
         }
-    },
-    "include": ["src"]
+    }
 }
