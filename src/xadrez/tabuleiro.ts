@@ -25,7 +25,7 @@ export class Tabuleiro implements Desenhavel {
         this.posicaoSelecionado = null;
         this.PecasCapJogador = [];
         this.PecasCapComputador = [];
-        this.IaJogando= false;
+        this.IaJogando = false;
         for (let i = 0; i < 8; i++) {
             this.quadrantes[i] = [];
             for (let j = 0; j < 8; j++) {
@@ -51,34 +51,35 @@ export class Tabuleiro implements Desenhavel {
 
     public getQuadrantes(): Quadrante[][] {
         return this.quadrantes;
-    }
+    }/*
     public peaoElegivel(){
         let posicao = this.getUltimoMovimento().posicaoAtual;
-        if(PegarQuadrante(this.getQuadrantes(),posicao).getPeca() instanceof Peao &&(posicao.linha == 0 || posicao.linha == 1)) {
+        if(PegarQuadrante(this.getQuadrantes(),posicao).getPeca() instanceof Peao &&(posicao.linha == 0 || posicao.linha == 7)) {
             console.log("peao safado")
+            this.substituirPeao(posicao,null);
         }
         
     }
-    /*public substituirPeao(posicao:Posicao,nomePeca:String) {
-    quadrante = PegarQuadrante(getQuadrantes(),posicao)
-    cor =  getTurnoOposto()!= Jogador.COMPUTADOR ? corJogador : corComputador;
+    public substituirPeao(posicao:Posicao,nomePeca:String|null) {
+    let quadrante = PegarQuadrante(this.getQuadrantes(),posicao)
+    let cor =  this.getTurnoOposto()!= Jogador.COMPUTADOR ? this.corjogador : this.corComputador;
     let peca;
-    if(String=="Bispo"){
-        peca = new Bispo(cor, getTurnoOposto());
+    if(nomePeca=="Bispo"){
+        peca = new Bispo(cor, this.getTurnoOposto());
     }
  
     else{
-        if(String=="Torre"){
-            peca = new Torre(cor, getTurnoOposto());
+        if(nomePeca=="Torre"){
+            peca = new Torre(cor, this.getTurnoOposto());
         }
             else {
               
        
-            if(String=="Cavalo"){
-                peca = new Cavalo(cor, getTurnoOposto());
+            if(nomePeca=="Cavalo"){
+                peca = new Cavalo(cor, this.getTurnoOposto());
             }
                 else {
-                    peca = new Rainha(cor, getTurnoOposto());
+                    peca = new Rainha(cor, this.getTurnoOposto());
  //rainha
                 }
             }
@@ -189,6 +190,9 @@ export class Tabuleiro implements Desenhavel {
     }
     public getTurno(): Jogador {
         return this.turno;
+    }
+    public getTurnoOposto(): Jogador {
+        return this.turno == Jogador.COMPUTADOR ? Jogador.JOGADOR : Jogador.COMPUTADOR;
     }
 
 
