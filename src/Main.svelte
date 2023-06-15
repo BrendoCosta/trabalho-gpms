@@ -1,10 +1,10 @@
 <script lang="ts">
 
 	import { Jogo } from "./xadrez/jogo";
-	import { ConfirmPopup, ConfirmPopupControl, Checkbox } from "./componentes";
+	import { ConfirmPopup, ConfirmPopupControl, Checkbox, Modal, ModalControl } from "./componentes";
     import { onMount } from "svelte";
     import { Peca } from "./xadrez/pecas";
-    import { Jogador } from "./xadrez/enums";
+    import { Cor, Jogador } from "./xadrez/enums";
 	import { fade } from "svelte/transition";
 
 	let _jogo: Jogo;
@@ -12,10 +12,25 @@
 	let _confirmarNovoJogo: ConfirmPopupControl;
 	let _pecasCapJogador: Peca[] = [];
 	let _pecasCapComputador: Peca[] = [];
+	
+	let _selecaoCorModal: ModalControl = new ModalControl();
+	$: _selecaoCorModalProps = _selecaoCorModal.Properties;
+
+	function novoJogo(cor: Cor) {
+
+		_jogo.novoJogo(cor);
+		_pecasCapJogador = [];
+		_pecasCapComputador = [];
+
+	}
 
 	onMount(() => {
 
-		_jogo = new Jogo(_canvas);
+		_jogo = new Jogo(_canvas, Cor.BRANCO); // Cor default
+
+		$_selecaoCorModalProps.Closable = false;
+		_selecaoCorModal.Open();
+		
 		_jogo.OnPecaCap.Add((sender, peca) => {
 
 			if (peca.getjogador() == Jogador.JOGADOR) {
@@ -81,13 +96,39 @@
 	<div class="w-[70%] flex flex-col items-center justify-center bg-gray-200">
 		<canvas bind:this={_canvas} on:click={(e) => _jogo.eventoClick(e) } width="{Jogo.isometrico ? 800 : 600}" height="{Jogo.isometrico ? 800 : 600}"/>
 	</div>
+	<Modal bind:Root={_selecaoCorModal}>
+		<div class="relative w-[30%] h-auto rounded-md bg-white p-1 flex items-center justify-center shadow-md">
+			<div class="w-full h-full p-6 bg-white flex">
+				<div class="w-full h-full flex flex-col items-start m-2 gap-y-4">
+					<div class="w-full h-4/5 flex flex-col justify-center gap-y-4">
+						<h1 class="text-2xl font-medium text-gray-800 drop-shadow-md">Nova partida</h1>
+						<hr class="w-full border-[0.1rem] border-gray-300"/>
+						<div class="w-full max-h-[6rem] overflow-y-scroll text-sm text-gray-800">
+							<p>Selecione uma cor para iniciar a partida:</p>
+						</div>
+					</div>
+					<div class="w-full h-1/5 inline-flex justify-center gap-x-6">
+						<button class="input w-full" on:click={() => {
+							novoJogo(Cor.BRANCO);
+							$_selecaoCorModalProps.Closable = true;
+							_selecaoCorModal.Close();
+						}}>Branco</button>
+						<button class="input w-full" on:click={() => {
+							novoJogo(Cor.PRETO);
+							$_selecaoCorModalProps.Closable = true;
+							_selecaoCorModal.Close();
+						}}>Preto</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</Modal>
 	<ConfirmPopup bind:Root={_confirmarNovoJogo} callback={(e) => {
     
 		if (e) {
 	
-			_jogo.novoJogo();
-			_pecasCapJogador = [];
-			_pecasCapComputador = [];
+			$_selecaoCorModalProps.Closable = false;
+			_selecaoCorModal.Open();
 	
 		}
 	
