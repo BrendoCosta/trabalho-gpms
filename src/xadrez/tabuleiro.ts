@@ -36,6 +36,84 @@ export class Tabuleiro implements Desenhavel {
         }
         this.iniciarPecas(corJogador);
     }
+    public iniciarPecas(cor: Cor): void {
+        let corJogador = cor;
+        this.corjogador = this.corjogador;
+        let corComputador = cor != Cor.BRANCO ? Cor.BRANCO : Cor.PRETO;
+        this.turno = corJogador ==Cor.BRANCO ?  Jogador.JOGADOR : Jogador.COMPUTADOR
+
+        //criando peças do jogador
+        let peaoJ:Peao[]=[];
+
+        for (let i = 0; i < 9; i++) {
+            peaoJ.push(new Peao(corJogador, Jogador.JOGADOR))
+ }
+
+        let BispoJ1 = new Bispo(corJogador, Jogador.JOGADOR);
+        let BispoJ2 = new Bispo(corJogador, Jogador.JOGADOR);
+        let TorreJ1 = new Torre(corJogador, Jogador.JOGADOR);
+        let TorreJ2 = new Torre(corJogador, Jogador.JOGADOR);
+        let RainhaJ = new Rainha(corJogador, Jogador.JOGADOR);
+        let ReiJ = new Rei(corJogador, Jogador.JOGADOR);
+        let CavaloJ1 = new Cavalo(corJogador, Jogador.JOGADOR);
+        let CavaloJ2 = new Cavalo(corJogador, Jogador.JOGADOR);
+
+        //criando peças do computador
+        let peaoC:Peao[]=[];
+
+        for (let i = 0; i < 9; i++) {
+            peaoC.push(new Peao(corComputador, Jogador.COMPUTADOR))
+ 
+        }
+        let BispoC1 = new Bispo(corComputador, Jogador.COMPUTADOR);
+        let BispoC2 = new Bispo(corComputador, Jogador.COMPUTADOR);
+        let TorreC1 = new Torre(corComputador, Jogador.COMPUTADOR);
+        let TorreC2 = new Torre(corComputador, Jogador.COMPUTADOR);
+        let RainhaC = new Rainha(corComputador, Jogador.COMPUTADOR);
+        let ReiC = new Rei(corComputador, Jogador.COMPUTADOR);
+        let CavaloC1 = new Cavalo(corComputador, Jogador.COMPUTADOR);
+        let CavaloC2 = new Cavalo(corComputador, Jogador.COMPUTADOR);
+
+        //inserindo peões no tabuleiro
+        for (let i = 0; i < 8; i++) {
+            this.setPeca(TransformarPosicao(1, i), peaoC[i]);
+        }
+        for (let i = 0; i < 8; i++) {
+            this.setPeca(TransformarPosicao(6, i), peaoJ[i]);
+        }
+
+        //inserindo torres
+        this.setPeca(TransformarPosicao(7, 0), TorreJ1);
+        this.setPeca(TransformarPosicao(7, 7), TorreJ2);
+        this.setPeca(TransformarPosicao(0, 0), TorreC1);
+        this.setPeca(TransformarPosicao(0, 7), TorreC2);
+
+        //inserindo cavalos
+        this.setPeca(TransformarPosicao(7, 1), CavaloJ1);
+        this.setPeca(TransformarPosicao(7, 6), CavaloJ2);
+        this.setPeca(TransformarPosicao(0, 1), CavaloC1);
+        this.setPeca(TransformarPosicao(0, 6), CavaloC2);
+
+        //inserindo bispos
+        this.setPeca(TransformarPosicao(7, 2), BispoJ1);
+        this.setPeca(TransformarPosicao(7, 5), BispoJ2);
+        this.setPeca(TransformarPosicao(0, 2), BispoC2);
+        this.setPeca(TransformarPosicao(0, 5), BispoC1);
+
+        //inserindo rainhas e rei
+        if (corJogador == Cor.BRANCO) {
+            this.setPeca(TransformarPosicao(7, 3), RainhaJ);
+            this.setPeca(TransformarPosicao(7, 4), ReiJ);
+            this.setPeca(TransformarPosicao(0, 3), RainhaC);
+            this.setPeca(TransformarPosicao(0, 4), ReiC);
+        }
+        else {
+            this.setPeca(TransformarPosicao(7, 4), RainhaJ);
+            this.setPeca(TransformarPosicao(7, 3), ReiJ);
+            this.setPeca(TransformarPosicao(0, 4), RainhaC);
+            this.setPeca(TransformarPosicao(0, 3), ReiC);
+        }
+    }
     
     public inserirMovimento(movimento: Movimento) {
         this.movimentos.push(movimento);
@@ -111,83 +189,7 @@ export class Tabuleiro implements Desenhavel {
         return false;
         
     }
-    public iniciarPecas(cor: Cor): void {
-        let corJogador = cor;
-        this.corjogador = this.corjogador;
-        let corComputador = cor != Cor.BRANCO ? Cor.BRANCO : Cor.PRETO;
-
-        //criando peças do jogador
-        let peaoJ:Peao[]=[];
-
-        for (let i = 0; i < 9; i++) {
-            peaoJ.push(new Peao(corJogador, Jogador.JOGADOR))
- }
-
-        let BispoJ1 = new Bispo(corJogador, Jogador.JOGADOR);
-        let BispoJ2 = new Bispo(corJogador, Jogador.JOGADOR);
-        let TorreJ1 = new Torre(corJogador, Jogador.JOGADOR);
-        let TorreJ2 = new Torre(corJogador, Jogador.JOGADOR);
-        let RainhaJ = new Rainha(corJogador, Jogador.JOGADOR);
-        let ReiJ = new Rei(corJogador, Jogador.JOGADOR);
-        let CavaloJ1 = new Cavalo(corJogador, Jogador.JOGADOR);
-        let CavaloJ2 = new Cavalo(corJogador, Jogador.JOGADOR);
-
-        //criando peças do computador
-        let peaoC:Peao[]=[];
-
-        for (let i = 0; i < 9; i++) {
-            peaoC.push(new Peao(corComputador, Jogador.COMPUTADOR))
- 
-        }
-        let BispoC1 = new Bispo(corComputador, Jogador.COMPUTADOR);
-        let BispoC2 = new Bispo(corComputador, Jogador.COMPUTADOR);
-        let TorreC1 = new Torre(corComputador, Jogador.COMPUTADOR);
-        let TorreC2 = new Torre(corComputador, Jogador.COMPUTADOR);
-        let RainhaC = new Rainha(corComputador, Jogador.COMPUTADOR);
-        let ReiC = new Rei(corComputador, Jogador.COMPUTADOR);
-        let CavaloC1 = new Cavalo(corComputador, Jogador.COMPUTADOR);
-        let CavaloC2 = new Cavalo(corComputador, Jogador.COMPUTADOR);
-
-        //inserindo peões no tabuleiro
-        for (let i = 0; i < 8; i++) {
-            this.setPeca(TransformarPosicao(1, i), peaoC[i]);
-        }
-        for (let i = 0; i < 8; i++) {
-            this.setPeca(TransformarPosicao(6, i), peaoJ[i]);
-        }
-
-        //inserindo torres
-        this.setPeca(TransformarPosicao(7, 0), TorreJ1);
-        this.setPeca(TransformarPosicao(7, 7), TorreJ2);
-        this.setPeca(TransformarPosicao(0, 0), TorreC1);
-        this.setPeca(TransformarPosicao(0, 7), TorreC2);
-
-        //inserindo cavalos
-        this.setPeca(TransformarPosicao(7, 1), CavaloJ1);
-        this.setPeca(TransformarPosicao(7, 6), CavaloJ2);
-        this.setPeca(TransformarPosicao(0, 1), CavaloC1);
-        this.setPeca(TransformarPosicao(0, 6), CavaloC2);
-
-        //inserindo bispos
-        this.setPeca(TransformarPosicao(7, 2), BispoJ1);
-        this.setPeca(TransformarPosicao(7, 5), BispoJ2);
-        this.setPeca(TransformarPosicao(0, 2), BispoC2);
-        this.setPeca(TransformarPosicao(0, 5), BispoC1);
-
-        //inserindo rainhas e rei
-        if (corJogador == Cor.BRANCO) {
-            this.setPeca(TransformarPosicao(7, 3), RainhaJ);
-            this.setPeca(TransformarPosicao(7, 4), ReiJ);
-            this.setPeca(TransformarPosicao(0, 3), RainhaC);
-            this.setPeca(TransformarPosicao(0, 4), ReiC);
-        }
-        else {
-            this.setPeca(TransformarPosicao(7, 4), RainhaJ);
-            this.setPeca(TransformarPosicao(7, 3), ReiJ);
-            this.setPeca(TransformarPosicao(0, 4), RainhaC);
-            this.setPeca(TransformarPosicao(0, 3), ReiC);
-        }
-    }
+    
 
     public passaTurno() {
         this.turno = this.turno == Jogador.COMPUTADOR ? Jogador.JOGADOR : Jogador.COMPUTADOR;
