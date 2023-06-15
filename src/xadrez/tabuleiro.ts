@@ -185,7 +185,7 @@ export class Tabuleiro implements Desenhavel {
             this.setPeca(TransformarPosicao(7, 4), RainhaJ);
             this.setPeca(TransformarPosicao(7, 3), ReiJ);
             this.setPeca(TransformarPosicao(0, 4), RainhaC);
-            this.setPeca(TransformarPosicao(0, 7), ReiC);
+            this.setPeca(TransformarPosicao(0, 3), ReiC);
         }
     }
 
