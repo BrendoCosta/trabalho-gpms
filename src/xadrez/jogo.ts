@@ -20,6 +20,11 @@ export class Jogo implements Desenhavel {
     private dificuldadeIA: number=2
     public get canvas() { return this._canvas }
     private _taxaDeQuadros: number = 12;
+
+    private static _delay_ia: number = 2000;
+    public static get delayIa() { return this._delay_ia }
+    public static set delayIa(valor: number) { this._delay_ia = valor; }
+
     private static _isometrico: boolean = false;
     public static get isometrico() { return this._isometrico }
     public static set isometrico(opcao: boolean) { this._isometrico = opcao; }
@@ -53,16 +58,20 @@ export class Jogo implements Desenhavel {
 
     }
 
-    private iaTurno(): void {
+    private async iaTurno(): Promise<void> {
+
+        await new Promise(resolve => setTimeout(resolve, Jogo.delayIa));
+
         //console.log("IA VAI JOGAAAAAAAAAAAAAAAAAAR")
-      
+        
         let posicoes = InteligenciaArtificial(this._tabuleiro,this.dificuldadeIA)
         if(posicoes[0]!= null&&posicoes[1]!==null){
             this._tabuleiro.click(posicoes[0]);
             this._tabuleiro.click(posicoes[1]);
         }
-
+    
         //console.log(posicoes[0])
+
     }
 
     private isometricView(screenConfig: ScreenConfig, pos: Posicao): Posicao {
@@ -89,7 +98,7 @@ export class Jogo implements Desenhavel {
         }
     }
 
-    public eventoClick(ev: MouseEvent): void {
+    public async eventoClick(ev: MouseEvent): Promise<void> {
 
         let ctx: CanvasRenderingContext2D | null = this._canvas.getContext("2d");
 
@@ -127,7 +136,7 @@ export class Jogo implements Desenhavel {
 
             if (turno != this._tabuleiro.getTurno() && Jogo.ia_active) {
 
-                this.iaTurno();
+                await this.iaTurno();
                 console.log(this._tabuleiro.getUltimoMovimento());
 
                 pecaCap = this._tabuleiro.getUltimoMovimento().pecaCapturada;

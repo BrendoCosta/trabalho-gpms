@@ -54,6 +54,16 @@
 			<Checkbox bind:checked={Jogo.ia_active}/>
 			<label class="ml-2">Ativar inteligência artificial</label>
 		</div>
+		{#if Jogo.ia_active }
+			<div class="flex flex-col items-start" transition:fade={{ duration: 500 }}>
+				<label>Tempo de resposta da inteligência artificial</label>
+				<div class="inline-flex items-center">
+					<p class="mr-2">{Jogo.delayIa / 1000} s</p>
+					<input bind:value={Jogo.delayIa} type="range" min="1000" max="10000" step="1000" class="input">
+					<p class="ml-2">10 s</p>
+				</div>
+			</div>
+		{/if}
 		<h2 class="text-xl drop-shadow-md">Peças capturadas</h2>
 		<h3 class="text-lg drop-shadow-md">Jogador</h3>
 		<div class="inline-flex flex-wrap gap-x-2 items-center">
