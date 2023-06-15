@@ -15,6 +15,8 @@
 	
 	let _selecaoCorModal: ModalControl = new ModalControl();
 	$: _selecaoCorModalProps = _selecaoCorModal.Properties;
+	let _fimDeJogoModal: ModalControl = new ModalControl();
+	let _jogadorVitorioso: Jogador | null = null;
 
 	function novoJogo(cor: Cor) {
 
@@ -30,6 +32,10 @@
 
 		$_selecaoCorModalProps.Closable = false;
 		_selecaoCorModal.Open();
+
+		/*
+		 * Evento de peça capturada
+		*/
 		
 		_jogo.OnPecaCap.Add((sender, peca) => {
 
@@ -45,7 +51,28 @@
 
 			}
 
-		})
+		});
+
+		/*
+		 * Evento de vitória
+		*/
+
+		_jogo.OnVitoria.Add((sender, jogador) => {
+
+			_jogadorVitorioso = jogador;
+			_fimDeJogoModal.Open();
+
+		});
+
+		/*
+		 * Evento de empate
+		*/
+
+		_jogo.OnEmpate.Add((sender) => {
+
+			_fimDeJogoModal.Open();
+
+		});
 
 	});
 	
@@ -118,6 +145,32 @@
 							$_selecaoCorModalProps.Closable = true;
 							_selecaoCorModal.Close();
 						}}>Preto</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</Modal>
+	<Modal bind:Root={_fimDeJogoModal}>
+		<div class="relative w-[30%] h-auto rounded-md bg-white p-1 flex items-center justify-center shadow-md">
+			<div class="w-full h-full p-6 bg-white flex">
+				<div class="w-full h-full flex flex-col items-start m-2 gap-y-4">
+					<div class="w-full h-4/5 flex flex-col justify-center gap-y-4">
+						<h1 class="text-2xl font-medium text-gray-800 drop-shadow-md">Fim de jogo</h1>
+						<hr class="w-full border-[0.1rem] border-gray-300"/>
+						<div class="w-full max-h-[6rem] overflow-y-scroll text-sm text-gray-800">
+							{#if _jogadorVitorioso != null }
+								<p>Xeque-mate: {_jogadorVitorioso == Jogador.JOGADOR ? "você venceu!" : "você foi derrotado!"}</p>
+							{:else}
+								<p>A partida terminou em um empate!</p>
+							{/if}
+						</div>
+					</div>
+					<div class="w-full h-1/5 inline-flex justify-center gap-x-6">
+						<button class="input w-full" on:click={() => {
+							_jogadorVitorioso = null;
+							_fimDeJogoModal.Close();
+							_confirmarNovoJogo.Open(); // Pergunta se deseja jogar novamente
+						}}>OK</button>
 					</div>
 				</div>
 			</div>
