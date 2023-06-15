@@ -20,6 +20,11 @@ export class Jogo implements Desenhavel {
     private dificuldadeIA: number=2
     public get canvas() { return this._canvas }
     private _taxaDeQuadros: number = 12;
+
+    private static _delay_ia: number = 2000;
+    public static get delayIa() { return this._delay_ia }
+    public static set delayIa(valor: number) { this._delay_ia = valor; }
+
     private static _isometrico: boolean = false;
     public static get isometrico() { return this._isometrico }
     public static set isometrico(opcao: boolean) { this._isometrico = opcao; }
@@ -54,15 +59,21 @@ export class Jogo implements Desenhavel {
     }
 
     private iaTurno(): void {
-        //console.log("IA VAI JOGAAAAAAAAAAAAAAAAAAR")
-      
-        let posicoes = InteligenciaArtificial(this._tabuleiro,this.dificuldadeIA)
-        if(posicoes[0]!= null&&posicoes[1]!==null){
-            this._tabuleiro.click(posicoes[0]);
-            this._tabuleiro.click(posicoes[1]);
-        }
 
-        //console.log(posicoes[0])
+        setTimeout(() => {
+
+            //console.log("IA VAI JOGAAAAAAAAAAAAAAAAAAR")
+        
+            let posicoes = InteligenciaArtificial(this._tabuleiro,this.dificuldadeIA)
+            if(posicoes[0]!= null&&posicoes[1]!==null){
+                this._tabuleiro.click(posicoes[0]);
+                this._tabuleiro.click(posicoes[1]);
+            }
+        
+            //console.log(posicoes[0])
+        
+        }, Jogo.delayIa);
+
     }
 
     private isometricView(screenConfig: ScreenConfig, pos: Posicao): Posicao {
