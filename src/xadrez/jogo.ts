@@ -3,7 +3,7 @@ import { Quadrante, Tabuleiro, Posicao, Desenhavel } from ".";
 import { InteligenciaArtificial } from "./IA/intengenciaArtificial";
 import { Peca } from "./pecas";
 import { EventHandler } from "../componentes";
-import { Cor } from "./enums";
+import { Cor, Jogador } from "./enums";
 
 interface ScreenConfig {
     screenSize: number,
@@ -15,6 +15,8 @@ export class Jogo implements Desenhavel {
     private _tabuleiro: Tabuleiro;
     public get Tabuleiro(): Tabuleiro { return this._tabuleiro; }
     public OnPecaCap: EventHandler<Peca> = new EventHandler<Peca>();
+    public OnVitoria: EventHandler<Jogador> = new EventHandler<Jogador>();
+    public OnEmpate: EventHandler<void> = new EventHandler<void>();
 
     private _canvas: HTMLCanvasElement;
     private _executando: boolean = false;
@@ -162,9 +164,11 @@ export class Jogo implements Desenhavel {
             if (this._tabuleiro.getUltimoMovimento().check) {
                 let vencedor = this._tabuleiro.getTurnoOposto();
                 console.log("check mate!, " + vencedor + " venceu!");
+                this.OnVitoria.Invoke(this, vencedor);
             }
             else {
-                console.log("empate!")
+                console.log("empate!");
+                this.OnEmpate.Invoke(this);
             }
 
         }
