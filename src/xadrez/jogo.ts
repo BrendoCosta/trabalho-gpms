@@ -3,6 +3,7 @@ import { Quadrante, Tabuleiro, Posicao, Desenhavel } from ".";
 import { InteligenciaArtificial } from "./IA/intengenciaArtificial";
 import { Peca } from "./pecas";
 import { EventHandler } from "../componentes";
+import { Cor } from "./enums";
 
 interface ScreenConfig {
     screenSize: number,
@@ -11,7 +12,7 @@ interface ScreenConfig {
 }
 export class Jogo implements Desenhavel {
 
-    private _tabuleiro: Tabuleiro = new Tabuleiro();
+    private _tabuleiro: Tabuleiro;
     public get Tabuleiro(): Tabuleiro { return this._tabuleiro; }
     public OnPecaCap: EventHandler<Peca> = new EventHandler<Peca>();
 
@@ -33,7 +34,11 @@ export class Jogo implements Desenhavel {
     public static get ia_active() { return this._iaActive }
     public static set ia_active(opcao: boolean) { this._iaActive = opcao; }
 
-    constructor(canvas: HTMLCanvasElement) {
+    constructor(canvas: HTMLCanvasElement, corJogador: Cor) {
+
+        // Inicialização do tabuleiro
+
+        this._tabuleiro = new Tabuleiro(corJogador);
 
         // Inicialização do canvas
 
@@ -52,9 +57,9 @@ export class Jogo implements Desenhavel {
 
     }
 
-    public novoJogo() {
+    public novoJogo(corJogador: Cor) {
 
-        this._tabuleiro = new Tabuleiro();
+        this._tabuleiro = new Tabuleiro(corJogador);
 
     }
 

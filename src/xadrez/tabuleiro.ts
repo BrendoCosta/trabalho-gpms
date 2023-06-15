@@ -16,7 +16,7 @@ export class Tabuleiro implements Desenhavel {
     private movimentos: Movimento[] = [];
     private IaJogando: boolean;
 
-    constructor() {
+    constructor(corJogador: Cor) {
         this.quadrantes = [];
         this.corjogador = Cor.BRANCO;
         this.corComputador = Cor.PRETO;
@@ -34,7 +34,7 @@ export class Tabuleiro implements Desenhavel {
                 this.quadrantes[i][j] = quadrante;
             }
         }
-        this.iniciarPecas(Cor.BRANCO);
+        this.iniciarPecas(corJogador);
     }
     
     public inserirMovimento(movimento: Movimento) {
