@@ -47,7 +47,11 @@ export abstract class Peca implements Desenhavel {
         
         if (this.cor == Cor.BRANCO) {
 
-            ctx.filter = "invert(1)";
+            ctx.filter = "invert(1) drop-shadow(1px 1px 0 black) drop-shadow(-1px 1px 0 black) drop-shadow(1px -1px 0 black) drop-shadow(-1px -1px 0 black)";
+
+        } else {
+
+            ctx.filter = "drop-shadow(1px 1px 0 white) drop-shadow(-1px 1px 0 white) drop-shadow(1px -1px 0 white) drop-shadow(-1px -1px 0 white)"
 
         }
 

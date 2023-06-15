@@ -93,7 +93,7 @@
 			{/each}
 		</div>
 	</div>
-	<div class="w-[70%] flex flex-col items-center justify-center bg-gray-200">
+	<div class="w-[70%] flex flex-col items-center justify-center">
 		<canvas bind:this={_canvas} on:click={(e) => _jogo.eventoClick(e) } width="{Jogo.isometrico ? 800 : 600}" height="{Jogo.isometrico ? 800 : 600}"/>
 	</div>
 	<Modal bind:Root={_selecaoCorModal}>
