@@ -51,12 +51,16 @@ export class Tabuleiro implements Desenhavel {
 
     public getQuadrantes(): Quadrante[][] {
         return this.quadrantes;
-    }/*
+    }
     public peaoElegivel(){
+        console.log("peao suspeito")
         let posicao = this.getUltimoMovimento().posicaoAtual;
-        if(PegarQuadrante(this.getQuadrantes(),posicao).getPeca() instanceof Peao &&(posicao.linha == 0 || posicao.linha == 7)) {
+        let peca = PegarQuadrante(this.getQuadrantes(),posicao).getPeca()
+        console.log(peca,posicao)
+        if(peca instanceof Peao &&(posicao.linha == 0 || posicao.linha == 7)) {
             console.log("peao safado")
             this.substituirPeao(posicao,null);
+          
         }
         
     }
@@ -87,7 +91,7 @@ export class Tabuleiro implements Desenhavel {
         quadrante.setPeca(peca);      
 
 
-    }*/
+    }
     public ImpossiveldeMover():boolean {
         if(this.getUltimoMovimento()!= undefined) {
             let movimentospossiveis:Posicao[];
@@ -99,9 +103,9 @@ export class Tabuleiro implements Desenhavel {
             movimentospossiveis = MovimentosPossiveis(this.getQuadrantes(),posicao,this.getUltimoMovimento(),this.getTurno());
             movimentospossiveis = ValidarCheckPosicoes(movimentospossiveis,this.getQuadrantes(), posicao,this.getUltimoMovimento(), this.getTurno())
             checkmate = checkmate&&movimentospossiveis.length==0;
-            console.log(checkmate,movimentospossiveis.length,posicao);
+            //console.log(checkmate,movimentospossiveis.length,posicao);
         }})
-            console.log(checkmate);
+            //console.log(checkmate);
             return checkmate;;
         }
         return false;
@@ -368,12 +372,12 @@ public desenhar(ctx: CanvasRenderingContext2D): void {
                 quadranteAlvo.setPeca(pecaSelecionada!);
                 pecaSelecionada?.setMovido();
                 this.passaTurno();
-                let movimento: Movimento = { posicaoAtual: posicaoSelecionado!, posicaoAnterior: pos, pecaCapturada: pecaAlvo!, pecaMovimentada: pecaSelecionada!,check:ReiEmCheque(this.getQuadrantes(), null, null,this.getUltimoMovimento(), this.getTurno()) };
+                let movimento: Movimento = { posicaoAtual: pos, posicaoAnterior: posicaoSelecionado!, pecaCapturada: pecaAlvo!, pecaMovimentada: pecaSelecionada!,check:ReiEmCheque(this.getQuadrantes(), null, null,this.getUltimoMovimento(), this.getTurno()) };
                 
                 this.inserirMovimento(movimento);
                 quadranteSelecionado.removerPeca();
                 movi = true;
-                
+                this.peaoElegivel();
             }
         })
         return movi;
