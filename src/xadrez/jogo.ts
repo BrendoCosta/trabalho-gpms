@@ -18,7 +18,7 @@ export class Jogo implements Desenhavel {
 
     private _canvas: HTMLCanvasElement;
     private _executando: boolean = false;
-    private dificuldadeIA: number=2
+    private dificuldadeIA: number = 2
     public get canvas() { return this._canvas }
     private _taxaDeQuadros: number = 12;
 
@@ -60,7 +60,9 @@ export class Jogo implements Desenhavel {
     public novoJogo(corJogador: Cor) {
 
         this._tabuleiro = new Tabuleiro(corJogador);
-
+        if (corJogador == Cor.PRETO && Jogo.ia_active) {
+             this.iaTurno();
+        }
     }
 
     private async iaTurno(): Promise<void> {
@@ -68,13 +70,13 @@ export class Jogo implements Desenhavel {
         await new Promise(resolve => setTimeout(resolve, Jogo.delayIa));
 
         //console.log("IA VAI JOGAAAAAAAAAAAAAAAAAAR")
-        
-        let posicoes = InteligenciaArtificial(this._tabuleiro,this.dificuldadeIA)
-        if(posicoes[0]!= null&&posicoes[1]!==null){
+
+        let posicoes = InteligenciaArtificial(this._tabuleiro, this.dificuldadeIA)
+        if (posicoes[0] != null && posicoes[1] !== null) {
             this._tabuleiro.click(posicoes[0]);
             this._tabuleiro.click(posicoes[1]);
         }
-    
+
         //console.log(posicoes[0])
 
     }
@@ -87,15 +89,15 @@ export class Jogo implements Desenhavel {
 
         // https://clintbellanger.net/articles/isometric_math/
 
-        let posX: number = (( (screenConfig.x - offsetX) / (screenConfig.screenSize/2) + (screenConfig.y - offsetY) / (screenConfig.screenSize/4)) / 2) | 0;
-        let posY: number = (((screenConfig.y - offsetY) / (screenConfig.screenSize/4) - ( (screenConfig.x - offsetX) / (screenConfig.screenSize/2))) / 2) | 0;
+        let posX: number = (((screenConfig.x - offsetX) / (screenConfig.screenSize / 2) + (screenConfig.y - offsetY) / (screenConfig.screenSize / 4)) / 2) | 0;
+        let posY: number = (((screenConfig.y - offsetY) / (screenConfig.screenSize / 4) - ((screenConfig.x - offsetX) / (screenConfig.screenSize / 2))) / 2) | 0;
 
         pos.linha = posY;
         pos.coluna = posX;
         return pos
     }
 
-    private getScreenConfig(ctx: CanvasRenderingContext2D, ev: MouseEvent): ScreenConfig{
+    private getScreenConfig(ctx: CanvasRenderingContext2D, ev: MouseEvent): ScreenConfig {
         return {
             screenSize: Quadrante.getLarguraDesenho(ctx),
             x: ev.clientX - this._canvas.getBoundingClientRect().left,
@@ -121,13 +123,13 @@ export class Jogo implements Desenhavel {
 
             console.log(`${pos.coluna}, ${pos.linha}`)
             let turno = this._tabuleiro.getTurno();
-            
+
             let pecaCap: Peca | null = null;
 
             if (this._tabuleiro.click(pos)) {
 
                 pecaCap = this._tabuleiro.getUltimoMovimento().pecaCapturada;
-                
+
                 if (pecaCap) {
 
                     console.warn(pecaCap)
@@ -150,22 +152,22 @@ export class Jogo implements Desenhavel {
 
                     console.warn(pecaCap);
                     this.OnPecaCap.Invoke(this, pecaCap);
-    
+
                 }
 
             }
 
         }
-        if(this._tabuleiro.ImpossiveldeMover()){
-        if(    this._tabuleiro.getUltimoMovimento().check){
-            this._tabuleiro.passaTurno();
-        let vencedor = this._tabuleiro.getTurno();
-            console.log("check mate!, "+vencedor+" venceu!");
-        }
-        else {
-            console.log("empate!")
-        }
-            
+        if (this._tabuleiro.ImpossiveldeMover()) {
+            if (this._tabuleiro.getUltimoMovimento().check) {
+                this._tabuleiro.passaTurno();
+                let vencedor = this._tabuleiro.getTurno();
+                console.log("check mate!, " + vencedor + " venceu!");
+            }
+            else {
+                console.log("empate!")
+            }
+
         }
     }
 
