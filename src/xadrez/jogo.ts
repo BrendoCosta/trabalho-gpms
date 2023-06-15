@@ -127,7 +127,9 @@ export class Jogo implements Desenhavel {
             let turno = this._tabuleiro.getTurno();
 
             let pecaCap: Peca | null = null;
-
+            if(this.Tabuleiro.getTurno()==Jogador.COMPUTADOR&&Jogo.ia_active){
+                return
+            }
             if (this._tabuleiro.click(pos)) {
 
                 pecaCap = this._tabuleiro.getUltimoMovimento().pecaCapturada;
