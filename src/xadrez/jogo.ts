@@ -160,8 +160,7 @@ export class Jogo implements Desenhavel {
         }
         if (this._tabuleiro.ImpossiveldeMover()) {
             if (this._tabuleiro.getUltimoMovimento().check) {
-                this._tabuleiro.passaTurno();
-                let vencedor = this._tabuleiro.getTurno();
+                let vencedor = this._tabuleiro.getTurnoOposto();
                 console.log("check mate!, " + vencedor + " venceu!");
             }
             else {
